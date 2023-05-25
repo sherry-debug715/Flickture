@@ -30,6 +30,19 @@ class User(db.Model, UserMixin):
         backref=db.backref("following", lazy="dynamic"),
         lazy="dynamic"
     )
+    
+    # One to many with pins
+    pins = db.relationship("Pin", back_populates="user", cascade="all, delete-orphan")
+
+    # One to many with profiles
+    profiles = db.relationship("Profile", back_populates="user", cascade="all, delete-orphan")
+
+    # One to many with saved_pins
+    saved_pins = db.relationship("SavedPin", back_populates="user", cascade="all, delete-orphan")
+
+    # One to many with comments
+    comments = db.relationship("Comment", back_populates="user", cascade="all, delete-orphan")
+
 
     @property
     def password(self):
@@ -42,9 +55,19 @@ class User(db.Model, UserMixin):
     def check_password(self, password):
         return check_password_hash(self.password, password)
     
-    # def follow(self, user):
-    #     if user.id not in self.followers:
-    #         self.follo
+    # user should be the user you are going to follow
+    def follow(self, user):
+        # check if you are already following the user
+        if user.id not in self.following:
+            self.following.append(user)
+
+
+    # user should be the user you are going to unfollow
+    def unfollow(self, user): 
+        # check if the user is in your followers list
+        if user.id in self.following:
+            self.following.remove(user)
+        
 
     def to_dict(self):
         return {
@@ -55,5 +78,7 @@ class User(db.Model, UserMixin):
             'email': self.email,
             "profile_url": self.profile_url,
             "followers": self.followers,
-            "follows": self.following
+            "follows": self.following,
+            "user_pins": [pin for pin in self.pins],
+            "user_profile": [profile for profile in self.profiles]
         }
