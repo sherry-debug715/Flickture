@@ -43,6 +43,9 @@ class User(db.Model, UserMixin):
     # One to many with comments
     comments = db.relationship("Comment", back_populates="user", cascade="all, delete-orphan")
 
+    # One to many with pin_images
+    pin_images = db.relationship("PinImage", back_populates="user", cascade="all, delete-orphan")
+
 
     @property
     def password(self):
