@@ -1,5 +1,6 @@
 from .db import db
 from sqlalchemy import func
+from .profiles import pins_profiles
 
 class Pin(db.Model):
     __tablename__ = "pins"
@@ -15,7 +16,7 @@ class Pin(db.Model):
     user = db.relationship("User", back_populates="pins")
 
     # Many to Many with profiles
-    profiles = db.relationship("Profile", back_populates="pins")
+    profiles = db.relationship("Profile", back_populates="pins", secondary=pins_profiles)
 
     # One to many with pin_images
     pin_images = db.relationship("PinImage", back_populates="pin", cascade="all, delete-orphan")

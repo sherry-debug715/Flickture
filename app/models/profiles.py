@@ -33,7 +33,7 @@ class Profile(db.Model):
     user = db.relationship("User", back_populates="profiles")
 
     #Many to Many with pins
-    pins = db.relationship("Pin", back_populates="profiles")
+    pins = db.relationship("Pin", back_populates="profiles", secondary=pins_profiles)
 
     #One to many with saved_pins
     saved_pins = db.relationship("SavedPin", back_populates="profile")
