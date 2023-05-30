@@ -1,8 +1,11 @@
-from .db import db
+from .db import db, environment, SCHEMA
 from sqlalchemy import func
 
 class Category(db.Model):
     __tablename__ = "categories"
+
+    if environment == "production":
+        __table_args__ = {'schema': SCHEMA}
 
     id = db.Column(db.Integer, primary_key=True)
     pin_id = db.Column(db.Integer, db.ForeignKey("pins.id"))

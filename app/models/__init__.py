@@ -6,4 +6,4 @@ from .pin_categories import Category
 from .profiles import Profile
 from .saved_pins import SavedPin
 from .comments import Comment
-
+from .db import environment, SCHEMA

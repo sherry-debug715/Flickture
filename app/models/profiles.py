@@ -1,4 +1,4 @@
-from .db import db
+from .db import db, environment, SCHEMA
 from sqlalchemy import func
 
 pins_profiles = db.Table(
@@ -21,6 +21,9 @@ pins_profiles = db.Table(
 
 class Profile(db.Model):
     __tablename__ = "profiles"
+
+    if environment == "production":
+        __table_args__ = {'schema': SCHEMA}
 
     id = db.Column(db.Integer, primary_key=True)
     user_id = db.Column(db.Integer, db.ForeignKey("users.id"))

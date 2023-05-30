@@ -1,16 +1,28 @@
 import os
 import requests
-from app.models import db, User, Pin, PinImage
+from app.models import db, environment, SCHEMA, User, Pin, PinImage, Category
+from sqlalchemy.sql import text
 
 access_key = os.environ.get("UNSPLASH_ACCESS_KEY")
 
-api_url = "https://api.unsplash.com/search/photos?query='anime'&per_page=30"
+api_url = "https://api.unsplash.com/search/photos?query='bird'&per_page=10"
 
 def fetch_data_from_unsplash():
     url = api_url
     headers = {"Authorization": f"Client-ID {access_key}"}
     response = requests.get(url, headers=headers)
-    data = response.json()
+    # data = response.json()
+
+    if response.status_code != 200:
+        print(f'Failed to fetch data from Unsplash with status code: {response.status_code}')
+        return []
+    
+    try:
+        data = response.json()
+    except ValueError:
+        print(f'Failed to decode JSON from response: {response.text}')
+        return []
+    
     users = []
     default_image_description = "Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum."
 
@@ -92,15 +104,27 @@ def seed_users_pins_and_pinImages():
                 user_id=new_user.id,
                 pin_id=new_pin.id,
                 image_url=each_pin["image_url"],
-                preview=False
+                preview=True
             )
 
             new_pin.pin_images.append(new_pin_images)
 
+            new_pin_category1 = Category(
+                pin_id=new_pin.id,
+                name="wild life",
+            )
+
+            new_pin_category2 = Category(
+                pin_id=new_pin.id,
+                name="birds",
+            )
+
+
+            new_pin.categories.append(new_pin_category1)
+            new_pin.categories.append(new_pin_category2)
+
+
     db.session.commit()
-
-
-
 
 
 
@@ -112,7 +136,14 @@ def seed_users_pins_and_pinImages():
 # resets the auto incrementing primary key, CASCADE deletes any
 # dependent entities
 def undo_users_pins_and_pinImages():
-    db.session.execute('TRUNCATE pin_images RESTART IDENTITY CASCADE;')
-    db.session.execute('TRUNCATE pins RESTART IDENTITY CASCADE;')
-    db.session.execute('TRUNCATE users RESTART IDENTITY CASCADE;')
+    if environment == 'production':
+        db.session.execute(f"TRUNCATE table {SCHEMA}.users RESTART IDENTITY CASCADE;")
+        db.session.execute(f"TRUNCATE table {SCHEMA}.pins RESTART IDENTITY CASCADE;")
+        db.session.execute(f"TRUNCATE table {SCHEMA}.pin_images RESTART IDENTITY CASCADE;")
+        db.session.execute(f"TRUNCATE table {SCHEMA}.categories RESTART IDENTITY CASCADE;")
+    else:
+        db.session.execute(text("DELETE FROM users"))
+        db.session.execute(text("DELETE FROM pins"))
+        db.session.execute(text("DELETE FROM pin_images"))
+        db.session.execute(text("DELETE FROM categories"))
     db.session.commit()

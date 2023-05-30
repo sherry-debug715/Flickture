@@ -15,7 +15,16 @@ def get_all_pins():
     pins = []
 
     for pin in all_pins.items:
-        pins.append(pin.get_all_pins())
+        each_pin = pin.get_all_pins()
+
+        adjust_creator = {key: each_pin['creator'][key] for key in ['username', 'profile_url']}
+        each_pin['creator'] = adjust_creator
+
+        adjust_pinImages = [image for image in each_pin['pin_images'] if image['preview']]
+
+        each_pin['pin_images'] = adjust_pinImages
+
+        pins.append(each_pin)
 
     return jsonify({
         "pins": pins,
