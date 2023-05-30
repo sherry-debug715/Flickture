@@ -1,0 +1,24 @@
+/* GetAllPins component  */
+
+.all-pins-container {
+    width: 100%;
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    overflow-y: auto;
+    height: 100vh;
+}
+
+.all-pins-image-container {
+    width: 95%;
+    columns: 4;
+    column-gap: 15px;
+    padding: 15px;
+}
+
+.all-pins-image {
+    width: 100%;
+    margin-bottom: 15px;
+    border-radius: 10px;
+    object-fit: cover;
+  }
