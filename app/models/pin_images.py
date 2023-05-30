@@ -1,8 +1,11 @@
-from .db import db
+from .db import db, environment, SCHEMA
 from sqlalchemy import func
 
 class PinImage(db.Model):
     __tablename__ = "pin_images"
+
+    if environment == "production":
+        __table_args__ = {'schema': SCHEMA}
 
     id = db.Column(db.Integer, primary_key=True)
     user_id = db.Column(db.Integer, db.ForeignKey("users.id"))

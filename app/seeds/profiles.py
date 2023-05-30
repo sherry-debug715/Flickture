@@ -1,4 +1,5 @@
-from app.models import db, Profile, User
+from app.models import db, environment, SCHEMA, Profile, User
+from sqlalchemy.sql import text
 
 def seed_profiles():
     all_user = User.query.all()
@@ -15,7 +16,10 @@ def seed_profiles():
     db.session.commit()
 
 def undo_profiles():
-    db.session.execute('TRUNCATE profiles RESTART IDENTITY CASCADE;')
+    if environment == 'production':
+        db.session.execute(f"TRUNCATE table {SCHEMA}.profiles RESTART IDENTITY CASCADE;")
+    else:
+        db.session.execute(text("DELETE FROM profiles"))
     db.session.commit()
 
 
