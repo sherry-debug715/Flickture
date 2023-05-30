@@ -1,4 +1,4 @@
-GET_ALL_PINS = "pins/GET_ALL_PINS"
+const GET_ALL_PINS = "pins/GET_ALL_PINS"
 
 const getAllPins = pins => ({
     type: GET_ALL_PINS,
@@ -12,7 +12,7 @@ export const getAllPinsThunk = (page) => async dispatch => {
 
     if(response.ok){
         const allPins = await response.json();
-        dispatch(getAllPins(allPins.pins));
+        dispatch(getAllPins(allPins));
     };
 };
 
@@ -22,14 +22,19 @@ const normalization = (arr) => {
     return normalized;
 };
 
-const initialState = {allPins:{}, singlePin:{}};
+const initialState = {allPins:{pins: {}, totalPages: 1}, singlePin:{}};
 
 export default function pinReducer(state = initialState, action) {
     let newState;
     switch(action.type) {
         case GET_ALL_PINS:
-            newState = {...state};
-            newState.allPins = {...newState.allPins,...normalization(action.pins)};
+            newState = {...state, allPins:{...state.allPins}};
+            const pins =  {...newState.allPins.pins, ...normalization(action.pins.pins)};
+            const totalPages = action.pins.pages;
+            newState.allPins.pins = pins;
+            newState.allPins.totalPages = totalPages;
             return newState;
+        default:
+            return state;
     };
 };

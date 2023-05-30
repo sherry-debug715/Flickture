@@ -22,7 +22,7 @@ def get_all_pins():
 
         adjust_pinImages = [image for image in each_pin['pin_images'] if image['preview']]
 
-        each_pin['pin_images'] = adjust_pinImages
+        each_pin['pin_images'] = adjust_pinImages[0]['image_url']
 
         pins.append(each_pin)
 
