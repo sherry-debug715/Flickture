@@ -30,15 +30,14 @@ class Pin(db.Model):
     # One to many with categories
     categories = db.relationship("Category", back_populates="pin")
 
-    def to_dict(self):
+    def get_all_pins(self):
         return {
             "id": self.id,
             "user_id": self.user_id,
             "title": self.title,
             "description": self.description,
-            "creator": self.user,
-            "pin_in_profiles": [profile for profile in self.profiles],
-            "pin_images": [image for image in self.pin_images],
-            "pin_comments": [comment for comment in self.comments],
-            "pin_categories": [category for category in self.categories]
+            "creator": self.user.to_dict(),
+            "pin_in_profiles": [profile.to_dict() for profile in self.profiles],
+            "pin_images": [image.to_dict() for image in self.pin_images],
+            "pin_comments": [comment.to_dict() for comment in self.comments]
         }

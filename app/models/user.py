@@ -80,8 +80,4 @@ class User(db.Model, UserMixin):
             'username': self.username,
             'email': self.email,
             "profile_url": self.profile_url,
-            "followers": self.followers,
-            "follows": self.following,
-            "user_pins": [pin for pin in self.pins],
-            "user_profile": [profile for profile in self.profiles]
         }
