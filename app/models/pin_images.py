@@ -17,3 +17,12 @@ class PinImage(db.Model):
 
     # Many to one with users
     user = db.relationship("User", back_populates="pin_images")
+
+    def to_dict(self):
+        return {
+            "id": self.id,
+            "user_id": self.user_id,
+            "pin_id": self.pin_id,
+            "image_url": self.image_url,
+            "preview": self.preview
+        }

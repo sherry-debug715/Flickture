@@ -43,7 +43,5 @@ class Profile(db.Model):
             "id": self.id,
             "user_id": self.user_id,
             "name": self.name,
-            "private": self.private,
-            "profile_pins":[pin for pin in self.pins],
-            "saved_pins":[pin for pin in self.saved_pins]
+            "private": self.private
         }
