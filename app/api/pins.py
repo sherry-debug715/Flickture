@@ -1,6 +1,6 @@
 from flask import Blueprint, jsonify, request
 from flask_login import login_required
-from app.models import Pin
+from app.models import Pin, User
 
 pin_routes = Blueprint('pins', __name__)
 
@@ -32,3 +32,17 @@ def get_all_pins():
         "pages": all_pins.pages,
         "current_page": all_pins.page
     })
+
+
+@pin_routes.route('/<int:id>')
+def get_one_pin(id):
+    pin = Pin.query.get(id)
+    data_return = pin.get_all_pins()
+
+    user = User.query.get(data_return['user_id']).to_dict()
+    # followers = user.followers
+
+    data_return["followers"] = user["followers"]
+
+
+    return data_return

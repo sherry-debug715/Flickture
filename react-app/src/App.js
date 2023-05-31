@@ -8,6 +8,7 @@ import ProtectedRoute from './components/auth/ProtectedRoute';
 import UsersList from './components/UsersList';
 import User from './components/User';
 import GetAllPins from './components/pins/getPins/GetAllPins';
+import SinglePin from './components/pins/getSinglePin';
 import { authenticate } from './store/session';
 
 function App() {
@@ -40,6 +41,9 @@ function App() {
         </Route>
         <Route path='/explore' exact={true} >
           <GetAllPins />
+        </Route>
+        <Route path='/explore/:pinId' exact={true} >
+          <SinglePin />
         </Route>
         <ProtectedRoute path='/users' exact={true} >
           <UsersList/>

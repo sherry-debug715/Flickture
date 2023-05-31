@@ -14,7 +14,6 @@ export default function GetAllPins() {
 
     const [page, setPage] = useState(1);
     const [readyToFetch, setReadyToFetch] = useState(false);
-    const [onHoverPinId, setOnHoverPinId] = useState(null);
 
     const scrollContainerRef = useRef();
 
@@ -55,7 +54,7 @@ export default function GetAllPins() {
         <div className="all-pins-container" ref={scrollContainerRef}>
             <div className="all-pins-image-container"  >
                 {pinArr.map(pin => (
-                    <Link key={pin.id} to={`/pins/${pin.id}`}  >
+                    <Link key={pin.id} to={`/explore/${pin.id}`}  >
                         <PinCard pin={pin} />
                     </Link>
                 ))}
