@@ -12,7 +12,7 @@ export default function GetAllPins() {
 
     const [page, setPage] = useState(1);
     const [readyToFetch, setReadyToFetch] = useState(false);
-    const [onHover, setOnHover] = useState(false);
+    const [onHoverPinId, setOnHoverPinId] = useState(null);
 
     const scrollContainerRef = useRef();
 
@@ -54,10 +54,30 @@ export default function GetAllPins() {
             <div className="all-pins-image-container"  >
                 {pinArr.map(pin => (
                     <Link key={pin.id} to={`/pins/${pin.id}`}  >
-                        <div className="each-pin-container">
-                            <img src={pin.pin_images} className="all-pins-image" />
+                        <div className="each-pin-container"
+                        onMouseEnter={() => setOnHoverPinId(pin.id)}
+                        onMouseLeave={() => setOnHoverPinId(null)}
+                        >
+                        {
+                           onHoverPinId === pin.id && <div className="all-pins-hover-over-container-top">
+                                <div>
+                                    <i 
+                                    className="material-icons"
+                                    id="material-icons-favorite"
+                                    >
+                                        favorite
+                                    </i>
+                                </div>
+                                <div  id="getAllPin-add-profile-icon" >
+                                    +
+                                </div>
+                            </div>
+                        }
+                          
+                            <img src={pin.pin_images} className="all-pins-image"  />
+                            
                             {
-                                // onHover && 
+                                onHoverPinId === pin.id &&                             
                                 <div className="all-pins-hover-over-container-bottom">
 
                                     <div className="image-hover-over-left-section">
@@ -73,6 +93,7 @@ export default function GetAllPins() {
                                         <div id="image-hover-over-font">{pin.pin_comments.length}</div>
                                     </div>
                                 </div>
+                                
                             }
                         </div>
                     </Link>

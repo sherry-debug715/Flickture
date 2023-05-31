@@ -23,6 +23,10 @@
     object-fit: cover;
 }
 
+.each-pin-container:hover .all-pins-image {
+    filter: brightness(50%);
+}
+
 .each-pin-container {
     position: relative;
 
@@ -56,17 +60,55 @@
 }
 
 .image-hover-over-right-section {
-    /* background: rgba(0,0,0,0.5);  */
     height: 40%;
     display: flex;
     flex-direction: row;
     align-items: flex-end;
     width: 15%;
     justify-content: space-around;
-
+    
 }
 
 #material-symbols-comment {
     font-size: 20px;
 }
 
+.all-pins-hover-over-container-top {
+    /* background: rgba(0,0,0,0.5);  */
+    position: absolute;
+    z-index: 10;
+    top: 0;
+    left: 0;
+    right: 0;
+    display: flex;
+    flex-direction: row;
+    justify-content: flex-end;
+    align-items: center;
+    padding: 10px;
+}
+
+#getAllPin-add-profile-icon {
+    font-size: 30px;
+    color: #363636;
+    height: 35px;
+    width: 40px;
+    border-radius: 5px;
+    background-color: rgba(250,249,246, 0.9);
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+}
+
+#material-icons-favorite {
+    color: #363636;
+    height: 35px;
+    width: 40px;
+    border-radius: 5px;
+    background-color: rgba(250,249,246, 0.9);
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+    margin-right: 10px;
+}
