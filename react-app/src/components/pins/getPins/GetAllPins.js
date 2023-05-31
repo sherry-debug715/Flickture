@@ -12,6 +12,7 @@ export default function GetAllPins() {
 
     const [page, setPage] = useState(1);
     const [readyToFetch, setReadyToFetch] = useState(false);
+    const [onHoverPinId, setOnHoverPinId] = useState(null);
 
     const scrollContainerRef = useRef();
 
@@ -53,7 +54,48 @@ export default function GetAllPins() {
             <div className="all-pins-image-container"  >
                 {pinArr.map(pin => (
                     <Link key={pin.id} to={`/pins/${pin.id}`}  >
-                        <img src={pin.pin_images} className="all-pins-image" />
+                        <div className="each-pin-container"
+                        onMouseEnter={() => setOnHoverPinId(pin.id)}
+                        onMouseLeave={() => setOnHoverPinId(null)}
+                        >
+                        {
+                           onHoverPinId === pin.id && <div className="all-pins-hover-over-container-top">
+                                <div>
+                                    <i 
+                                    className="material-icons"
+                                    id="material-icons-favorite"
+                                    >
+                                        favorite
+                                    </i>
+                                </div>
+                                <div  id="getAllPin-add-profile-icon" >
+                                    +
+                                </div>
+                            </div>
+                        }
+                          
+                            <img src={pin.pin_images} className="all-pins-image"  />
+                            
+                            {
+                                onHoverPinId === pin.id &&                             
+                                <div className="all-pins-hover-over-container-bottom">
+
+                                    <div className="image-hover-over-left-section">
+                                        <div id="image-hover-over-font">by {pin.creator.username}</div>
+                                    </div>
+
+                                    <div className="image-hover-over-right-section">
+                                        <div><span   className="material-symbols-outlined"
+                                        id="material-symbols-comment"
+                                        >
+                                            comment
+                                        </span></div>
+                                        <div id="image-hover-over-font">{pin.pin_comments.length}</div>
+                                    </div>
+                                </div>
+                                
+                            }
+                        </div>
                     </Link>
                 ))}
             </div>
