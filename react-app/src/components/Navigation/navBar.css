@@ -1,0 +1,106 @@
+.navBar-container {
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+}
+
+.navBar-inner-container {
+    width: 90%;
+    height: 100%;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.logIn-signUp-container {
+    display: flex;
+    flex-direction: row;
+    column-gap: 15px;
+}
+
+.logIn-signUp-container li {
+    list-style: none;
+}
+
+#logo {
+    text-decoration: none;
+    cursor: pointer;
+}
+
+.searchBar {
+    width: 50%;
+    height: 40px;
+}
+
+.searchBar input {
+    width: 100%;
+    height: 100%;
+    border-radius: 10px;
+    padding: 10px;
+    font-size: 17px;
+    background-color: rgb(233,233,233);
+    border: none;
+    transition: box-shadow 0.4s ease-in-out;
+
+}
+
+.searchBar input:focus {
+    outline: none;
+    box-shadow: 0px 0px 10px 2px rgba(147, 145, 145, 0.2);
+}
+
+.profile-dropdown {
+    display: flex;
+    flex-direction: row;
+    align-items: flex-end;
+    cursor: pointer;
+    position: relative;
+}
+
+.profile-drop-down-container {
+    position: absolute;
+    top: 40px;
+    right: 0;
+    background-color: white;
+    z-index: 9;
+    border: .5px solid rgb(233,233,233);
+    width: 100px;
+    height: 90px;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-around;
+    align-items: flex-start;
+    box-shadow: 0px 0px 10px 2px rgba(147, 145, 145, 0.2);
+    border-radius: 10px;
+}
+
+.profile-drop-down-container div {
+    width: 95%;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    transition: box-background-color 0.4s ease-in-out;
+
+}
+
+.profile-drop-down-container div:hover {
+    width: 100%;
+    height: 40%;
+    background-color: rgb(233,233,233);
+}
+
+
+.profile-image {
+    border: 1px solid grey;
+    height: 40px;
+    width: 40px;
+    border-radius: 50%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background-color: rgb(233,233,233);
+    border: none;
+    color: rgb(95,95,95);
+}
