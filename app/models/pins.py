@@ -42,5 +42,6 @@ class Pin(db.Model):
             "creator": self.user.to_dict(),
             "pin_in_profiles": [profile.to_dict() for profile in self.profiles],
             "pin_images": [image.to_dict() for image in self.pin_images],
-            "pin_comments": [comment.to_dict() for comment in self.comments]
+            "pin_comments": [comment.to_dict() for comment in self.comments],
+            "pin_cateogiries": [category.to_dict() for category in self.categories]
         }

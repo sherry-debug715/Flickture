@@ -5,6 +5,7 @@ import "./pins.css";
 export default function PinCard({pin}) {
 
     const [onHoverPinId, setOnHoverPinId] = useState(null);
+    
 
     return (
                 <div className="each-pin-container"
