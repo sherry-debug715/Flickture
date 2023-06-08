@@ -1,4 +1,3 @@
-import { Link } from "react-router-dom";
 import { useState } from "react";
 import "./pins.css";
 
@@ -6,6 +5,7 @@ import "./pins.css";
 export default function PinCard({pin}) {
 
     const [onHoverPinId, setOnHoverPinId] = useState(null);
+    
 
     return (
                 <div className="each-pin-container"
@@ -28,8 +28,7 @@ export default function PinCard({pin}) {
                             </div>
                         }
                           
-                        <img src={pin.pin_images} className="all-pins-image"  />
-                            
+                        <img src={pin.pin_images} className="all-pins-image" alt={pin.title}   />                            
                         {
                             onHoverPinId === pin.id &&                             
                             <div className="all-pins-hover-over-container-bottom">

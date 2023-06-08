@@ -1,16 +1,16 @@
 import { useEffect, useState, useRef, useCallback } from "react";
 import { useSelector, useDispatch } from "react-redux";
-import { getAllPinsThunk } from "../../../store/pins";
+import { getPinsOfCategory } from "../../../store/pins";
 import { Link } from "react-router-dom";
 import "../pins.css";
 
 import PinCard from "../PinCard";
 
-export default function GetAllPins() {
+export default function PinsOfCategory({pinId}) {
     const dispatch = useDispatch();
-    const allPins = useSelector(state => state.pins.allPins);
-    const pinArr = Object.values(allPins.pins);
-    const totalPage = allPins.totalPages;
+    const pinsOfCategory = useSelector(state => state.pins.pinsOfCategory);
+    const pinArr = Object.values(pinsOfCategory.pins);
+    const totalPage = pinsOfCategory.totalPages;
 
     const [page, setPage] = useState(1);
     const [readyToFetch, setReadyToFetch] = useState(false);
@@ -41,13 +41,11 @@ export default function GetAllPins() {
         };
     }, [handleScroll]);
 
-    
     useEffect(() => {
         setReadyToFetch(false);
-        dispatch(getAllPinsThunk(page))
+        dispatch(getPinsOfCategory(pinId, page))
         .then(() => setReadyToFetch(true));    
-    }, [dispatch, page]);
-
+    }, [dispatch, page, pinId]);
 
 
     return (
@@ -61,5 +59,4 @@ export default function GetAllPins() {
             </div>
         </div>
     );
-
 };
