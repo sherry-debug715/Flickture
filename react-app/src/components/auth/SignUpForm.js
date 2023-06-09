@@ -1,6 +1,5 @@
 import React, { useState } from 'react';
-import { useSelector, useDispatch } from 'react-redux'
-import { Redirect } from 'react-router-dom';
+import { useDispatch } from 'react-redux'
 import { signUp } from '../../store/session';
 import { useModal } from '../../context/Modal';
 
@@ -13,7 +12,6 @@ const SignUpForm = ({handleNavToHome}) => {
   const [first_name, setFirstName] = useState("");
   const [last_name, setLastName] = useState("");
   const { closeModal } = useModal();
-  const user = useSelector(state => state.session.user);
   const dispatch = useDispatch();
 
   const onSignUp = async (e) => {
