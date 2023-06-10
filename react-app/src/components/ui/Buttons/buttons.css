@@ -13,3 +13,22 @@
 .grey-background-btn-container:hover {
     filter: brightness(95%);
 }
+
+.red-background-btn-container {
+    height: 40px;
+    width: 80px;
+    background-color: rgb(230,0,35);
+    border-radius: 20px;
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+    color: white;
+    transition: background-color 0.5s ease-in-out;
+    cursor: pointer;
+    border: none;
+}
+
+.red-background-btn-container:hover {
+    filter: brightness(95%);
+}

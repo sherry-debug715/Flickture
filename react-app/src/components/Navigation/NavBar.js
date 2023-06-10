@@ -46,7 +46,7 @@ const NavBar = () => {
   if(sessionUser) {
     sessionContent = (
     <div className='profile-dropdown' onClick={openMenu}>
-      {sessionUser.profile_url ? <img src={sessionUser.profile_url} className='profile-image' /> : <div className='profile-image'>{sessionUser.first_name[0]}</div>}
+      {sessionUser.profile_url ? <img src={sessionUser.profile_url} className='profile-image' alt="profile" /> : <div className='profile-image'>{sessionUser.first_name[0]}</div>}
       {showMenu && dropDown}
     </div>  
     )
@@ -78,7 +78,13 @@ const NavBar = () => {
               flickture
             </NavLink>                
         </div>
-        {sessionUser && <div className='createPin-link'>Create Pin</div>}
+        {sessionUser && 
+        <div 
+        className='createPin-link'
+        onClick={() => history.push("/pin/create")}
+        >
+          Create Pin
+        </div>}
         <div className='searchBar'>
           <input 
           type="search" 
