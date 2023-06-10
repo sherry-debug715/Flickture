@@ -1,9 +1,12 @@
 import "./buttons.css";
 
-export default function RedBackgroundBtn({text, onClick}) {
+export default function RedBackgroundBtn({text, onClick, disabled}) {
     return (
-        <div className="red-background-btn-container" onClick={onClick}>
+        <button 
+            className="red-background-btn-container" 
+            disabled={disabled()}
+            onClick={onClick}>
             {text}
-        </div>
+        </button>
     )
 };

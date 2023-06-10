@@ -4,6 +4,12 @@ import {useDropzone} from 'react-dropzone';
 import RedBackgroundBtn from "../../ui/Buttons/RedBackgroundBtn";
 import "../pins.css";
 
+import EmojiPicker, {
+    EmojiStyle,
+    Emoji,
+    EmojiClickData,
+  } from "emoji-picker-react";
+
 export default function CreatePin() {
     const [imageFile, setImageFile] = useState();
     const [imageUrl, setImageUrl] = useState("")
@@ -12,14 +18,17 @@ export default function CreatePin() {
     const [textAreaId, setTextAreaId] = useState("about-pin-input");
     const [textCount, setTextCount] = useState(0);
     const textAreaRef = useRef(null);
+    const [emojiOpen, setEmojiOpen] = useState(false);
 
     const sessionUser = useSelector(state => state.session.user);
 
+    console.log("description", description.length);
     useEffect(() => {
         if (textAreaRef.current) {
             textAreaRef.current.style.height = "auto";
             textAreaRef.current.style.height = `${textAreaRef.current.scrollHeight}px`;
         }
+        setTextCount(300 - description.length);
     }, [description]); 
     
 
@@ -27,9 +36,6 @@ export default function CreatePin() {
         acceptedFiles.forEach((file) => {
             setImageFile(file)
             const reader = new FileReader()
-        
-            reader.onabort = () => console.log('file reading was aborted')
-            reader.onerror = () => console.log('file reading has failed')
             reader.onload = () => {
             // Do whatever you want with the file contents
                 const binaryStr = reader.result
@@ -45,17 +51,35 @@ export default function CreatePin() {
         'image/*': []
       }})
       
+    const clearForm = () => {
+        setImageFile();
+        setImageUrl("");
+        setTitle("");
+        setDescription("")
+        setTextAreaId("about-pin-input");
+        setTextCount(0);
+    };
 
+    const butttonDisable = () => {
+        return !title.length && !description.length && !imageFile
+    };
 
     return (
         <div className="create-pin-main-container">
             <div className="create-pin-inner-container">
                 <div className="create-board-container">
-                    <div className="clear-form-container">
-                        clear form
-                    </div>
-                    <div className="save-to-board-container">
-                        
+                    <div className="create-board-inner-contaner">
+                        <div 
+                            className="clear-form-container"
+                            onClick={clearForm}
+                        >
+                            <span className="material-symbols-outlined" id="material-symbols-clear-form">
+                                remove_selection
+                            </span>
+                        </div>
+                        <div className="save-to-board-container">
+
+                        </div>
                     </div>
 
                 </div>
@@ -103,32 +127,49 @@ export default function CreatePin() {
                                     <div className="follower">{sessionUser.followers.length} {sessionUser.followers.length <= 1 ? "follower" : "followers"}</div>
                                 </div>
                             </div>
-
-                            <textarea 
-                            ref={textAreaRef}
-                            type="text" 
-                            id={textAreaId}
-                            placeholder="Tell everyone what your Pin is about"
-                            spellCheck="true"
-                            value={description}
-                            maxLength="500"
-                            onChange={e => {
-                                setDescription(e.target.value)
-                                setTextCount(description.length)
-                            }}
-                            onClick={() => setTextAreaId("about-pin-input-clicked")}
-                            onBlur={() => setTextAreaId("about-pin-input")}
-                            />
+                            
+                            <div className="create-pin-textarea-container">
+                                <textarea 
+                                ref={textAreaRef}
+                                type="text" 
+                                id={textAreaId}
+                                placeholder="Tell everyone what your Pin is about"
+                                spellCheck="true"
+                                value={description}
+                                maxLength="300"
+                                onChange={e => {
+                                    setDescription(e.target.value)
+                                }}
+                                onClick={() => setTextAreaId("about-pin-input-clicked")}
+                                onBlur={() => setTextAreaId("about-pin-input")}
+                                />
+                                <div className="create-pin-emoji-container" >
+                                    <div onClick={() => setEmojiOpen(prev => !prev)} style={{cursor:"pointer"}}>
+                                        <Emoji unified="1f603" size={22} />
+                                    </div>
+                                    <div className="emoji-picker-container">
+                                        { emojiOpen && <EmojiPicker
+                                            onEmojiClick={(emojiData, event) => {
+                                                const emoji = String.fromCodePoint(parseInt(emojiData.unified, 16));
+                                                setDescription(prev => prev + emoji);
+                                            }}
+                                            autoFocusSearch={false}
+                                            emojiStyle={EmojiStyle.NATIVE}
+                                            id="emoji-picker" 
+                                        /> }
+                                    </div>
+                                </div>
+                            </div>
                             { textAreaId === "about-pin-input-clicked" && 
                             <p className="about-pin-input-warning">
                             <span className="text-container">
                               People will usually see the first 50 characters when they click on your Pin
                             </span>
-                            <span id="about-pin-counter">{500 - textCount}</span>
+                            <span id="about-pin-counter">{textCount}</span>
                             </p>
                             }
                             <div className="create-pin-save-btn">
-                                <RedBackgroundBtn text={"Save"} />
+                                <RedBackgroundBtn text={"Save"} disabled={butttonDisable} />
                             </div>
                         </div>
                     </div>
