@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { BrowserRouter, Route, Switch } from 'react-router-dom';
 import { useDispatch } from 'react-redux';
 import NavBar from './components/Navigation/NavBar';
+import Landing from './components/Landing';
 import ProtectedRoute from './components/auth/ProtectedRoute';
 import UsersList from './components/UsersList';
 import User from './components/User';
@@ -30,7 +31,7 @@ function App() {
       <NavBar />
       <Switch>
         <Route path='/' exact={true} >
-          <h1>Landing Page</h1>
+          <Landing />
         </Route>
         <Route path='/explore' exact={true} >
           <GetAllPins />
