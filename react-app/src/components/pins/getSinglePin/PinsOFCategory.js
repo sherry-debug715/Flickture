@@ -47,12 +47,18 @@ export default function PinsOfCategory({pinId}) {
         .then(() => setReadyToFetch(true));    
     }, [dispatch, page, pinId]);
 
+    const scrollToTop = () => {
+        window.scrollTo({
+            top: 0,
+            behavior: "smooth" 
+        });
+    };
 
     return (
         <div className="all-pins-container" ref={scrollContainerRef}>
             <div className="all-pins-image-container"  >
                 {pinArr.map(pin => (
-                    <Link key={pin.id} to={`/explore/${pin.id}`}  >
+                    <Link key={pin.id} to={`/explore/${pin.id}`} onClick={scrollToTop} >
                         <PinCard pin={pin} />
                     </Link>
                 ))}
