@@ -1,0 +1,89 @@
+.landing-page-container {
+    width: 100%;
+    height: 88vh;
+    position: relative;
+}
+
+.carousel {
+    width: 100%;
+    height: 88vh;
+    top: 0;
+    object-fit: cover;
+    position: absolute;
+    transition: opacity 4s ease-in-out;
+    animation-name: fadeyooo;
+    animation-timing-function: ease-in-out;
+    animation-iteration-count: infinite;
+    animation-duration: 10s;
+    filter: brightness(60%);
+}
+
+@keyframes fadeyooo {
+    0% {
+        opacity: 1;
+    }
+    25% {
+        opacity: 0;
+    }
+    75% {
+        opacity: 0;
+    }
+    100% {
+        opacity: 1;
+    }
+}
+
+.carousel:nth-of-type(1) {
+    animation-delay: 10s;
+  }
+.carousel:nth-of-type(2) {
+    animation-delay: 8s;
+  }
+.carousel:nth-of-type(3) {
+    animation-delay: 4s;
+  }
+.carousel:nth-of-type(4) {
+    animation-delay: 2s;
+}
+
+
+.landing-page-content-container {
+    position: absolute;
+    z-index: 9;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    color: rgb(255,255,255);
+}
+
+.landing-page-content-container h1 {
+    font-size: 70px;
+    font-weight: 550;
+}
+
+.landing-page-content-container h3 {
+    font-size: 30px;
+    font-weight: 500;
+}
+
+#landing-page-explore-link {
+    width: 200px;
+    height: 60px;
+    border-radius: 8px;
+    text-align: center;
+    background-color: white;
+    color: black;
+    font-size: 20px;
+    font-weight: 700;
+    padding-top: 15px;
+    margin-top: 5%;
+}
+
+#landing-page-explore-link:hover {
+    color: rgb(118,118,118)
+}
