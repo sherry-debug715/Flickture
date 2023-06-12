@@ -1,6 +1,6 @@
 import React from 'react';
 import { useState, useEffect } from 'react';
-import { NavLink, useHistory } from 'react-router-dom';
+import { NavLink, Link, useHistory } from 'react-router-dom';
 import { useSelector } from 'react-redux';
 import LogoutButton from '../auth/LogoutButton';
 import LoginForm from '../auth/LoginForm';
@@ -37,7 +37,7 @@ const NavBar = () => {
 
   const dropDown = (
     <div className='profile-drop-down-container'>
-      <div>user profile</div>
+      <Link to="/userProfile">user profile</Link>
       <div><LogoutButton /></div>
     </div>
   );

@@ -2,6 +2,7 @@ const GET_ALL_PINS = "pins/GET_ALL_PINS";
 const GET_ONE_PIN = "pins/GET_ONE_PIN";
 const GET_PINS_SAME_CATEGORY = "pins/GET_PINS_SAME_CATEGORY";
 
+
 const getAllPinsAction = pins => ({
     type: GET_ALL_PINS,
     pins
@@ -30,7 +31,7 @@ export const getPinsOfCategory = (pinId, page) => async dispatch => {
 };
 
 export const getOnePinThunk = (pinId) => async dispatch => {
-    console.log("I'm invoked")
+
     const response = await fetch(`/api/pins/${pinId}`, {
         headers: {"Content-Type":"application/json"}
     });
@@ -50,6 +51,26 @@ export const getAllPinsThunk = (page) => async dispatch => {
         const allPins = await response.json();
         dispatch(getAllPinsAction(allPins));
     };
+};
+
+export const createPinAndImageThunk = data => async dispatch => {
+
+    const {imageFile, title, description} = data;
+    const formData = new FormData();
+    formData.append("image", imageFile);
+    formData.append("title", title);
+    formData.append("description", description);
+
+    const response = await fetch("/api/pins/create", {
+        method: "POST",
+        body: formData,
+    });
+
+    if(response.ok) {
+        const newPin = await response.json();
+
+        return newPin;
+    }
 };
 
 const normalization = (arr) => {

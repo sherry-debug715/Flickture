@@ -1,8 +1,10 @@
 import { useState, useCallback, useRef, useEffect } from "react";
-import { useSelector } from "react-redux";
+import { useSelector, useDispatch } from "react-redux";
 import {useDropzone} from 'react-dropzone';
+import { useHistory } from "react-router-dom";
 import RedBackgroundBtn from "../../ui/Buttons/RedBackgroundBtn";
 import "../pins.css";
+import { createPinAndImageThunk } from "../../../store/pins";
 
 import EmojiPicker, {
     EmojiStyle,
@@ -19,10 +21,21 @@ export default function CreatePin() {
     const [textCount, setTextCount] = useState(0);
     const textAreaRef = useRef(null);
     const [emojiOpen, setEmojiOpen] = useState(false);
-
+    const history = useHistory();
+    const dispatch = useDispatch();
     const sessionUser = useSelector(state => state.session.user);
 
-    console.log("description", description.length);
+    const handleSubmit = async(e) => {
+        e.preventDefault();
+        const data = {
+            imageFile,
+            title,
+            description
+        };
+        const newPin = await dispatch(createPinAndImageThunk(data));
+        if(newPin) history.push(`/explore/${newPin.id}`);
+    };
+
     useEffect(() => {
         if (textAreaRef.current) {
             textAreaRef.current.style.height = "auto";
@@ -169,7 +182,7 @@ export default function CreatePin() {
                             </p>
                             }
                             <div className="create-pin-save-btn">
-                                <RedBackgroundBtn text={"Save"} disabled={butttonDisable} />
+                                <RedBackgroundBtn text={"Save"} disabled={butttonDisable} onClick={handleSubmit} />
                             </div>
                         </div>
                     </div>

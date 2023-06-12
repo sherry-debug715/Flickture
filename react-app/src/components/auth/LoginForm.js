@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import { useDispatch } from 'react-redux';
 import { useModal } from '../../context/Modal';
 import { login } from '../../store/session';
+import "./auth.css";
 
 const LoginForm = ({handleNavToHome}) => {
   const [errors, setErrors] = useState([]);

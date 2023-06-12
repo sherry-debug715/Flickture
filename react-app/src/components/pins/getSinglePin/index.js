@@ -11,16 +11,13 @@ import { Link } from "react-router-dom";
 export default function SinglePin() {
     const {pinId} = useParams();
     const dispatch = useDispatch();
-    console.log("param changes", pinId)
+
     const pin = useSelector(state => state.pins.singlePin);
 
     useEffect(() => {
         dispatch(getOnePinThunk(pinId));
     },[dispatch, pinId])
 
-    // const profileImage = pin.pin_images[0].image_url;
-
-    // console.log("profileImage", pin)
     if(!pin.pin_images) return null;
 
     return (
@@ -73,7 +70,7 @@ export default function SinglePin() {
                                 <div className="user-info-container">
                                     <div className="single-pin-user-info-left-container">
                                         <div className="single-pin-user-profile">
-                                            <img src={pin.creator.profile_url} alt="user profile picture" />
+                                            {pin.creator.profile_url ? <img src={pin.creator.profile_url} alt="user profile picture" /> : pin.creator.username[0]}
                                         </div>
                                         <div className="single-pin-user-info-container">
                                             <div className="single-pin-user-name">
@@ -107,10 +104,17 @@ export default function SinglePin() {
 
                 </div>
             </div>
-            <div className="single-pin-more-like-this">More like this</div>
-            <div className="single-pin-bottom-container">
-                <PinsOfCategory pinId={pinId} />
-            </div>
+            {
+            pin.pin_cateogiries.length > 0 && 
+            (
+                <>
+                    <div className="single-pin-more-like-this">More like this</div>
+                    <div className="single-pin-bottom-container">
+                        <PinsOfCategory pinId={pinId} />
+                    </div>
+                </>
+            )
+            }
         </div>
     )
 };

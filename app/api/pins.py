@@ -1,6 +1,7 @@
 from flask import Blueprint, jsonify, request
-from flask_login import login_required
-from app.models import Pin, User, Category
+from flask_login import login_required, current_user
+from app.models import db, Pin, User, Category, PinImage
+from app.aws import upload_file_to_s3, get_unique_filename
 
 pin_routes = Blueprint('pins', __name__)
 
@@ -87,3 +88,49 @@ def get_one_pin(id):
 
 
     return data_return
+
+@pin_routes.route('/create', methods=["POST"])
+@login_required
+def create_pin_image():
+    """
+    Creates a new pin and its image
+    """
+    if "image" not in request.files:
+        return {"errors": "image required"}, 400
+
+    image = request.files["image"]
+    description = request.form.get("description")
+    title = request.form.get("title")
+
+    image.filename = get_unique_filename(image.filename)
+
+    upload = upload_file_to_s3(image)
+
+    if "url" not in upload:
+        return {"error": upload}, 404
+        
+    url = upload["url"]
+
+    new_pin = Pin(
+        user_id=current_user.id,
+        title = title,
+        description = description
+    )
+
+    db.session.add(new_pin)
+    db.session.flush()
+
+    new_pin_image = PinImage(
+        user_id = current_user.id, 
+        pin_id = new_pin.id,
+        image_url = url,
+        preview = True
+    )
+
+    new_pin.pin_images.append(new_pin_image)
+    
+    db.session.commit()
+    return new_pin.get_all_pins()
+
+
+        
