@@ -1,0 +1,177 @@
+.userProfile-container {
+    height: 88vh;
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+
+.userProfile-inner-container {
+    height: 95%;
+    width: 95%;
+}
+
+.userProfile-user-info {
+    height: 30%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+}
+
+.user-profile-img {
+    width: 90px;
+    height: 90px;
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+    border-radius: 50%;
+    background-color: rgb(233,233,233);
+    font-size: 40px;
+    font-weight: 550;
+    color: rgb(17,17,17);
+}
+
+.user-profile-img-image {
+    height: 100%;
+    width: 100%;
+    object-fit: cover;
+}
+
+.user-profile-username {
+    font-size: 30px;
+    color: rgb(95,95,95);
+}
+
+.user-profile-email {
+    font-size: 100;
+    color: rgb(95,95,95);
+    font-size: 10px;
+}
+
+.user-profile-follow {
+    display: flex;
+    flex-direction: row;
+    font-size: 16px;
+    color: rgb(95,95,95);
+    font-weight: 600;
+}
+
+.user-profile-follow-inner div {
+    margin-right: 3px;
+}
+
+.user-profile-following-inner div {
+    margin-left: 3px;
+}
+
+.userProfile-board-container {
+    width: 100%;
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+    margin-top: 5%;
+}
+
+.user-boards-container {
+    width: 100%;
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+}
+
+.board-card-container {
+    width: 320px;
+    height: 270px;
+    display: flex;
+    flex-direction: column;
+}
+
+.board-card-inner-container {
+    width: 100%;
+    height: 100%;
+}
+
+.board-profile-container {
+    width: 100%;
+    height: 75%;
+    border-radius: 10px;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+}
+
+.board-profile-left-image-container {
+    height: 100%;
+    width: 70%;
+    background-color: rgb(225,225,225);
+    border-top-left-radius: 10px;
+    border-bottom-left-radius: 10px;
+}
+
+.board-profile-left-image-container img {
+    height: 100%;
+    width: 100%;
+    object-fit: cover;
+    border-top-left-radius: 10px;
+    border-bottom-left-radius: 10px;
+}
+
+.board-profile-right-image-container {
+    height: 100%;
+    width: 29.5%;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+}
+
+.board-profile-right-image-container-top,
+.board-profile-right-image-container-bottom {
+    height: 49.5%;
+    width: 100%;
+    background-color: rgb(225,225,225);
+}
+
+.board-profile-right-image-container-top {
+    border-top-right-radius: 10px;
+}
+
+.board-profile-right-image-container-bottom {
+    border-bottom-right-radius: 10px;
+}
+
+
+.board-profile-right-image-container-top img,
+.board-profile-right-image-container-bottom img {
+    height: 100%;
+    width: 100%;
+    object-fit: cover;
+}
+
+.board-profile-right-image-container-top img {
+    border-top-right-radius: 10px;
+}
+
+.board-profile-right-image-container-bottom img {
+    border-bottom-right-radius: 10px;
+}
+
+.board-profile-info-container {
+    width: 100%;
+    margin-top: 7px;
+}
+
+.board-profile-name {
+    font-size: 20px;
+    font-weight: 600;
+}
+
+.num-of-pins {
+    font-size: 15px;
+    color:rgb(95,95,95)
+}
+
+

@@ -1,6 +1,6 @@
 from flask import Blueprint, jsonify, request
 from flask_login import login_required, current_user
-from app.models import db, Pin, User, Category, PinImage
+from app.models import db, Pin, User, Category, PinImage, Profile
 from app.aws import upload_file_to_s3, get_unique_filename
 
 pin_routes = Blueprint('pins', __name__)
@@ -119,6 +119,15 @@ def create_pin_image():
 
     db.session.add(new_pin)
     db.session.flush()
+
+    # Get the "All Pins" profile of the current user
+    all_pins_profile = Profile.query.filter_by(user_id=current_user.id, name="All Pins").first()
+
+    if all_pins_profile is None:
+        return {"error": "All Pins profile not found for the current user"}, 404
+    
+    # Append the new pin to the "All Pins" profile
+    all_pins_profile.pins.append(new_pin)
 
     new_pin_image = PinImage(
         user_id = current_user.id, 

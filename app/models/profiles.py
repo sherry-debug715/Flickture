@@ -46,5 +46,6 @@ class Profile(db.Model):
             "id": self.id,
             "user_id": self.user_id,
             "name": self.name,
-            "private": self.private
+            "private": self.private,
+            "pins": [pin.board_pins() for pin in self.pins]
         }

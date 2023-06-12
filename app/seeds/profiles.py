@@ -1,4 +1,4 @@
-from app.models import db, environment, SCHEMA, Profile, User
+from app.models import db, environment, SCHEMA, Profile, User, Pin
 from sqlalchemy.sql import text
 
 def seed_profiles():
@@ -10,7 +10,11 @@ def seed_profiles():
             name="All Pins",
             private=True
         )
-
+        # find all pins that belong to the user
+        pins = Pin.query.filter_by(user_id = user.id).all()
+        for pin in pins:
+            new_profile.pins.append(pin)
+            
         user.profiles.append(new_profile)
 
     db.session.commit()
