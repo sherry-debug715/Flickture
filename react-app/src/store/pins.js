@@ -73,7 +73,7 @@ export const createPinAndImageThunk = data => async dispatch => {
     }
 };
 
-const normalization = (arr) => {
+export const normalization = (arr) => {
     const normalized = {};
     arr.forEach(obj => normalized[obj.id] = obj);
     return normalized;

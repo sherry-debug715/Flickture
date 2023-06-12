@@ -13,5 +13,5 @@ def user_boards():
     profiles = Profile.query.filter_by(user_id = current_user.id).all()
 
     profiles_toReturn = [profile.to_dict() for profile in profiles]
-
+    
     return jsonify(profiles_toReturn)
