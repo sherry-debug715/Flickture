@@ -9,6 +9,7 @@ import User from './components/User';
 import GetAllPins from './components/pins/getPins/GetAllPins';
 import SinglePin from './components/pins/getSinglePin';
 import CreatePin from './components/pins/createPin';
+import UserProfile from './components/UserProfile';
 import { authenticate } from './store/session';
 
 function App() {
@@ -32,6 +33,9 @@ function App() {
       <Switch>
         <Route path='/' exact={true} >
           <Landing />
+        </Route>
+        <Route path="/userProfile" exact={true}>
+          <UserProfile />
         </Route>
         <Route path='/explore' exact={true} >
           <GetAllPins />
