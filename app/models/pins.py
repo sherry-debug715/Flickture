@@ -45,3 +45,10 @@ class Pin(db.Model):
             "pin_comments": [comment.to_dict() for comment in self.comments],
             "pin_cateogiries": [category.to_dict() for category in self.categories]
         }
+    
+    def board_pins(self):
+        return {
+            "id": self.id,
+            "title": self.title,
+            "pin_images": [image.to_dict() for image in self.pin_images]
+        }
