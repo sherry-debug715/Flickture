@@ -16,6 +16,7 @@ def user_boards():
     
     return jsonify(profiles_toReturn)
 
+
 @board_routes.route('/<int:board_id>')
 @login_required
 def board_detail(board_id):
@@ -44,3 +45,31 @@ def board_detail(board_id):
     data_return["pins"] = new_pin_list
 
     return data_return
+
+
+@board_routes.route('/create', methods=["POST"])
+@login_required
+def create_board():
+    data = request.get_json()
+
+    new_profile = Profile(
+        user_id = current_user.id,
+        name = data["name"],
+        private = data["private"],
+    )
+
+    db.session.add(new_profile)
+    db.session.commit()
+
+    return new_profile.to_dict(), 201
+
+
+
+
+
+
+
+
+
+
+
