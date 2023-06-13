@@ -37,7 +37,7 @@ const NavBar = () => {
 
   const dropDown = (
     <div className='profile-drop-down-container'>
-      <Link to="/userProfile">user profile</Link>
+      <Link to={`/userProfile/${sessionUser.id}`}>user profile</Link>
       <div><LogoutButton /></div>
     </div>
   );

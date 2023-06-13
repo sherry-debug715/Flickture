@@ -1,11 +1,12 @@
 import { useSelector } from "react-redux";
 import UserBoards from "./UserBoards";
-import User from "../User";
 import "./userProfile.css";
-
+import { useState } from "react";
 
 export default function UserProfile() {
     const sessionUser = useSelector(state => state.session.user);
+
+    const [showPage, setShowPage] = useState("Saved")
 
     return (
         <div className="userProfile-container">
@@ -34,13 +35,20 @@ export default function UserProfile() {
                     </div>
                 </div>
 
-                <div className="userProfile-board-container">
+                <div className="userProfile-page-select-container">
+                    <div 
+                        onClick={() => setShowPage("Created")} 
+                        className={showPage === "Created" ? "user-profile-selected" : ""}
+                    >Created</div>
+                    <div 
+                        onClick={() => setShowPage("Saved")}
+                        className={showPage === "Saved" ? "user-profile-selected" : ""}
+                    >Saved</div>
+                </div>
+
+                {showPage === "Saved" && <div className="userProfile-board-container">
                     <UserBoards />
-                </div>
-
-                <div className="userProfile-unorganized-pins-container">
-
-                </div>
+                </div>}
 
             </div>
         </div>
