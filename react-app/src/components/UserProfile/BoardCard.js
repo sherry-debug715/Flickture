@@ -29,7 +29,7 @@ export default function BoardCard({board}) {
     return (
         <Link 
             className="board-card-inner-container"
-            to={`/board/${board.id}`}
+            to={`/boards/${board.id}`}
         >
 
             <div className="board-profile-container">

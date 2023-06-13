@@ -174,4 +174,21 @@
     color:rgb(95,95,95)
 }
 
+.userProfile-page-select-container {
+    width: 100%;
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+}
 
+.userProfile-page-select-container div {
+    font-size: 20px;
+    font-weight: 600;
+    color: rgb(57, 54, 70);
+    margin-right: 10px;
+    cursor: pointer;
+}
+
+.user-profile-selected {
+    border-bottom: 3px solid rgb(57, 54, 70);
+}

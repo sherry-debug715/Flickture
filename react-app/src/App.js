@@ -11,6 +11,7 @@ import SinglePin from './components/pins/getSinglePin';
 import CreatePin from './components/pins/createPin';
 import UserProfile from './components/UserProfile';
 import { authenticate } from './store/session';
+import BoardPins from './components/Boards';
 
 function App() {
   const [loaded, setLoaded] = useState(false);
@@ -34,7 +35,7 @@ function App() {
         <Route path='/' exact={true} >
           <Landing />
         </Route>
-        <Route path="/userProfile" exact={true}>
+        <Route path="/userProfile/:userId" exact={true}>
           <UserProfile />
         </Route>
         <Route path='/explore' exact={true} >
@@ -45,6 +46,9 @@ function App() {
         </Route>
         <Route path='/pin/create' exact={true} >
           <CreatePin />
+        </Route>
+        <Route path='/boards/:boardId' exact={true} >
+          <BoardPins />
         </Route>
         <ProtectedRoute path='/users' exact={true} >
           <UsersList/>
