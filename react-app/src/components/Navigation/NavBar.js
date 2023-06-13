@@ -35,19 +35,17 @@ const NavBar = () => {
 
   const handleNavToHome = () => history.push("/explore");
 
-  const dropDown = (
-    <div className='profile-drop-down-container'>
-      <Link to={`/userProfile/${sessionUser.id}`}>user profile</Link>
-      <div><LogoutButton /></div>
-    </div>
-  );
-
   let sessionContent;
   if(sessionUser) {
     sessionContent = (
     <div className='profile-dropdown' onClick={openMenu}>
       {sessionUser.profile_url ? <img src={sessionUser.profile_url} className='profile-image' alt="profile" /> : <div className='profile-image'>{sessionUser.first_name[0]}</div>}
-      {showMenu && dropDown}
+      {showMenu && (
+        <div className='profile-drop-down-container'>
+          <Link to={`/userProfile/${sessionUser.id}`}>user profile</Link>
+          <div><LogoutButton /></div>
+        </div>
+      )}
     </div>  
     )
   } else {

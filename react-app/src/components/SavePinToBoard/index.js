@@ -1,12 +1,14 @@
 import { useEffect, useState } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import { getAllUserBoardsThunk } from "../../store/boards";
+import "./savePinToBoard.css";
 
 export default function SavePinToBoard() {
     const [showMenu, setShowMenu] = useState(false);
     const dispatch = useDispatch();
     const userBoards = useSelector(state => state.boards.allBoards);
     const userBoardsArr = Object.values(userBoards);
+    const [selectedBoard, setSelectedBoard] = useState("All Pins");
 
 
     useEffect(() => {
@@ -31,7 +33,7 @@ export default function SavePinToBoard() {
       
         return () => document.removeEventListener("click", closeMenu);
       }, [showMenu]);
-      // need boardId, name, the first pin image url, private
+
       const organizedUserBoards = [];
       userBoardsArr.forEach(board => {
         const eachBoard = {};
@@ -45,8 +47,6 @@ export default function SavePinToBoard() {
         organizedUserBoards.push(eachBoard);
       });
 
-      console.log("organizedUserBoards", organizedUserBoards)
-      console.log("userBoardsArr", userBoardsArr)
     
     const dropDown = (
         <div className="create-board-dropdown-container">
@@ -55,45 +55,60 @@ export default function SavePinToBoard() {
                 {organizedUserBoards.map(board => (
                     <div className="create-board-each-board-container" key={board.id}>
                         <div className="create-board-each-board-left-container">
-                            <div>
+                            <div className="create-board-each-board-image-container">
                                 {
                                 board.imageUrl && <img src={board.imageUrl} alt="board" />
                                 }
                             </div>
-                            <div>
+                            <div className="create-board-each-board-name">
                                 {board.name}
                             </div>
                         </div>
 
                         <div className="create-board-each-board-right-container">
                                 { board.private && 
-                                <span className="material-symbols-outlined">
+                                <span className="material-symbols-outlined"
+                                id="material-symbols-lock"
+                                >
                                     lock
                                 </span> }
                         </div>
                     </div>
                 ))}
             </div>
-            <hr />
             <div className="create-board-button-container">
-                <div>+</div>
-                <div>Create board</div>
+                <div className="create-board-button-inner-container">
+                    <div className="create-board-icon">+</div>
+                    <div>Create board</div>
+                </div>
             </div>
         </div>
     );
 
     return (
-        <>
-            <div className="create-board-selected-container">
-                <div className="create-board-selected" onClick={openMenu}>
+        <div className="create-board-main-container">
+            <div className="create-board-selection-container">
+                <div className={!showMenu ? "create-board-unselected" : "create-board-selected"} onClick={openMenu}>
 
-                    <div>v</div>
+                    <div className="create-board-selected-container">
+                        <div className="create-board-selected-board-context">{selectedBoard}</div>
+                        
+                        <div className="create-board-selected-icon">
+                            <span 
+                                className="material-symbols-outlined"
+                                id="material-symbols-expand-more"
+                            >
+                                expand_more
+                            </span>
+                        </div>
+                    </div>
+
                 </div>
-                <div className="create-board-save-btn">
+                {!showMenu && <div className="create-board-save-btn">
                     Save
-                </div>
+                </div>}
             </div>
             {showMenu && dropDown}
-        </>
+        </div>
     );
 };
