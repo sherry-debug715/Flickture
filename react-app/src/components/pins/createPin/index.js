@@ -5,6 +5,7 @@ import { useHistory } from "react-router-dom";
 import RedBackgroundBtn from "../../ui/Buttons/RedBackgroundBtn";
 import "../pins.css";
 import { createPinAndImageThunk } from "../../../store/pins";
+import SavePinToBoard from "../../SavePinToBoard";
 
 import EmojiPicker, {
     EmojiStyle,
@@ -91,7 +92,7 @@ export default function CreatePin() {
                             </span>
                         </div>
                         <div className="save-to-board-container">
-
+                            <SavePinToBoard />
                         </div>
                     </div>
 
