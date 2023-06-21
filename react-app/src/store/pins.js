@@ -55,11 +55,12 @@ export const getAllPinsThunk = (page) => async dispatch => {
 
 export const createPinAndImageThunk = data => async dispatch => {
 
-    const {imageFile, title, description} = data;
+    const {imageFile, title, description, selectedBoardId} = data;
     const formData = new FormData();
     formData.append("image", imageFile);
     formData.append("title", title);
     formData.append("description", description);
+    formData.append("selectedBoardId", selectedBoardId);
 
     const response = await fetch("/api/pins/create", {
         method: "POST",

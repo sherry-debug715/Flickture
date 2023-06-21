@@ -3,7 +3,7 @@ import { useSelector, useDispatch } from "react-redux";
 import { getAllUserBoardsThunk } from "../../store/boards";
 import "./savePinToBoard.css";
 
-export default function SavePinToBoard() {
+export default function SavePinToBoard({setSelectedBoardId}) {
     const [showMenu, setShowMenu] = useState(false);
     const dispatch = useDispatch();
     const userBoards = useSelector(state => state.boards.allBoards);
@@ -53,7 +53,14 @@ export default function SavePinToBoard() {
             <div>All boards</div>
             <div className="create-board-dropdown-inner-container">
                 {organizedUserBoards.map(board => (
-                    <div className="create-board-each-board-container" key={board.id}>
+                    <div 
+                        className="create-board-each-board-container" 
+                        key={board.id}
+                        onClick={() => {
+                            setSelectedBoard(board.name)
+                            setSelectedBoardId(board.id)
+                        }}
+                    >
                         <div className="create-board-each-board-left-container">
                             <div className="create-board-each-board-image-container">
                                 {

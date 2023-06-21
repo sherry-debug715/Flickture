@@ -22,16 +22,18 @@ export default function CreatePin() {
     const [textCount, setTextCount] = useState(0);
     const textAreaRef = useRef(null);
     const [emojiOpen, setEmojiOpen] = useState(false);
+    const [selectedBoardId, setSelectedBoardId] = useState(76);
     const history = useHistory();
     const dispatch = useDispatch();
     const sessionUser = useSelector(state => state.session.user);
-
+    console.log("selectedBoardId from component", selectedBoardId)
     const handleSubmit = async(e) => {
         e.preventDefault();
         const data = {
             imageFile,
             title,
-            description
+            description,
+            selectedBoardId
         };
         const newPin = await dispatch(createPinAndImageThunk(data));
         if(newPin) history.push(`/explore/${newPin.id}`);
@@ -60,7 +62,7 @@ export default function CreatePin() {
         
     }, [setImageFile, setImageUrl]);
 
-
+    console.log("=========", selectedBoardId)
     const {getRootProps, getInputProps} = useDropzone({onDrop, maxFiles: 1, accept: {
         'image/*': []
       }})
@@ -92,7 +94,7 @@ export default function CreatePin() {
                             </span>
                         </div>
                         <div className="save-to-board-container">
-                            <SavePinToBoard />
+                            <SavePinToBoard setSelectedBoardId={setSelectedBoardId} />
                         </div>
                     </div>
 

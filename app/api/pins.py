@@ -101,6 +101,7 @@ def create_pin_image():
     image = request.files["image"]
     description = request.form.get("description")
     title = request.form.get("title")
+    selectedBoardId = request.form.get("selectedBoardId")
 
     image.filename = get_unique_filename(image.filename)
 
@@ -128,6 +129,15 @@ def create_pin_image():
     
     # Append the new pin to the "All Pins" profile
     all_pins_profile.pins.append(new_pin)
+
+    # Find the profile by the selectedBoardId of the current user
+    if selectedBoardId is not None:
+        selected_new_pin_profile = Profile.query.filter_by(user_id=current_user.id, id=selectedBoardId).first()
+
+        selected_board = selected_new_pin_profile.to_dict()
+
+        if selected_board["name"] != "All Pins":
+            selected_new_pin_profile.pins.append(new_pin)
 
     new_pin_image = PinImage(
         user_id = current_user.id, 
