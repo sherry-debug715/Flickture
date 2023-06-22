@@ -1,7 +1,7 @@
 from flask import Blueprint, jsonify, request
 from flask_login import login_required, current_user
 from app.models import db, Pin, User, Category, PinImage, Profile
-from app.aws import upload_file_to_s3, get_unique_filename
+from app.aws import upload_file_to_s3, get_unique_filename, remove_file_from_s3, S3_LOCATION
 
 pin_routes = Blueprint('pins', __name__)
 
@@ -194,5 +194,27 @@ def create_pin_image():
     db.session.commit()
     return new_pin.get_all_pins()
 
+@pin_routes.route('/delete/<int:id>', methods=["DELETE"])
+@login_required
+def delete_pin(id):
+    pin_to_delete = Pin.query.get(id)
 
-        
+    if pin_to_delete is None:
+        return jsonify({"error": "Pin not found"}), 404
+
+    for pin_image in pin_to_delete.pin_images:
+        if S3_LOCATION in pin_image.image_url:
+            result = remove_file_from_s3(pin_image.image_url)
+            if isinstance(result, dict) and "errors" in result:
+                return jsonify(result), 500
+            
+            db.session.delete(pin_image)
+    
+    db.session.delete(pin_to_delete)
+
+    try:
+        db.session.commit()
+        return jsonify({"message": "Pin deleted successfully"}), 200
+    except Exception as e:
+        db.session.rollback()
+        return jsonify({"error": str(e)}), 500

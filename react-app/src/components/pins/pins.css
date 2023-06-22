@@ -560,6 +560,11 @@ div.follower {
     right: 5%;
 }
 
+.delete-pin-btn {
+    position: absolute;
+    bottom: 5%;
+}
+
 .create-pin-textarea-container {
     width: 100%;
     position: relative;
@@ -621,6 +626,43 @@ div .EmojiPickerReact {
 .edit-pin-inner-container {
     width: 90%;
     height: 90%;
+}
+
+.delete-pin-modal-container {
+    height: 30vh;
+    width: 40vw;
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+}
+
+.delete-pin-modal-inner-container {
+    height: 90%;
+    width: 90%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.delete-pin-modal-title {
+    height: 35%;
+    font-size: 28px;
+    font-weight: 500;
+}
+
+.delete-pin-warning {
+    height: 40%;
+    font-size: 18px;
+
+}
+
+.delete-pin-btn-container {
+    height: 25%;
+    display: flex;
+    align-items: center;
+    width: 55%;
+    justify-content: space-between;
 }
 
 

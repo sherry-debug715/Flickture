@@ -11,7 +11,7 @@ export default function BoardPinCard({pin, boardId}) {
     const { setModalContent, closeModal } = useModal();
 
     const handleOpenEditPinForm = (pinId) => {
-        setModalContent(<EditPinForm pinId={pinId} closeModal={closeModal} boardId={boardId} />)
+        setModalContent(<EditPinForm pinId={pinId} closeEditFormModal={closeModal} boardId={boardId} />)
     };
 
     return (

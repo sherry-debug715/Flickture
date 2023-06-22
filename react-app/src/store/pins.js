@@ -2,7 +2,12 @@ const GET_ALL_PINS = "pins/GET_ALL_PINS";
 const GET_ONE_PIN = "pins/GET_ONE_PIN";
 const GET_PINS_SAME_CATEGORY = "pins/GET_PINS_SAME_CATEGORY";
 const EDIT_PIN = "pins/EDIT_PIN";
+const DELETE_PIN = "pins/DELETE_PIN"
 
+const deletePin = pinId => ({
+    type: DELETE_PIN,
+    pinId
+});
 
 const getAllPinsAction = pins => ({
     type: GET_ALL_PINS,
@@ -23,6 +28,20 @@ const editPin = pin => ({
     type: EDIT_PIN,
     pin
 });
+
+export const deletePinThunk = (pinId) => async dispatch => {
+    const response = await fetch(`/api/pins/delete/${pinId}`, {
+        headers: {"Content-Type": "application/json"},
+        method: "DELETE"
+    });
+
+    if(response.ok) {
+        dispatch(deletePin(pinId));
+        return true;   
+    };
+
+    return response;
+};
 
 export const editPinThunk = (pinId, editedPin) => async dispatch => {
     const response = await fetch(`/api/pins/edit/${pinId}`, {
