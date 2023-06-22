@@ -51,7 +51,6 @@ export default function SavePinToBoard({setSelectedBoardId, boardPinBelongsTo, o
             };
     };
 
-
     useEffect(() => {
         dispatch(getAllUserBoardsThunk());
     },[dispatch]);

@@ -58,12 +58,13 @@ export default function EditPinForm({pinId, closeEditFormModal, boardId}) {
         const editedPin = {
             title,
             description,
-            selectedBoardId
+            selectedBoardId,
+            boardId: +boardId
         };
 
         const returnedData = await dispatch(editPinThunk(pinId, editedPin));
 
-
+        
         if(returnedData) {
             dispatch(getBoardDetailThunk(boardId))
             .then(() => localStorage.removeItem("newBoardName"))
