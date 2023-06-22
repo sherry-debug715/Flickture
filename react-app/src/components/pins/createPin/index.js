@@ -23,7 +23,7 @@ export default function CreatePin() {
     const textAreaRef = useRef(null);
     const [emojiOpen, setEmojiOpen] = useState(false);
     const [selectedBoardId, setSelectedBoardId] = useState(76);
-
+    const [newBoardName, setNewBoardName] = useState(null);
     const history = useHistory();
     const dispatch = useDispatch();
     const sessionUser = useSelector(state => state.session.user);
@@ -95,7 +95,12 @@ export default function CreatePin() {
                             </span>
                         </div>
                         <div className="save-to-board-container">
-                            <SavePinToBoard setSelectedBoardId={setSelectedBoardId} />
+                            <SavePinToBoard 
+                            setSelectedBoardId={setSelectedBoardId} 
+                            newBoardName={newBoardName}
+                            setNewBoardName={setNewBoardName}
+                            openLocation={"Create pin form"}
+                            />
                         </div>
                     </div>
 

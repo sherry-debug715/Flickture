@@ -16,6 +16,7 @@
 
 .red-background-btn-container {
     background-color: rgb(230,0,35);
+    transition: filter 0.2s ease-in-out;
     height: 40px;
     width: 80px;
     border-radius: 20px;
@@ -24,13 +25,26 @@
     justify-content: center;
     align-items: center;
     color: white;
-    transition: filter 0.2s ease-in-out;
     cursor: pointer;
     border: none;
 }
 
 .red-background-btn-container:hover {
     filter: brightness(95%);
+}
+
+.red-background-btn-container-disabled {
+    height: 40px;
+    width: 80px;
+    border-radius: 20px;
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+    color: white;
+    cursor: not-allowed;
+    border: none;
+    background-color: #D3D3D3;
 }
 
 .black-background-btn-container {

@@ -89,7 +89,11 @@ export default function EditPinForm({pinId, closeEditFormModal, boardId}) {
                             </span>
                         </div>
                         <div className="save-to-board-container">
-                            <SavePinToBoard setSelectedBoardId={setSelectedBoardId} boardPinBelongsTo={boardPinBelongsTo} />
+                            <SavePinToBoard 
+                            setSelectedBoardId={setSelectedBoardId} boardPinBelongsTo={boardPinBelongsTo} 
+                            openLocation={"Edit pin modal"}   
+                            currentPinId={pinId}                         
+                            />
                         </div>
                     </div>
                 </div>

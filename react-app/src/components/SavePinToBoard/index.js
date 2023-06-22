@@ -2,14 +2,29 @@ import { useEffect, useState } from "react";
 import { Tooltip } from 'react-tooltip'
 import { useSelector, useDispatch } from "react-redux";
 import { getAllUserBoardsThunk } from "../../store/boards";
+import CreateBoard from "../Boards/createBoard";
+import { useModal } from "../../context/Modal";
 import "./savePinToBoard.css";
 
-export default function SavePinToBoard({setSelectedBoardId, boardPinBelongsTo}) {
+export default function SavePinToBoard({setSelectedBoardId, boardPinBelongsTo, openLocation, currentPinId}) {
+
     const [showMenu, setShowMenu] = useState(false);
     const dispatch = useDispatch();
     const userBoards = useSelector(state => state.boards.allBoards);
     const userBoardsArr = Object.values(userBoards);
-    const [selectedBoard, setSelectedBoard] = useState("All Pins");
+    const [newBoardName, setNewBoardName] = useState(null);
+    const [selectedBoard, setSelectedBoard] = useState(localStorage.getItem("newBoardName") || "All Pins");
+    const { setModalContent, closeModal } = useModal();
+
+
+    const handleOpenCreateBoardForm = () => {
+        setModalContent(<CreateBoard 
+        closeCreateBoardModal={closeModal}
+        openLocation={openLocation}
+        setNewBoardName={setNewBoardName}
+        currentPinId={currentPinId}
+        />)
+    };
 
     function pinAlreadyInBoard(boardId){
         if(boardPinBelongsTo) {
@@ -19,6 +34,9 @@ export default function SavePinToBoard({setSelectedBoardId, boardPinBelongsTo}) 
         return false;
     };
 
+    useEffect(() => {
+        if(newBoardName) setSelectedBoard(newBoardName);
+    },[newBoardName])
 
 
     useEffect(() => {
@@ -96,7 +114,10 @@ export default function SavePinToBoard({setSelectedBoardId, boardPinBelongsTo}) 
                     </div>
                 ))}
             </div>
-            <div className="create-board-button-container">
+            <div 
+                className="create-board-button-container"
+                onClick={handleOpenCreateBoardForm}
+            >
                 <div className="create-board-button-inner-container">
                     <div className="create-board-icon">+</div>
                     <div>Create board</div>

@@ -31,6 +31,7 @@ export const createBoardThunk = (newBoard) => async dispatch => {
     if(response.ok) {
         const newBoard = await response.json();
         dispatch(createBoard(newBoard));
+        return newBoard;
     };
 };
 

@@ -620,7 +620,6 @@ div .EmojiPickerReact {
     flex-direction: row;
     justify-content: center;
     align-items: center;
-    border-radius: 25px;
 }
 
 .edit-pin-inner-container {
