@@ -25,7 +25,7 @@ export default function BoardPins() {
             <div className="board-pins-inner-container">
                 {boardPins.map(pin => (
                     <div key={pin.pin_id} className="board-pins-pin-card-container" >
-                        <BoardPinCard pin={pin} />
+                        <BoardPinCard pin={pin} boardId={boardId} />
                     </div>
                 ))}
             </div>

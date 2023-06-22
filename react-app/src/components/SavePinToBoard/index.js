@@ -1,26 +1,34 @@
 import { useEffect, useState } from "react";
+import { Tooltip } from 'react-tooltip'
 import { useSelector, useDispatch } from "react-redux";
 import { getAllUserBoardsThunk } from "../../store/boards";
 import "./savePinToBoard.css";
 
-export default function SavePinToBoard({setSelectedBoardId}) {
+export default function SavePinToBoard({setSelectedBoardId, boardPinBelongsTo}) {
     const [showMenu, setShowMenu] = useState(false);
     const dispatch = useDispatch();
     const userBoards = useSelector(state => state.boards.allBoards);
     const userBoardsArr = Object.values(userBoards);
     const [selectedBoard, setSelectedBoard] = useState("All Pins");
 
+    function pinAlreadyInBoard(boardId){
+        if(boardPinBelongsTo) {
+            const boardPinBelongsToId = boardPinBelongsTo.map(board => board.id);
+            return boardPinBelongsToId.includes(boardId);
+        };
+        return false;
+    };
+
+
 
     useEffect(() => {
         dispatch(getAllUserBoardsThunk());
     },[dispatch]);
 
-
-    const openMenu = () => {
-        if (showMenu) return;
-        setShowMenu(true);
+    const openMenu = (e) => {
+        e.stopPropagation()
+        setShowMenu(prev => !prev);
     };
-
 
     useEffect(() => {
         if (!showMenu) return;
@@ -47,20 +55,25 @@ export default function SavePinToBoard({setSelectedBoardId}) {
         organizedUserBoards.push(eachBoard);
       });
 
-    
+
     const dropDown = (
         <div className="create-board-dropdown-container">
             <div>All boards</div>
             <div className="create-board-dropdown-inner-container">
                 {organizedUserBoards.map(board => (
                     <div 
-                        className="create-board-each-board-container" 
+                        data-tooltip-id="my-tooltip"
+                        data-tooltip-content={pinAlreadyInBoard(board.id) ? "pin already belongs to this board" : ""}
+                        className={!pinAlreadyInBoard(board.id) ?"create-board-each-board-container" : "create-board-each-board-container-disabled"} 
                         key={board.id}
                         onClick={() => {
-                            setSelectedBoard(board.name)
-                            setSelectedBoardId(board.id)
+                            if(!pinAlreadyInBoard(board.id)) {
+                                setSelectedBoard(board.name)
+                                setSelectedBoardId(board.id)
+                            }
                         }}
                     >
+                        <Tooltip id="my-tooltip" />
                         <div className="create-board-each-board-left-container">
                             <div className="create-board-each-board-image-container">
                                 {

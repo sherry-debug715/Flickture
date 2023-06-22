@@ -1,6 +1,7 @@
 const GET_ALL_PINS = "pins/GET_ALL_PINS";
 const GET_ONE_PIN = "pins/GET_ONE_PIN";
 const GET_PINS_SAME_CATEGORY = "pins/GET_PINS_SAME_CATEGORY";
+const EDIT_PIN = "pins/EDIT_PIN";
 
 
 const getAllPinsAction = pins => ({
@@ -18,6 +19,24 @@ const getPinOfCategory = pins => ({
     pins
 });
 
+const editPin = pin => ({
+    type: EDIT_PIN,
+    pin
+});
+
+export const editPinThunk = (pinId, editedPin) => async dispatch => {
+    const response = await fetch(`/api/pins/edit/${pinId}`, {
+        headers: {"Content-Type": "application/json"},
+        method: "PUT",
+        body: JSON.stringify(editedPin)
+    });
+
+    if(response.ok) {
+        const pin = await response.json();
+        dispatch(editPin(pin));
+        return pin;
+    };
+};
 
 export const getPinsOfCategory = (pinId, page) => async dispatch => {
     const response = await fetch(`/api/pins/same_categories/${pinId}?page=${page}`, {
@@ -39,6 +58,7 @@ export const getOnePinThunk = (pinId) => async dispatch => {
     if(response.ok) {
         const singlePin = await response.json();
         dispatch(getOnePinAction(singlePin));
+        return singlePin;
     };    
 };
 
@@ -102,6 +122,10 @@ export default function pinReducer(state = initialState, action) {
             const allPages = action.pins.total_pages;
             newState.pinsOfCategory.pins = getPinsOfCategory;
             newState.pinsOfCategory.totalPages = allPages;
+            return newState;
+        case EDIT_PIN:
+            newState = {...state, singlePin: {}};
+            newState.singlePin = action.pin;
             return newState;
         default:
             return state;

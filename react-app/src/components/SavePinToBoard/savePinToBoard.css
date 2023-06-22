@@ -113,11 +113,22 @@
     border-radius: 10px;
     transition: background-color 0.2s ease-in-out;
     cursor: pointer;
-
 }
 
 .create-board-each-board-container:hover {
     background-color: rgb(239,239,239);
+}
+
+.create-board-each-board-container-disabled {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+    width: 100%;
+    height: 35px;
+    margin-bottom: 5px;
+    border-radius: 10px;
+    cursor: not-allowed;
 }
 
 .create-board-each-board-left-container {

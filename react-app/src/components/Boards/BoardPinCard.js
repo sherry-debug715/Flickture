@@ -1,10 +1,18 @@
 import { useState } from "react";
 import { Link } from "react-router-dom";
+import EditPinForm from "../pins/editPin";
+import { useModal } from "../../context/Modal";
 import "./boards.css";
 
-export default function BoardPinCard({pin}) {
+export default function BoardPinCard({pin, boardId}) {
 
     const [onHoverPinId, setOnHoverPinId] = useState(null);
+
+    const { setModalContent, closeModal } = useModal();
+
+    const handleOpenEditPinForm = (pinId) => {
+        setModalContent(<EditPinForm pinId={pinId} closeModal={closeModal} boardId={boardId} />)
+    };
 
     return (
         <div className="board-pin-card-container"
@@ -34,7 +42,10 @@ export default function BoardPinCard({pin}) {
             </Link>
             {
             onHoverPinId === pin.pin_id && 
-            <div className="board-pin-hover-over-container">
+            <div 
+                className="board-pin-hover-over-container"
+                onClick={() => handleOpenEditPinForm(pin.pin_id)}
+            >
                 <span 
                     className="material-symbols-outlined"
                     id="material-symbols-edit"
