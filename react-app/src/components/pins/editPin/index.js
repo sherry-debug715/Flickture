@@ -6,6 +6,9 @@ import RedBackgroundBtn from "../../ui/Buttons/RedBackgroundBtn";
 import SavePinToBoard from "../../SavePinToBoard";
 import { editPinThunk } from "../../../store/pins";
 import { getBoardDetailThunk } from "../../../store/boards";
+import GreyBackgroundBtn from "../../ui/Buttons/greyBackgroundBtn";
+import DeletePinForm from "../deletePin";
+import { useModal } from "../../../context/Modal";
 import "../pins.css";
 
 import EmojiPicker, {
@@ -13,7 +16,7 @@ import EmojiPicker, {
     Emoji,
   } from "emoji-picker-react";
 
-export default function EditPinForm({pinId, closeModal, boardId}) {
+export default function EditPinForm({pinId, closeEditFormModal, boardId}) {
     const dispatch = useDispatch();
     const history = useHistory();
     const [imageUrl, setImageUrl] = useState("")
@@ -26,6 +29,12 @@ export default function EditPinForm({pinId, closeModal, boardId}) {
     const textAreaRef = useRef(null);
     const [emojiOpen, setEmojiOpen] = useState(false);
     const sessionUser = useSelector(state => state.session.user);
+    const [reset, setReset] = useState(false);
+    const { setModalContent, closeModal } = useModal();
+
+    const handleOpenDeletePinForm = () => {
+        setModalContent(<DeletePinForm pinId={pinId} closeDeletePinModal={closeModal} boardId={boardId} />)
+    };
 
     useEffect(() => {
         dispatch(getOnePinThunk(pinId))
@@ -35,7 +44,7 @@ export default function EditPinForm({pinId, closeModal, boardId}) {
             setDescription(data.description)
             setBoardPinBelongsTo(data.pin_in_profiles)
         });
-    },[dispatch]);
+    },[dispatch, reset]);
 
     useEffect(() => {
         if (textAreaRef.current) {
@@ -57,7 +66,7 @@ export default function EditPinForm({pinId, closeModal, boardId}) {
 
         if(returnedData) {
             dispatch(getBoardDetailThunk(boardId))
-            .then(() => closeModal());
+            .then(() => closeEditFormModal());
         };
 
     };
@@ -73,6 +82,7 @@ export default function EditPinForm({pinId, closeModal, boardId}) {
                     <div className="create-board-inner-contaner">
                         <div 
                             className="clear-form-container"
+                            onClick={() => setReset(prev => !prev)}
                         >
                             <span className="material-symbols-rounded" id="material-symbols-clear-form">
                             restart_alt
@@ -162,6 +172,12 @@ export default function EditPinForm({pinId, closeModal, boardId}) {
                                 text={"Save"} 
                                 disabled={butttonDisable} 
                                 onClick={handleSubmit}
+                                />
+                            </div>
+                            <div className="delete-pin-btn">
+                                <GreyBackgroundBtn 
+                                text={"Delete"} 
+                                onClick={handleOpenDeletePinForm}
                                 />
                             </div>
                         </div>
