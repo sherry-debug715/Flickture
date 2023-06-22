@@ -1,6 +1,5 @@
 import { useState, useEffect, useRef } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { useHistory } from "react-router-dom";
 import { getOnePinThunk } from "../../../store/pins";
 import RedBackgroundBtn from "../../ui/Buttons/RedBackgroundBtn";
 import SavePinToBoard from "../../SavePinToBoard";
@@ -18,7 +17,6 @@ import EmojiPicker, {
 
 export default function EditPinForm({pinId, closeEditFormModal, boardId}) {
     const dispatch = useDispatch();
-    const history = useHistory();
     const [imageUrl, setImageUrl] = useState("")
     const [title, setTitle] = useState("");
     const [description, setDescription] = useState("");
@@ -35,6 +33,7 @@ export default function EditPinForm({pinId, closeEditFormModal, boardId}) {
     const handleOpenDeletePinForm = () => {
         setModalContent(<DeletePinForm pinId={pinId} closeDeletePinModal={closeModal} boardId={boardId} />)
     };
+
 
     useEffect(() => {
         dispatch(getOnePinThunk(pinId))
@@ -64,9 +63,11 @@ export default function EditPinForm({pinId, closeEditFormModal, boardId}) {
 
         const returnedData = await dispatch(editPinThunk(pinId, editedPin));
 
+
         if(returnedData) {
             dispatch(getBoardDetailThunk(boardId))
-            .then(() => closeEditFormModal());
+            .then(() => localStorage.removeItem("newBoardName"))
+            .then(() => closeEditFormModal())
         };
 
     };
@@ -92,7 +93,8 @@ export default function EditPinForm({pinId, closeEditFormModal, boardId}) {
                             <SavePinToBoard 
                             setSelectedBoardId={setSelectedBoardId} boardPinBelongsTo={boardPinBelongsTo} 
                             openLocation={"Edit pin modal"}   
-                            currentPinId={pinId}                         
+                            currentPinId={pinId}  
+                            boardId={boardId}                       
                             />
                         </div>
                     </div>

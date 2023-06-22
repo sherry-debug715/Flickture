@@ -8,7 +8,7 @@ import EditPinForm from "../../pins/editPin";
 import { useModal } from "../../../context/Modal";
 import "../boards.css";
 
-export default function CreateBoard({closeCreateBoardModal, openLocation, setNewBoardName, currentPinId}) {
+export default function CreateBoard({closeCreateBoardModal, openLocation, setNewBoardName, currentPinId, setNewBoardId, boardId}) {
     const dispatch = useDispatch();
 
     const [name, setName] = useState("");
@@ -16,6 +16,7 @@ export default function CreateBoard({closeCreateBoardModal, openLocation, setNew
     const [boardPrivate, setBoardPrivate] = useState(false);
 
     const { setModalContent, closeModal } = useModal();
+    
 
     const handleChecked = e => {
         setBoardPrivate(e.target.checked)
@@ -25,7 +26,11 @@ export default function CreateBoard({closeCreateBoardModal, openLocation, setNew
 
     const handleOpenEditPinForm = () => {
         if(!currentPinId) return;
-        setModalContent(<EditPinForm pinId={currentPinId} closeEditFormModal={closeModal} />)
+        setModalContent(<EditPinForm 
+            pinId={currentPinId} 
+            closeEditFormModal={closeModal} 
+            boardId={boardId}
+        />)
     };
 
 
@@ -39,11 +44,13 @@ export default function CreateBoard({closeCreateBoardModal, openLocation, setNew
 
             if(openLocation === "Create pin form") {
                 setNewBoardName(createdBoard.name);
+                setNewBoardId(createdBoard.id)
                 closeCreateBoardModal();
             };
             
             if(openLocation === "Edit pin modal" ) {
                 localStorage.setItem("newBoardName", createdBoard.name);
+                localStorage.setItem("newBoardId", createdBoard.id);
                 handleOpenEditPinForm();
             };
         };

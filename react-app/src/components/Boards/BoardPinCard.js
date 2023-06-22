@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { Link } from "react-router-dom";
+import { Link, useHistory } from "react-router-dom";
 import EditPinForm from "../pins/editPin";
 import { useModal } from "../../context/Modal";
 import "./boards.css";
@@ -10,8 +10,17 @@ export default function BoardPinCard({pin, boardId}) {
 
     const { setModalContent, closeModal } = useModal();
 
+    const history = useHistory();
+
+
     const handleOpenEditPinForm = (pinId) => {
-        setModalContent(<EditPinForm pinId={pinId} closeEditFormModal={closeModal} boardId={boardId} />)
+        setModalContent(
+            <EditPinForm 
+            pinId={pinId} 
+            closeEditFormModal={closeModal} 
+            boardId={boardId} 
+            history={history}
+            />)
     };
 
     return (

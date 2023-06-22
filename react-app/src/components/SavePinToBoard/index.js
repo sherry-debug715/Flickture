@@ -6,7 +6,7 @@ import CreateBoard from "../Boards/createBoard";
 import { useModal } from "../../context/Modal";
 import "./savePinToBoard.css";
 
-export default function SavePinToBoard({setSelectedBoardId, boardPinBelongsTo, openLocation, currentPinId}) {
+export default function SavePinToBoard({setSelectedBoardId, boardPinBelongsTo, openLocation, currentPinId, newBoardId, setNewBoardId, boardId, setSelectedCreateBoardId}) {
 
     const [showMenu, setShowMenu] = useState(false);
     const dispatch = useDispatch();
@@ -23,6 +23,8 @@ export default function SavePinToBoard({setSelectedBoardId, boardPinBelongsTo, o
         openLocation={openLocation}
         setNewBoardName={setNewBoardName}
         currentPinId={currentPinId}
+        setNewBoardId={setNewBoardId}
+        boardId={boardId}
         />)
     };
 
@@ -36,7 +38,18 @@ export default function SavePinToBoard({setSelectedBoardId, boardPinBelongsTo, o
 
     useEffect(() => {
         if(newBoardName) setSelectedBoard(newBoardName);
-    },[newBoardName])
+        if(openLocation === "Create pin form" && newBoardId) setSelectedCreateBoardId(newBoardId);
+        const newBoardIdEditForm = localStorage.getItem("newBoardId");
+        if(openLocation === "Edit pin modal" && newBoardIdEditForm) setSelectedBoardId(+newBoardIdEditForm)
+    },[newBoardName, newBoardId, openLocation]);
+
+    const handleClickOnBoard = (board) => {
+            if(!pinAlreadyInBoard(board.id)) {
+                setSelectedBoard(board.name);
+                if(openLocation === "Create pin form") setSelectedCreateBoardId(board.id);
+                if(openLocation === "Edit pin modal") setSelectedBoardId(board.id)
+            };
+    };
 
 
     useEffect(() => {
@@ -84,12 +97,7 @@ export default function SavePinToBoard({setSelectedBoardId, boardPinBelongsTo, o
                         data-tooltip-content={pinAlreadyInBoard(board.id) ? "pin already belongs to this board" : ""}
                         className={!pinAlreadyInBoard(board.id) ?"create-board-each-board-container" : "create-board-each-board-container-disabled"} 
                         key={board.id}
-                        onClick={() => {
-                            if(!pinAlreadyInBoard(board.id)) {
-                                setSelectedBoard(board.name)
-                                setSelectedBoardId(board.id)
-                            }
-                        }}
+                        onClick={() => handleClickOnBoard(board)}
                     >
                         <Tooltip id="my-tooltip" />
                         <div className="create-board-each-board-left-container">

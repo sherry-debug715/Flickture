@@ -22,8 +22,9 @@ export default function CreatePin() {
     const [textCount, setTextCount] = useState(0);
     const textAreaRef = useRef(null);
     const [emojiOpen, setEmojiOpen] = useState(false);
-    const [selectedBoardId, setSelectedBoardId] = useState(76);
+    const [selectedCreateBoardId, setSelectedCreateBoardId] = useState(76);
     const [newBoardName, setNewBoardName] = useState(null);
+    const [newBoardId, setNewBoardId] = useState(null);
     const history = useHistory();
     const dispatch = useDispatch();
     const sessionUser = useSelector(state => state.session.user);
@@ -34,7 +35,7 @@ export default function CreatePin() {
             imageFile,
             title,
             description,
-            selectedBoardId
+            selectedBoardId:selectedCreateBoardId
         };
         const newPin = await dispatch(createPinAndImageThunk(data));
         if(newPin) history.push(`/explore/${newPin.id}`);
@@ -96,10 +97,12 @@ export default function CreatePin() {
                         </div>
                         <div className="save-to-board-container">
                             <SavePinToBoard 
-                            setSelectedBoardId={setSelectedBoardId} 
+                            setSelectedCreateBoardId={setSelectedCreateBoardId} 
                             newBoardName={newBoardName}
                             setNewBoardName={setNewBoardName}
                             openLocation={"Create pin form"}
+                            setNewBoardId={setNewBoardId}
+                            newBoardId={newBoardId}
                             />
                         </div>
                     </div>
