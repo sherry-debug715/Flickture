@@ -89,11 +89,54 @@ def get_one_pin(id):
 
     return data_return
 
+
+@pin_routes.route('/edit/<int:id>', methods=["PUT"])
+@login_required
+def edit_pin(id):
+    """
+    Edit a pin by it's id, 
+    edit the board that the pin belongs to.
+    """
+    pin = Pin.query.get(id)
+
+    if not pin:
+        return jsonify(message="Pin not found"), 404
+    
+    updated_pin_info = request.get_json()
+
+    title = updated_pin_info.get("title")
+
+    description = updated_pin_info.get("description")
+
+    selectedBoardId = updated_pin_info.get("selectedBoardId")
+
+    if title is not None and description is not None:
+        pin.title = title
+        pin.description = description
+
+    if selectedBoardId is not None:
+        selected_new_pin_profile = Profile.query.filter_by(user_id=current_user.id, id=selectedBoardId).first()
+
+        selected_board = selected_new_pin_profile.to_dict()
+
+        if selected_board["name"] != "All Pins":
+            selected_new_pin_profile.pins.append(pin)
+    
+    try:
+        db.session.commit()
+        return jsonify(pin.get_all_pins()), 200
+    except Exception as e:
+        db.session.rollback()
+        return jsonify(message=str(e)), 400
+
+
 @pin_routes.route('/create', methods=["POST"])
 @login_required
 def create_pin_image():
     """
-    Creates a new pin and its image
+    Creates a new pin and its image,
+    if user selects a board for the pin,
+    add the new pin to the selected board
     """
     if "image" not in request.files:
         return {"errors": "image required"}, 400
@@ -101,6 +144,7 @@ def create_pin_image():
     image = request.files["image"]
     description = request.form.get("description")
     title = request.form.get("title")
+    selectedBoardId = request.form.get("selectedBoardId")
 
     image.filename = get_unique_filename(image.filename)
 
@@ -128,6 +172,15 @@ def create_pin_image():
     
     # Append the new pin to the "All Pins" profile
     all_pins_profile.pins.append(new_pin)
+
+    # Find the profile by the selectedBoardId of the current user
+    if selectedBoardId is not None:
+        selected_new_pin_profile = Profile.query.filter_by(user_id=current_user.id, id=selectedBoardId).first()
+
+        selected_board = selected_new_pin_profile.to_dict()
+
+        if selected_board["name"] != "All Pins":
+            selected_new_pin_profile.pins.append(new_pin)
 
     new_pin_image = PinImage(
         user_id = current_user.id, 

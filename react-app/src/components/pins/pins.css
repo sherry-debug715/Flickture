@@ -565,11 +565,13 @@ div.follower {
     position: relative;
 }
 
-.create-pin-emoji-container {
+.create-pin-emoji-container,
+.edit-pin-emoji-container {
     position: absolute;
     right: 0%;
     top: 10%;
 }
+
 
 div .EmojiPickerReact {
     --epr-picker-height: 500px;
@@ -580,6 +582,12 @@ div .EmojiPickerReact {
     left: -20%;
     bottom: 30px;
 }
+
+.edit-pin-emoji-picker-container {
+    position: absolute;
+    z-index: 13;
+}
+
 
 #material-symbols-clear-form {
     font-weight: 700;
@@ -598,6 +606,21 @@ div .EmojiPickerReact {
 
 #material-symbols-clear-form:hover {
     background-color: rgb(239,239,239);
+}
+
+.edit-pin-main-container {
+    width: 60vw;
+    height: 80vh;
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+    border-radius: 25px;
+}
+
+.edit-pin-inner-container {
+    width: 90%;
+    height: 90%;
 }
 
 

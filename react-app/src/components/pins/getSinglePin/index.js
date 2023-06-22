@@ -18,7 +18,7 @@ export default function SinglePin() {
         dispatch(getOnePinThunk(pinId));
     },[dispatch, pinId])
 
-    if(!pin.pin_images) return null;
+    if(!pin.pin_images || !pin.followers ) return null;
 
     return (
         <div className="single-pin-main-container">

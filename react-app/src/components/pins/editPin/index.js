@@ -1,44 +1,41 @@
-import { useState, useCallback, useRef, useEffect } from "react";
-import { useSelector, useDispatch } from "react-redux";
-import {useDropzone} from 'react-dropzone';
+import { useState, useEffect, useRef } from "react";
+import { useDispatch, useSelector } from "react-redux";
 import { useHistory } from "react-router-dom";
+import { getOnePinThunk } from "../../../store/pins";
 import RedBackgroundBtn from "../../ui/Buttons/RedBackgroundBtn";
-import "../pins.css";
-import { createPinAndImageThunk } from "../../../store/pins";
 import SavePinToBoard from "../../SavePinToBoard";
+import { editPinThunk } from "../../../store/pins";
+import { getBoardDetailThunk } from "../../../store/boards";
+import "../pins.css";
 
 import EmojiPicker, {
     EmojiStyle,
     Emoji,
-    EmojiClickData,
   } from "emoji-picker-react";
 
-export default function CreatePin() {
-    const [imageFile, setImageFile] = useState();
+export default function EditPinForm({pinId, closeModal, boardId}) {
+    const dispatch = useDispatch();
+    const history = useHistory();
     const [imageUrl, setImageUrl] = useState("")
     const [title, setTitle] = useState("");
     const [description, setDescription] = useState("");
+    const [selectedBoardId, setSelectedBoardId] = useState(76);
     const [textAreaId, setTextAreaId] = useState("about-pin-input");
+    const [boardPinBelongsTo, setBoardPinBelongsTo] = useState([]);
     const [textCount, setTextCount] = useState(0);
     const textAreaRef = useRef(null);
     const [emojiOpen, setEmojiOpen] = useState(false);
-    const [selectedBoardId, setSelectedBoardId] = useState(76);
-
-    const history = useHistory();
-    const dispatch = useDispatch();
     const sessionUser = useSelector(state => state.session.user);
 
-    const handleSubmit = async(e) => {
-        e.preventDefault();
-        const data = {
-            imageFile,
-            title,
-            description,
-            selectedBoardId
-        };
-        const newPin = await dispatch(createPinAndImageThunk(data));
-        if(newPin) history.push(`/explore/${newPin.id}`);
-    };
+    useEffect(() => {
+        dispatch(getOnePinThunk(pinId))
+        .then(data => {
+            setImageUrl(data.pin_images[0].image_url)
+            setTitle(data.title)
+            setDescription(data.description)
+            setBoardPinBelongsTo(data.pin_in_profiles)
+        });
+    },[dispatch]);
 
     useEffect(() => {
         if (textAreaRef.current) {
@@ -47,80 +44,54 @@ export default function CreatePin() {
         }
         setTextCount(300 - description.length);
     }, [description]); 
-    
-
-    const onDrop = useCallback((acceptedFiles) => {
-        acceptedFiles.forEach((file) => {
-            setImageFile(file)
-            const reader = new FileReader()
-            reader.onload = () => {
-            // Do whatever you want with the file contents
-                const binaryStr = reader.result
-                setImageUrl(binaryStr);
-            }
-            reader.readAsDataURL(file)
-        })
-        
-    }, [setImageFile, setImageUrl]);
 
 
-    const {getRootProps, getInputProps} = useDropzone({onDrop, maxFiles: 1, accept: {
-        'image/*': []
-      }})
-      
-    const clearForm = () => {
-        setImageFile();
-        setImageUrl("");
-        setTitle("");
-        setDescription("")
-        setTextAreaId("about-pin-input");
-        setTextCount(0);
+    const handleSubmit = async() => {
+        const editedPin = {
+            title,
+            description,
+            selectedBoardId
+        };
+
+        const returnedData = await dispatch(editPinThunk(pinId, editedPin));
+
+        if(returnedData) {
+            dispatch(getBoardDetailThunk(boardId))
+            .then(() => closeModal());
+        };
+
     };
 
     const butttonDisable = () => {
-        return !title.length && !description.length && !imageFile
+        return !title.length && !description.length
     };
 
     return (
-        <div className="create-pin-main-container">
-            <div className="create-pin-inner-container">
+        <div className="edit-pin-main-container">
+            <div className="edit-pin-inner-container">
                 <div className="create-board-container">
                     <div className="create-board-inner-contaner">
                         <div 
                             className="clear-form-container"
-                            onClick={clearForm}
                         >
-                            <span className="material-symbols-outlined" id="material-symbols-clear-form">
-                                remove_selection
+                            <span className="material-symbols-rounded" id="material-symbols-clear-form">
+                            restart_alt
                             </span>
                         </div>
                         <div className="save-to-board-container">
-                            <SavePinToBoard setSelectedBoardId={setSelectedBoardId} />
+                            <SavePinToBoard setSelectedBoardId={setSelectedBoardId} boardPinBelongsTo={boardPinBelongsTo} />
                         </div>
                     </div>
-
                 </div>
+
                 <div className="create-pin-form-content-container">
-                    {
-                        imageUrl.length < 1 ? <div className="image-drop-container">
-                            <div className="image-drop-inner-conatiner">
-                                <div {...getRootProps()} id="image-drop-zone">
-                                    <input {...getInputProps()} />
-                                    <div className="material-symbols-upload-container">
-                                        <span className="material-symbols-outlined" id="material-symbols-upload">
-                                            upload
-                                        </span>
-                                    </div>
-                                    <p>Drag and drop or click to upload</p>
-                                </div>
-                            </div>
-                        </div> : 
-                        <div className="create-pin-selected-image-container">
-                            <div className="create-pin-selected-image-inner-container">
-                                <img src={imageUrl} alt="selected-pin" id="selected-pin-create" />                                
-                            </div> 
-                        </div>
-                    }
+                                            
+                    <div className="create-pin-selected-image-container">
+                        <div className="create-pin-selected-image-inner-container">
+                            <img src={imageUrl} alt="selected-pin" id="selected-pin-create" />                                
+                        </div> 
+                    </div>
+                    
 
                     <div className="create-pin-content-container">
                         <div className="create-pin-content-inner-container">
@@ -160,11 +131,11 @@ export default function CreatePin() {
                                 onClick={() => setTextAreaId("about-pin-input-clicked")}
                                 onBlur={() => setTextAreaId("about-pin-input")}
                                 />
-                                <div className="create-pin-emoji-container" >
+                                <div className="edit-pin-emoji-container" >
                                     <div onClick={() => setEmojiOpen(prev => !prev)} style={{cursor:"pointer"}}>
                                         <Emoji unified="1f603" size={22} />
                                     </div>
-                                    <div className="emoji-picker-container">
+                                    <div className="edit-pin-emoji-picker-container">
                                         { emojiOpen && <EmojiPicker
                                             onEmojiClick={(emojiData, event) => {
                                                 const emoji = String.fromCodePoint(parseInt(emojiData.unified, 16));
@@ -172,7 +143,8 @@ export default function CreatePin() {
                                             }}
                                             autoFocusSearch={false}
                                             emojiStyle={EmojiStyle.NATIVE}
-                                            id="emoji-picker" 
+                                            id="edit-pin-emoji-picker" 
+                                            height="400px"
                                         /> }
                                     </div>
                                 </div>
@@ -186,7 +158,11 @@ export default function CreatePin() {
                             </p>
                             }
                             <div className="create-pin-save-btn">
-                                <RedBackgroundBtn text={"Save"} disabled={butttonDisable} onClick={handleSubmit} />
+                                <RedBackgroundBtn 
+                                text={"Save"} 
+                                disabled={butttonDisable} 
+                                onClick={handleSubmit}
+                                />
                             </div>
                         </div>
                     </div>
@@ -196,4 +172,3 @@ export default function CreatePin() {
         </div>
     );
 };
-
