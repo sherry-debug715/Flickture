@@ -1,5 +1,7 @@
 import { useSelector } from "react-redux";
 import UserBoards from "./UserBoards";
+import CreateBoard from "../Boards/createBoard";
+import { useModal } from "../../context/Modal";
 import "./userProfile.css";
 import { useState } from "react";
 
@@ -7,6 +9,15 @@ export default function UserProfile() {
     const sessionUser = useSelector(state => state.session.user);
 
     const [showPage, setShowPage] = useState("Saved")
+
+    const { setModalContent, closeModal } = useModal();
+
+    const handleOpenCreateBoardForm = () => {
+        setModalContent(<CreateBoard 
+        closeCreateBoardModal={closeModal}
+        openLocation={"User Profile"}
+        />)
+    };
 
     return (
         <div className="userProfile-container">
@@ -44,6 +55,13 @@ export default function UserProfile() {
                         onClick={() => setShowPage("Saved")}
                         className={showPage === "Saved" ? "user-profile-selected" : ""}
                     >Saved</div>
+                </div>
+
+                <div className="userProfile-create-board-icon-container">
+                    <div 
+                        className="userProfile-create-board-icon"
+                        onClick={handleOpenCreateBoardForm}
+                    >+</div>
                 </div>
 
                 {showPage === "Saved" && <div className="userProfile-board-container">

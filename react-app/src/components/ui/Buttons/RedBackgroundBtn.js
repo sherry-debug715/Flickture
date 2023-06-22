@@ -3,7 +3,7 @@ import "./buttons.css";
 export default function RedBackgroundBtn({text, onClick, disabled}) {
     return (
         <button 
-            className="red-background-btn-container" 
+            className={!disabled() ? "red-background-btn-container" : "red-background-btn-container-disabled"} 
             disabled={disabled()}
             onClick={onClick}>
             {text}

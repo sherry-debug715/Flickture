@@ -100,6 +100,8 @@
 .create-board-dropdown-inner-container {
     width: 90%;
     margin-top: 5%;
+    height: 400px;
+    overflow-y: auto;
 }
 
 .create-board-each-board-container {
@@ -107,7 +109,7 @@
     flex-direction: row;
     justify-content: space-between;
     align-items: center;
-    width: 100%;
+    width: 95%;
     height: 35px;
     margin-bottom: 5px;
     border-radius: 10px;
@@ -124,7 +126,7 @@
     flex-direction: row;
     justify-content: space-between;
     align-items: center;
-    width: 100%;
+    width: 95%;
     height: 35px;
     margin-bottom: 5px;
     border-radius: 10px;

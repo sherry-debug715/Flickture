@@ -21,3 +21,8 @@
     height: 12vh;
     width: 100%;
 }
+
+:root {
+    --lightgrey-hover-background-color: #DCDCDC;
+    
+}
