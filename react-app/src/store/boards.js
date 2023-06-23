@@ -3,7 +3,8 @@ import { normalization } from "./pins";
 const GET_ALL_USER_BOARDS = "boards/GET_ALL_USER_BOARDS";
 const GET_BOARD_DETAIL = "boards/GET_BOARD_DETAIL";
 const CREATE_BOARD = "boards/CREATE_BOARD";
-const EDIT_BOARD = "boards/EDIT_BOARD"
+const EDIT_BOARD = "boards/EDIT_BOARD";
+const DELETE_BOARD = "boards/DELETE_BOARD";
 
 const getAllUserBoards = boards => ({
     type: GET_ALL_USER_BOARDS,
@@ -24,6 +25,21 @@ const editBoard = board => ({
     type: EDIT_BOARD,
     board
 });
+
+const deleteBoard = boardId => ({
+    type: DELETE_BOARD,
+    boardId
+});
+
+export const deleteBoardThunk = boardId => async dispatch => {
+    const response = await fetch(`/api/boards/delete/${boardId}`, {
+        method: "DELETE"
+    });
+
+    if(response.ok) {
+        dispatch(deleteBoard(boardId));
+    };
+};
 
 export const editBoardThunk = (boardToEdit, boardId) => async dispatch => {
 
@@ -103,6 +119,11 @@ export default function boardReducer(state = initialState, action) {
         case EDIT_BOARD:
             newState = {...state, allBoards: {...state.allBoards}}
             newState.allBoards[action.board.id] = action.board;
+            return newState
+        case DELETE_BOARD:
+            newState = {...state, allBoards: {...state.allBoards}};
+            delete newState.allBoards[action.boardId]
+            return newState;
         default:
             return state;
     };

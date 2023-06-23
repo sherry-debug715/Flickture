@@ -8,6 +8,7 @@ import ControlledCheckbox from "../../ui/Input/CheckBox";
 import { getBoardDetailThunk } from "../../../store/boards";
 import { useModal } from "../../../context/Modal";
 import EditPinForm from "../../pins/editPin";
+import DeleteBoardForm from "../deleteBoard";
 import { editBoardThunk } from "../../../store/boards";
 import "../boards.css";
 
@@ -44,6 +45,18 @@ export default function EditBoardForm() {
             setCheckChangedBoardId={setCheckChangedBoardId}
             />)
     };
+
+    const handleOpenDeleteBoardForm = () => {
+        setModalContent(
+            <DeleteBoardForm
+                numOfPins={boardPins.length}
+                boardId={boardId}
+                boardName={name}
+                closeDeleteBoardModal={closeModal}
+                history={history}
+            />
+        )
+    }
 
 
     useEffect(() => {
@@ -171,6 +184,7 @@ export default function EditBoardForm() {
                         </div>
                         {boardId !== "76" && <div className="edit-board-form-delete-btn">
                             <GreyBackgroundBtn
+                                onClick={handleOpenDeleteBoardForm}
                                 text={"Delete"}
                             />
                         </div>}

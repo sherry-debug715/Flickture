@@ -85,7 +85,17 @@ def edit_board(id):
     db.session.commit()
     return jsonify(edited_board.to_dict()), 200
 
+@board_routes.route('/delete/<int:id>', methods=["DELETE"])
+@login_required
+def delete_board(id):
+    board_to_delete = Profile.query.get(id)
 
+    if not board_to_delete:
+        return {"Error": "Board not found"}, 404
+
+    db.session.delete(board_to_delete)
+    db.session.commit()
+    return jsonify({"message": "Board deleted successfully"}), 200
 
 
 
