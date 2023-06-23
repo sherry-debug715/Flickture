@@ -52,6 +52,8 @@ export default function EditBoardForm() {
                 numOfPins={boardPins.length}
                 boardId={boardId}
                 boardName={name}
+                closeDeleteBoardModal={closeModal}
+                history={history}
             />
         )
     }
