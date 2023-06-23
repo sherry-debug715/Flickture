@@ -288,3 +288,41 @@
     flex-direction: row;
     justify-content: space-between;
 }
+
+.delete-board-form-container {
+    height: 45vh;
+    width: 30vw;
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+}
+
+.delete-board-form-inner-container {
+    height: 90%;
+    width: 90%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.delete-board-form-title {
+    font-size: 25px;
+    font-weight: 500;
+    height: 20%;
+    width: 100%;
+    /* border: 1px solid black; */
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+}
+
+.delete-board-form-warning {
+    height: 50%;
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+    font-size: 18px;
+}
