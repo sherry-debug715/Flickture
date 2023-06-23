@@ -5,7 +5,6 @@ import "./pins.css";
 export default function PinCard({pin}) {
 
     const [onHoverPinId, setOnHoverPinId] = useState(null);
-    
 
     return (
                 <div className="each-pin-container"
@@ -21,9 +20,6 @@ export default function PinCard({pin}) {
                                     >
                                         favorite
                                     </i>
-                                </div>
-                                <div  id="getAllPin-add-profile-icon" >
-                                    +
                                 </div>
                             </div>
                         }

@@ -1,18 +1,43 @@
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 import { useSelector, useDispatch } from "react-redux";
+import { Link } from "react-router-dom";
 import "../pins.css";
 import { getOnePinThunk } from "../../../store/pins";
 import GreyBackgroundBtn from "../../ui/Buttons/greyBackgroundBtn";
 import PinsOfCategory from "./PinsOFCategory";
-import { Link } from "react-router-dom";
+import DetailPageAddToBoard from "./DetailPageAddToBoard";
 
 
 export default function SinglePin() {
+
+    const [showMenu, setShowMenu] = useState(false);
+
     const {pinId} = useParams();
+
     const dispatch = useDispatch();
 
     const pin = useSelector(state => state.pins.singlePin);
+
+    const sessionUser = useSelector(state => state.session.user);
+
+    const openMenu = (e) => {
+        e.stopPropagation()
+        setShowMenu(prev => !prev);
+    };
+
+    useEffect(() => {
+        if (!showMenu) return;
+    
+        const closeMenu = () => {
+          setShowMenu(false);
+        };
+    
+        document.addEventListener('click', closeMenu);
+      
+        return () => document.removeEventListener("click", closeMenu);
+      }, [showMenu]);
+
 
     useEffect(() => {
         dispatch(getOnePinThunk(pinId));
@@ -52,7 +77,7 @@ export default function SinglePin() {
                                 <div className="sinlge-pin-title-save-btns-container">
                                     <div className="single-pin-title">{pin.title}
                                     </div>
-                                    <div className="single-pin-save-btn-container">
+                                    {sessionUser && <div    className="single-pin-save-btn-container">
                                         <div>
                                             <i 
                                             className="material-icons"
@@ -61,10 +86,16 @@ export default function SinglePin() {
                                                 favorite
                                             </i>
                                         </div>
-                                        <div  id="getAllPin-add-profile-icon" >
+                                        <div  id="getAllPin-add-profile-icon" 
+                                        onClick={() => setShowMenu(true)}
+                                        >
                                             +
                                         </div>
-                                    </div>
+                                        {showMenu && <DetailPageAddToBoard 
+                                        setShowMenu={setShowMenu} 
+                                        pinId={pinId}
+                                        />}
+                                    </div>}
                                 </div>
 
                                 <div className="user-info-container">
