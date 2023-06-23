@@ -12,6 +12,7 @@ import CreatePin from './components/pins/createPin';
 import UserProfile from './components/UserProfile';
 import { authenticate } from './store/session';
 import BoardPins from './components/Boards';
+import EditBoardForm from './components/Boards/editBoard';
 
 function App() {
   const [loaded, setLoaded] = useState(false);
@@ -49,6 +50,9 @@ function App() {
         </Route>
         <Route path='/boards/:boardId' exact={true} >
           <BoardPins />
+        </Route>
+        <Route path='/boards/edit/:boardId' exact={true} >
+          <EditBoardForm />
         </Route>
         <ProtectedRoute path='/users' exact={true} >
           <UsersList/>

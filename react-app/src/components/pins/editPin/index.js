@@ -15,7 +15,7 @@ import EmojiPicker, {
     Emoji,
   } from "emoji-picker-react";
 
-export default function EditPinForm({pinId, closeEditFormModal, boardId}) {
+export default function EditPinForm({pinId, closeEditFormModal, boardId, setCheckChangedBoardId}) {
     const dispatch = useDispatch();
     const [imageUrl, setImageUrl] = useState("")
     const [title, setTitle] = useState("");
@@ -66,6 +66,7 @@ export default function EditPinForm({pinId, closeEditFormModal, boardId}) {
 
         
         if(returnedData) {
+            setCheckChangedBoardId(selectedBoardId)
             dispatch(getBoardDetailThunk(boardId))
             .then(() => localStorage.removeItem("newBoardName"))
             .then(() => closeEditFormModal())

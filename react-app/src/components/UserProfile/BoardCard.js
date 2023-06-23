@@ -1,6 +1,8 @@
-import { Link } from "react-router-dom";
+import { Link, useHistory } from "react-router-dom";
 
-export default function BoardCard({board}) {
+export default function BoardCard({board, onHoverBoardId}) {
+
+    const history = useHistory();
 
     const boardPins = () => {
         let boardPins = board.pins;
@@ -27,37 +29,55 @@ export default function BoardCard({board}) {
     if(imageUrls[2]) leftImageBottom = imageUrls[2];
 
     return (
-        <Link 
-            className="board-card-inner-container"
-            to={`/boards/${board.id}`}
-        >
+            <div className="board-card-outer-container">
+                <Link 
+                    className="board-card-inner-container"
+                    to={`/boards/${board.id}`}
+                >
 
-            <div className="board-profile-container">
-                <div className="board-profile-left-image-container">
-                    {leftImage && <img src={leftImage} alt="profile-left" /> }
+                    <div 
+                        className="board-profile-container"
+                    >
+                        <div className="board-profile-left-image-container">
+                            {leftImage && <img src={leftImage} alt="profile-left" /> }
+                        </div>
+
+                        <div className="board-profile-right-image-container">
+                            <div className="board-profile-right-image-container-top">
+                                {rightImageTop && <img src={rightImageTop} alt="profile-top-right" />}
+                            </div>
+
+                            <div className="board-profile-right-image-container-bottom">
+                                {leftImageBottom && <img src={leftImageBottom} alt="profile-bottom-right" />}
+                            </div>
+                        </div>
+                    </div>
+                </Link>
+
+                {onHoverBoardId === board.id && (
+                <div
+                    className="board-card-hover-over-container"
+                    onClick={() => history.push(`/boards/edit/${board.id}`)}
+                >
+                    <span 
+                    className="material-symbols-outlined"
+                    id="material-symbols-edit"
+                >
+                    edit
+                </span>
                 </div>
+                )}
 
-                <div className="board-profile-right-image-container">
-                    <div className="board-profile-right-image-container-top">
-                        {rightImageTop && <img src={rightImageTop} alt="profile-top-right" />}
+                <div className="board-profile-info-container">
+                    <div className="board-profile-name">
+                        {board.name}
                     </div>
 
-                    <div className="board-profile-right-image-container-bottom">
-                        {leftImageBottom && <img src={leftImageBottom} alt="profile-bottom-right" />}
+                    <div className="num-of-pins">
+                        {numOfPins > 1 ? numOfPins+" Pins" : numOfPins+" Pin"} 
                     </div>
                 </div>
             </div>
 
-            <div className="board-profile-info-container">
-                <div className="board-profile-name">
-                    {board.name}
-                </div>
-
-                <div className="num-of-pins">
-                    {numOfPins > 1 ? numOfPins+" Pins" : numOfPins+" Pin"} 
-                </div>
-            </div>
-
-        </Link>
     )
 };

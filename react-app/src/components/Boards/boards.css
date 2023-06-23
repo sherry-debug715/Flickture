@@ -158,3 +158,133 @@
     justify-content: flex-end;
     align-items: flex-end;
 }
+
+.edit-board-form-main-container {
+    width: 100%;
+    height: 88vh;
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: flex-start;
+    background-color: rgb(233,233,233);
+}
+
+.edit-board-form-inner-container {
+    width: 60%;
+    height: 90%;
+    border-radius: 20px;
+    border: 1px solid lightgray; 
+    box-shadow: 0px 0px 10px 2px rgba(147, 145, 145, 0.2);
+    background-color: white;
+    margin-top: 5%;
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+}
+
+.edit-board-form-inner-container2 {
+    width: 90%;
+    height: 90%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.clear-form-container {
+    height: 10%;
+    width: 100%;
+}
+
+.edit-board-form-content-container {
+    height: 80%;
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.edit-board-form-title {
+    height: 15%;
+    font-size: 25px;
+    font-weight: 500;
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+}
+
+.edit-board-name-field {
+    width: 100%;
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+}
+
+.edit-board-form-set-private-container {
+    display: flex;
+    flex-direction: row;
+    justify-content: flex-start;
+    width: 50%;
+    
+}
+
+.edit-board-form-pin-container {
+    overflow-y: auto;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+    height: 90%;
+    width: 100%;
+    /* border: 1px solid orange; */
+    flex-wrap: wrap;
+
+}
+
+.edit-board-form-pin-inner-container,
+.edit-board-form-pin-main-container {
+    display: flex;
+    flex-direction: row;
+    height: 200px;
+    width: 230px;
+    margin-top: 4%;
+}
+
+.edit-board-form-pin-main-container {
+    position: relative;
+}
+
+.edit-board-pin-card-container {
+    border-radius: 10px;
+    height: 100%;
+    width: 100%;
+    transition: filter .3s ease-in-out;
+
+}
+
+.edit-board-pin-image {
+    height: 100%;
+    width: 100%;
+    object-fit: cover;
+    border-radius: 10px;
+}
+
+.edit-board-form-hover-over-container {
+    position: absolute;
+    bottom: 0;
+    right: 3%;
+    cursor: pointer;
+}
+
+.edit-board-pin-card-container:hover {
+    filter: brightness(70%);
+}
+
+.edit-board-form-btn-container {
+    width: 90%;
+    margin-top: 5%;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+}

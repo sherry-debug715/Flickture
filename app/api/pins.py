@@ -112,7 +112,6 @@ def edit_pin(id):
 
     oldBoardId = updated_pin_info.get("boardId")
 
-    print("oldBoardId===========", oldBoardId)
     if title is not None and description is not None:
         pin.title = title
         pin.description = description

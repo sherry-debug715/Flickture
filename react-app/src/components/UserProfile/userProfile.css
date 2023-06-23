@@ -92,6 +92,12 @@
     margin: 0 2% 0 0;
 }
 
+.board-card-outer-container {
+    width: 100%;
+    height: 100%;
+    position: relative;
+}
+
 .board-card-inner-container {
     width: 100%;
     height: 100%;
@@ -104,6 +110,11 @@
     display: flex;
     flex-direction: row;
     justify-content: space-between;
+    transition: filter 0.3s ease-in-out;
+}
+
+.board-profile-container:hover {
+    filter: brightness(90%);
 }
 
 .board-profile-left-image-container {
@@ -204,7 +215,6 @@
 }
 
 .userProfile-create-board-icon {
-    /* border: 1px solid pink; */
     width: 45px;
     height: 45px;
     display: flex;
@@ -218,4 +228,11 @@
 
 .userProfile-create-board-icon:hover {
     background-color: var(--lightgrey-hover-background-color);
+}
+
+.board-card-hover-over-container {
+    position: absolute;
+    right: 2%;
+    top: 60%;
+    cursor: pointer;
 }
