@@ -3,6 +3,7 @@ import { normalization } from "./pins";
 const GET_ALL_USER_BOARDS = "boards/GET_ALL_USER_BOARDS";
 const GET_BOARD_DETAIL = "boards/GET_BOARD_DETAIL";
 const CREATE_BOARD = "boards/CREATE_BOARD";
+const EDIT_BOARD = "boards/EDIT_BOARD"
 
 const getAllUserBoards = boards => ({
     type: GET_ALL_USER_BOARDS,
@@ -18,6 +19,28 @@ const createBoard = board => ({
     type: CREATE_BOARD,
     board
 });
+
+const editBoard = board => ({
+    type: EDIT_BOARD,
+    board
+});
+
+export const editBoardThunk = (boardToEdit, boardId) => async dispatch => {
+
+    const response = await fetch(`/api/boards/edit/${boardId}`, {
+        method: "PUT",
+        headers: {
+            "Content-Type":"application/json",
+        },
+        body: JSON.stringify(boardToEdit)
+    });
+
+    if(response.ok) {
+        const editedBoard = await response.json();
+        dispatch(editBoard(editedBoard));
+        return editedBoard;
+    };
+};
 
 export const createBoardThunk = (newBoard) => async dispatch => {
     const response = await fetch("/api/boards/create", {
@@ -54,6 +77,7 @@ export const getBoardDetailThunk = boardId => async dispatch => {
     if(response.ok) {
         const boardDetail = await response.json();
         dispatch(getBoardDetail(boardDetail));
+        return boardDetail;
     };
 };
 
@@ -76,6 +100,9 @@ export default function boardReducer(state = initialState, action) {
             newState = {...state, allBoards:{...state.allBoards}};
             newState.allBoards[action.board.id] = action.board;
             return newState;
+        case EDIT_BOARD:
+            newState = {...state, allBoards: {...state.allBoards}}
+            newState.allBoards[action.board.id] = action.board;
         default:
             return state;
     };

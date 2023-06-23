@@ -19,7 +19,6 @@ export default function BoardPinCard({pin, boardId}) {
             pinId={pinId} 
             closeEditFormModal={closeModal} 
             boardId={boardId} 
-            history={history}
             />)
     };
 

@@ -63,7 +63,27 @@ def create_board():
 
     return new_profile.to_dict(), 201
 
+@board_routes.route('/edit/<int:id>', methods=["PUT"])
+@login_required
+def edit_board(id):
+    data = request.get_json()
+ 
+    edited_board = Profile.query.get(id)
 
+    if edit_board is None:
+        return {"Error": "Board not found"}, 404
+   
+    name = data["name"]
+    private = data["private"]
+
+    edited_board.name = name
+    edited_board.private = private
+
+    db.session.add(edited_board)
+
+
+    db.session.commit()
+    return jsonify(edited_board.to_dict()), 200
 
 
 
