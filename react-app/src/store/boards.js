@@ -82,6 +82,7 @@ export const getAllUserBoardsThunk = () => async dispatch => {
     if(response.ok) {
         const userBoards = await response.json();
         dispatch(getAllUserBoards(userBoards));
+        return userBoards
     };
 };
 

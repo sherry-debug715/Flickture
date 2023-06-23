@@ -97,7 +97,14 @@
     flex-direction: row;
     justify-content: center;
     align-items: center;
+    cursor: pointer;
+    transition: filter .3s ease-out;
 }
+
+#getAllPin-add-profile-icon:hover {
+    box-shadow: 2px 2px 8px rgba(0, 0, 0, 0.1);
+    filter: brightness(90%)
+};
 
 #material-icons-favorite {
     color: #363636;
@@ -202,6 +209,7 @@
 .single-pin-save-btn-container {
     display: flex;
     flex-direction: row;
+    position: relative;
 }
 
 .user-info-container {
@@ -662,6 +670,63 @@ div .EmojiPickerReact {
     align-items: center;
     width: 55%;
     justify-content: space-between;
+}
+
+.detail-page-add-to-board-right-container {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+}
+
+.detail-page-add-to-board-dropdown-container {
+    position: absolute;
+    top: 45px;
+    width: 400px;
+    right: 0;
+    z-index: 10;
+    background-color: white;
+    border-radius: 10px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    border: 1px solid lightgray; 
+    box-shadow: 0px 0px 10px 2px rgba(147, 145, 145, 0.4);
+}
+
+.detail-page-add-to-board-save-btn {
+    width: 50px;
+    height: 30px;
+    border-radius: 10px;
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+    color: white;
+    font-size: 15px;
+    margin-left: 5%;
+    background-color:rgb(230,0,35);
+    transition: filter .3s ease-in-out;
+    cursor: pointer;
+}
+
+.detail-page-add-to-board-save-btn:hover {
+    filter: brightness(90%);
+}
+
+.detail-page-add-to-board-save-btn-disabled {
+    width: 50px;
+    height: 30px;
+    border-radius: 10px;
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+    color: white;
+    font-size: 15px;
+    margin-left: 5%;
+    background-color: #D3D3D3;
+    cursor: not-allowed;
 }
 
 

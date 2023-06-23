@@ -8,7 +8,7 @@ import EditPinForm from "../../pins/editPin";
 import { useModal } from "../../../context/Modal";
 import "../boards.css";
 
-export default function CreateBoard({closeCreateBoardModal, openLocation, setNewBoardName, currentPinId, setNewBoardId, boardId}) {
+export default function CreateBoard({closeCreateBoardModal, openLocation, setNewBoardName, currentPinId, setNewBoardId, boardId, setShowMenu}) {
     const dispatch = useDispatch();
 
     const [name, setName] = useState("");
@@ -53,6 +53,12 @@ export default function CreateBoard({closeCreateBoardModal, openLocation, setNew
                 localStorage.setItem("newBoardId", createdBoard.id);
                 handleOpenEditPinForm();
             };
+
+            if(openLocation === "Single pin page") {
+                setNewBoardId(createdBoard.id);
+                closeCreateBoardModal();
+                setShowMenu(true);
+            }
         };
     };
 

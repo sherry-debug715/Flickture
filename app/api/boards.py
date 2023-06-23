@@ -1,6 +1,6 @@
 from flask import Blueprint, jsonify, request
 from flask_login import login_required, current_user
-from app.models import db, Profile, User
+from app.models import db, Profile, User, Pin
 
 board_routes = Blueprint("boards", __name__)
 
@@ -96,6 +96,27 @@ def delete_board(id):
     db.session.delete(board_to_delete)
     db.session.commit()
     return jsonify({"message": "Board deleted successfully"}), 200
+
+@board_routes.route('/add_pin_to_board/<int:pin_id>/<int:board_id>', methods=["POST"])
+@login_required
+def save_pin_to_board(pin_id, board_id):
+    selected_board = Profile.query.get(board_id)
+
+    if not selected_board:
+        return {"Error": "Board not found"}, 404
+    
+    saved_pin = Pin.query.get(pin_id)
+
+    if not saved_pin:
+        return {"Error": "Pin not found"}, 404
+    
+    selected_board.pins.append(saved_pin)
+
+    db.session.commit()
+
+    return jsonify({"message": "Pin saved to board successfully"}), 200
+    
+        
 
 
 
