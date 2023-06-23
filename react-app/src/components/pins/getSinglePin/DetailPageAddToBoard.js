@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import { getAllUserBoardsThunk } from "../../../store/boards";
+import { getOnePinThunk } from "../../../store/pins";
 import { useModal } from "../../../context/Modal";
 import CreateBoard from "../../Boards/createBoard";
 import "../pins.css";
@@ -39,16 +40,26 @@ export default function DetailPageAddToBoard({setShowMenu, pinId}) {
     if(board.pins.length) {
         let firstPin = board.pins[0];
         eachBoard.imageUrl = firstPin.pin_images[0].image_url;
-    } else eachBoard.imageUrl = null;
+        const pinIdOfBoard = board.pins.map(pin => pin.id);
+        eachBoard.pins = pinIdOfBoard;
+    } else {
+        eachBoard.imageUrl = null;
+        eachBoard.pins = [];
+    };
     eachBoard.private = board.private;
     organizedUserBoards.push(eachBoard);
     });
 
+    console.log("organizedUserBoards", organizedUserBoards)
     const handleSave = (board) => {
         fetch(`/api/boards/add_pin_to_board/${pinId}/${board.id}`, {
             method: "POST"
         })
         .then(() => setShowMenu(false));        
+    };
+
+    const pinInBoard = pinArr => {
+        return pinArr.includes(+pinId)
     };
 
 
@@ -79,11 +90,13 @@ export default function DetailPageAddToBoard({setShowMenu, pinId}) {
                                     >
                                         lock
                                     </span> }
-                                    <div className="detail-page-add-to-board-save-btn"
-                                    onClick={() => handleSave(board)}
+                                    <button 
+                                        className={pinInBoard(board.pins) ? "detail-page-add-to-board-save-btn-disabled" :"detail-page-add-to-board-save-btn"}
+                                        onClick={() => handleSave(board)}
+                                        disabled={pinInBoard(board.pins)}
                                     >
-                                        Save
-                                    </div>
+                                      {pinInBoard(board.pins) ? "Saved" : "Save"}
+                                    </button>
                             </div>
                         </div>
                     ))}

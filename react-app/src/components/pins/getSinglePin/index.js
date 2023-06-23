@@ -40,8 +40,9 @@ export default function SinglePin() {
 
 
     useEffect(() => {
-        dispatch(getOnePinThunk(pinId));
-    },[dispatch, pinId])
+        dispatch(getOnePinThunk(pinId))
+    },[dispatch, pinId]);
+
 
     if(!pin.pin_images || !pin.followers ) return null;
 
@@ -94,6 +95,7 @@ export default function SinglePin() {
                                         {showMenu && <DetailPageAddToBoard 
                                         setShowMenu={setShowMenu} 
                                         pinId={pinId}
+                                        
                                         />}
                                     </div>}
                                 </div>

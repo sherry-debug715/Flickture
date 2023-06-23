@@ -695,7 +695,7 @@ div .EmojiPickerReact {
 }
 
 .detail-page-add-to-board-save-btn {
-    width: 43px;
+    width: 50px;
     height: 30px;
     border-radius: 10px;
     display: flex;
@@ -703,15 +703,30 @@ div .EmojiPickerReact {
     justify-content: center;
     align-items: center;
     color: white;
-    background-color:rgb(230,0,35);
     font-size: 15px;
     margin-left: 5%;
+    background-color:rgb(230,0,35);
     transition: filter .3s ease-in-out;
     cursor: pointer;
 }
 
 .detail-page-add-to-board-save-btn:hover {
     filter: brightness(90%);
+}
+
+.detail-page-add-to-board-save-btn-disabled {
+    width: 50px;
+    height: 30px;
+    border-radius: 10px;
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+    color: white;
+    font-size: 15px;
+    margin-left: 5%;
+    background-color: #D3D3D3;
+    cursor: not-allowed;
 }
 
 
