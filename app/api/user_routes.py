@@ -27,7 +27,7 @@ def follow(user_id):
             return jsonify({"error": "User not found"}), 404
         current_user.follow(user_to_follow)
         db.session.commit()
-        return jsonify({"message": f"Successfully followed user {user_id}"}), 200
+        return jsonify({"user_id": user_id}), 200
     except Exception as e:
         return jsonify({"error": str(e)}), 400
 
@@ -42,7 +42,7 @@ def unfollow(user_id):
         if(current_user.is_following(user_to_unfollow)):
             current_user.unfollow(user_to_unfollow)
             db.session.commit()
-            return jsonify({"message": f"Successfully unfollowed user {user_id}"}), 200
+            return jsonify({"user_id": user_id}), 200
         else:
             return jsonify({"error": f"You never followed user {user_id}"}), 400
 

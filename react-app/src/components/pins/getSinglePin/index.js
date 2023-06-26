@@ -7,6 +7,7 @@ import { getOnePinThunk } from "../../../store/pins";
 import GreyBackgroundBtn from "../../ui/Buttons/greyBackgroundBtn";
 import PinsOfCategory from "./PinsOFCategory";
 import DetailPageAddToBoard from "./DetailPageAddToBoard";
+import { followUserThunk } from "../../../store/session";
 
 
 export default function SinglePin() {
@@ -41,7 +42,11 @@ export default function SinglePin() {
 
     useEffect(() => {
         dispatch(getOnePinThunk(pinId))
-    },[dispatch, pinId]);
+    },[dispatch, pinId, sessionUser.following]);
+
+    const handleFollow = userId => {
+        dispatch(followUserThunk(userId))
+    };
 
 
     if(!pin.pin_images || !pin.followers ) return null;
@@ -115,7 +120,10 @@ export default function SinglePin() {
                                         </div>
                                     </div>                                    
                                     <div className="single-pin-user-info-right-container">
-                                        <GreyBackgroundBtn text={"Follow"} />
+                                        <GreyBackgroundBtn 
+                                        text={"Follow"} 
+                                        onClick={() => handleFollow(pin.creator.id)}
+                                        />
                                     </div>
                                 </div>
 
