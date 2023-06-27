@@ -110,8 +110,7 @@ export default function SinglePin() {
                                         </div>
                                         {showMenu && <DetailPageAddToBoard 
                                         setShowMenu={setShowMenu} 
-                                        pinId={pinId}
-                                        
+                                        pinId={pinId}                                        
                                         />}
                                     </div>}
                                 </div>
