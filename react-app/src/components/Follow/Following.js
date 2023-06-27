@@ -8,7 +8,7 @@ export default function Following({userId, closeFollowingModal}) {
     const curUser = useSelector(state => state.user);
 
     const sessionUser = useSelector(state => state.session.user);
-    console.log("sessionUser", sessionUser)
+
     const dispatch = useDispatch();
 
     const sessionUserFollowing = (userId) => {

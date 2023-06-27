@@ -7,6 +7,8 @@ import "../Follow/Follow.css";
 export default function Follower({userId, closeFollowerModal}) {
     const curUser = useSelector(state => state.user);
 
+    const sessionUser = useSelector(state => state.session.user);
+
     const dispatch = useDispatch();
 
     useEffect(() => {
@@ -24,8 +26,11 @@ export default function Follower({userId, closeFollowerModal}) {
 
     const followers = curUser.followers;
 
-    const alreadyFollowing = (followerId) => curUser.following.findIndex(follower => follower.id === followerId) !== -1;
-
+    const sessionUserFollowing = (userId) => {
+        const sessionUserFollow = sessionUser.following;
+        return sessionUserFollow.findIndex(user => user.id === userId) !== -1
+    };
+    
     return (
         <div className="followers-modal-container">
             <div className="followers-modal-inner-container">
@@ -57,14 +62,15 @@ export default function Follower({userId, closeFollowerModal}) {
                                 <div className="each-user-username">{user.username}</div>
                             </div>
 
-                            <div 
-                                className={!alreadyFollowing(user.id) ?"each-user-container-follow-btn" : "each-user-container-follow-btn-disabled"}
+                            
+
+                            {sessionUser.id !== user.id && <div 
+                                className={!sessionUserFollowing(user.id) ?"each-user-container-follow-btn" : "each-user-container-follow-btn-disabled"}
                                 onClick={() => handleFollow(user.id)}
                             >
-                                {alreadyFollowing(user.id) ? "Following" : "Follow"}
-                                {console.log(alreadyFollowing(user.id))}
-                            </div>
-
+                                {sessionUserFollowing(user.id) ? "Following" : "Follow"}
+                            </div> }
+                                
                         </div>
                     ))}
                 </div>
