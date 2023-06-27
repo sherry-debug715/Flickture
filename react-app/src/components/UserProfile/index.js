@@ -1,16 +1,34 @@
-import { useSelector } from "react-redux";
+import { useEffect } from "react";
+import { useSelector, useDispatch } from "react-redux";
+import { useParams } from "react-router-dom";
 import UserBoards from "./UserBoards";
 import CreateBoard from "../Boards/createBoard";
 import { useModal } from "../../context/Modal";
 import "./userProfile.css";
 import { useState } from "react";
+import { userProfileThunk } from "../../store/user";
+import { followUserThunk } from "../../store/session";
+import { unfollowUserThunk } from "../../store/session";
+import GreyBackgroundBtn from "../ui/Buttons/greyBackgroundBtn";
+import Following from "../Follow/Following";
+import Follower from "../Follower/Follower";
 
 export default function UserProfile() {
     const sessionUser = useSelector(state => state.session.user);
 
+    const curUser = useSelector(state => state.user);
+
+    const { userId } = useParams();
+
+    const dispatch = useDispatch();
+
     const [showPage, setShowPage] = useState("Saved")
 
     const { setModalContent, closeModal } = useModal();
+
+    useEffect(() => {
+        dispatch(userProfileThunk(userId));
+    }, [dispatch, userId])
 
     const handleOpenCreateBoardForm = () => {
         setModalContent(<CreateBoard 
@@ -19,29 +37,70 @@ export default function UserProfile() {
         />)
     };
 
+    const handleOpenFollowingModal = () => {
+        if(curUser.following.length) {
+            setModalContent(<Following
+                closeFollowingModal={closeModal}
+                userId={curUser.id}
+            />
+            )
+        };
+    };
+
+    const handleOpenFollowersModal = () => {
+        if(curUser.followers.length) {
+            setModalContent(<Follower
+                closeFollowerModal={closeModal}
+                userId={userId}
+            />    
+            )
+        };
+    };
+
+    const handleFollow = curuserId => {
+        dispatch(followUserThunk(curuserId))
+        .then(() =>  dispatch(userProfileThunk(userId)))
+    };
+
+    const handleUnfollow = curuserId => {
+        dispatch(unfollowUserThunk(curuserId))
+        .then(() =>  dispatch(userProfileThunk(userId)))
+
+    }
+
+    if(!curUser.id) return null;
+
+    const alreadyFollowing = () => curUser.followers.findIndex(user => user.id === sessionUser.id) !== -1;
+
     return (
         <div className="userProfile-container">
             <div className="userProfile-inner-container">
                 <div className="userProfile-user-info">
                     <div className="user-profile-img">
                         {
-                        sessionUser.profile_url ? <img src={sessionUser.profile_url} className='user-profile-img-image' alt="profile" /> : <div className='profile-image'>{sessionUser.first_name[0]}</div>
+                        curUser.profile_url ? <img src={curUser.profile_url} className='user-profile-img-image' alt="profile" /> : <div className='profile-image'>{curUser.first_name[0]}</div>
                         }
                     </div>
 
                     <div className="user-profile-username">
-                        {sessionUser.username}
+                        {curUser.username}
                     </div>
                     <div className="user-profile-email">
-                        {sessionUser.email}
+                        {curUser.email}
                     </div>
                     <div className="user-profile-follow">
-                        <div className="user-profile-follow-inner">
-                            {sessionUser.followers.length < 1 ? <div>{sessionUser.followers.length} follower</div> : <div>{sessionUser.followers.length} followers</div>}
+                        <div 
+                            className={curUser.followers.length > 0 ? "user-profile-follow-inner" : "user-profile-follow-inner-disabled"}
+                            onClick={handleOpenFollowersModal}
+                        >
+                            {curUser.followers.length < 1 ? <div>{curUser.followers.length} follower</div> : <div>{curUser.followers.length} followers</div>}
                         </div>
                         {" · "}
-                        <div className="user-profile-following-inner">
-                            {sessionUser.following.length < 1 ? <div>{sessionUser.following.length} following</div> : <div>{sessionUser.following.length} followings</div>}
+                        <div 
+                            className={curUser.following.length > 0 ?"user-profile-following-inner" : "user-profile-following-inner-disable"}
+                            onClick={handleOpenFollowingModal}
+                        >
+                            {curUser.following.length < 1 ? <div>{curUser.following.length} following</div> : <div>{curUser.following.length} followings</div>}
                         </div>
                     </div>
                 </div>
@@ -58,14 +117,29 @@ export default function UserProfile() {
                 </div>
 
                 <div className="userProfile-create-board-icon-container">
-                    <div 
+                    {curUser.id === sessionUser.id && <div 
                         className="userProfile-create-board-icon"
                         onClick={handleOpenCreateBoardForm}
-                    >+</div>
+                    >+</div>}
                 </div>
 
+                { curUser.id !== sessionUser.id && 
+                    <div className="userProfile-follow-container">
+                        {
+                        alreadyFollowing() ? <GreyBackgroundBtn 
+                            text={"Unfollow"} 
+                            onClick={() => handleUnfollow(curUser.id)}
+                            /> : <button 
+                            className="single-pin-follow-button"
+                            onClick={() => handleFollow(curUser.id)}
+                            >
+                            Follow
+                        </button>
+                        }
+                    </div>}
+
                 {showPage === "Saved" && <div className="userProfile-board-container">
-                    <UserBoards />
+                    <UserBoards userId={userId} />
                 </div>}
 
             </div>

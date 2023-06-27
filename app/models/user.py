@@ -61,18 +61,20 @@ class User(db.Model, UserMixin):
     def check_password(self, password):
         return check_password_hash(self.password, password)
     
+    def is_following(self, user):
+        return user in self.following
+    
     # user should be the user you are going to follow
     def follow(self, user):
         # check if you are already following the user
-        if user.id not in self.following:
+        if not self.is_following(user):
             self.following.append(user)
 
 
     # user should be the user you are going to unfollow
     def unfollow(self, user): 
         # check if the user is in your followers list
-        if user.id in self.following:
-            self.following.remove(user)
+        return self.following.remove(user)
         
 
     def to_dict(self):
@@ -83,9 +85,10 @@ class User(db.Model, UserMixin):
             'username': self.username,
             'email': self.email,
             "profile_url": self.profile_url,
-            "followers": [user.id for user in self.followers],
-            "following": [user.id for user in self.following]
+            "followers": [{"id": user.id, "username": user.username, "profile_url": user.profile_url } for user in self.followers],
+            "following": [{"id": user.id, "username": user.username, "profile_url": user.profile_url } for user in self.following]
         }
+    
 
 
 
