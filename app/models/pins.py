@@ -52,3 +52,11 @@ class Pin(db.Model):
             "title": self.title,
             "pin_images": [image.to_dict() for image in self.pin_images]
         }
+    
+    def pin_to_save(self):
+        return {
+            "id": self.id,
+            "title": self.title,
+            "creator": self.user.to_dict(),
+            "pin_images": [image.to_dict() for image in self.pin_images]
+        }

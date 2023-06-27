@@ -1,6 +1,6 @@
 from flask import Blueprint, jsonify, request
 from flask_login import login_required, current_user
-from app.models import db, Pin, User, Category, PinImage, Profile
+from app.models import db, Pin, User, Category, PinImage, Profile, SavedPin
 from app.aws import upload_file_to_s3, get_unique_filename, remove_file_from_s3, S3_LOCATION
 
 pin_routes = Blueprint('pins', __name__)
@@ -226,3 +226,39 @@ def delete_pin(id):
     except Exception as e:
         db.session.rollback()
         return jsonify({"error": str(e)}), 500
+    
+@pin_routes.route('/save_pin/<int:pin_id>', methods=['POST'])
+@login_required
+def save_pin(pin_id):
+    pin_to_save = Pin.query.get(pin_id)
+
+    if pin_to_save is None:
+        return jsonify({"error": "Pin not found"}), 404
+    
+    user_id = current_user.id
+
+    new_saved_pin = SavedPin(
+        user_id = user_id,
+        pin_id = pin_id
+    )
+
+    db.session.add(new_saved_pin)
+    
+    try:
+        db.session.commit()
+        return jsonify({"message": "Pin saved successfully"}), 200
+    except Exception as e:
+        db.session.rollback()
+        return jsonify({"error": str(e)}), 500
+
+
+@pin_routes.route('/all_pins/saved/<int:user_id>')
+@login_required
+def all_pins_saved(user_id):
+    # Check if the current user is trying to access their own saved pins
+    if current_user.id != user_id:
+        return jsonify({"error": "Unauthorized access"}), 403
+    
+    saved_pins = SavedPin.query.filter(SavedPin.user_id == user_id).all()
+
+    return jsonify([pin.to_dict() for pin in saved_pins])

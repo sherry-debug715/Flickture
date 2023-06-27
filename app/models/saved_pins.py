@@ -22,3 +22,13 @@ class SavedPin(db.Model):
 
     # One to one with pins
     pin = db.relationship("Pin", back_populates="saved_pin")
+
+    def to_dict(self):
+        return {
+            'id': self.id,
+            'user_id': self.user_id,
+            'profile_id': self.profile_id,
+            'created_at': self.created_at.isoformat(),
+            'updated_at': self.updated_at.isoformat(),
+            'pin': self.pin.pin_to_save() if self.pin else None,
+        }
