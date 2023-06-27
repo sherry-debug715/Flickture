@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { useParams } from "react-router-dom";
+import { useParams, useHistory } from "react-router-dom";
 import { useSelector, useDispatch } from "react-redux";
 import { Link } from "react-router-dom";
 import "../pins.css";
@@ -8,6 +8,8 @@ import GreyBackgroundBtn from "../../ui/Buttons/greyBackgroundBtn";
 import PinsOfCategory from "./PinsOFCategory";
 import DetailPageAddToBoard from "./DetailPageAddToBoard";
 import { followUserThunk } from "../../../store/session";
+import { unfollowUserThunk } from "../../../store/session";
+
 
 
 export default function SinglePin() {
@@ -18,9 +20,12 @@ export default function SinglePin() {
 
     const dispatch = useDispatch();
 
+    const history = useHistory();
+
     const pin = useSelector(state => state.pins.singlePin);
 
     const sessionUser = useSelector(state => state.session.user);
+
 
     const openMenu = (e) => {
         e.stopPropagation()
@@ -45,11 +50,17 @@ export default function SinglePin() {
     },[dispatch, pinId, sessionUser.following]);
 
     const handleFollow = userId => {
-        dispatch(followUserThunk(userId))
+        dispatch(followUserThunk(userId));
     };
+
+    const handleUnfollow = userId => {
+        dispatch(unfollowUserThunk(userId));
+    }
 
 
     if(!pin.pin_images || !pin.followers ) return null;
+
+    const alreadyFollowing = () => pin.followers.findIndex(user => user.id === sessionUser.id) !== -1;
 
     return (
         <div className="single-pin-main-container">
@@ -106,7 +117,9 @@ export default function SinglePin() {
                                 </div>
 
                                 <div className="user-info-container">
-                                    <div className="single-pin-user-info-left-container">
+                                    <div className="single-pin-user-info-left-container"
+                                    onClick={() => history.push(`/userProfile/${pin.creator.id}`)}
+                                    >
                                         <div className="single-pin-user-profile">
                                             {pin.creator.profile_url ? <img src={pin.creator.profile_url} alt="user profile picture" /> : pin.creator.username[0]}
                                         </div>
@@ -120,10 +133,18 @@ export default function SinglePin() {
                                         </div>
                                     </div>                                    
                                     <div className="single-pin-user-info-right-container">
+                                        
+                                        {alreadyFollowing() ? 
                                         <GreyBackgroundBtn 
-                                        text={"Follow"} 
+                                        text={"Unfollow"} 
+                                        onClick={() => handleUnfollow(pin.creator.id)}
+                                        /> : <button 
+                                        className="single-pin-follow-button"
                                         onClick={() => handleFollow(pin.creator.id)}
-                                        />
+                                    >
+                                        Follow
+                                    </button>}
+                                        
                                     </div>
                                 </div>
 

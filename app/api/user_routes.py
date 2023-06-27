@@ -11,6 +11,11 @@ def users():
     users = User.query.all()
     return {'users': [user.to_dict() for user in users]}
 
+@user_routes.route('/user_profile/<int:user_id>')
+def userInfo(user_id):
+    user = User.query.get(user_id)
+    return user.to_dict()
+
 
 @user_routes.route('/<int:id>')
 @login_required
@@ -27,7 +32,8 @@ def follow(user_id):
             return jsonify({"error": "User not found"}), 404
         current_user.follow(user_to_follow)
         db.session.commit()
-        return jsonify({"user_id": user_id}), 200
+
+        return jsonify({"id": user_to_follow.id, "profile_url": user_to_follow.profile_url, "username":user_to_follow.username}), 200
     except Exception as e:
         return jsonify({"error": str(e)}), 400
 
@@ -42,7 +48,7 @@ def unfollow(user_id):
         if(current_user.is_following(user_to_unfollow)):
             current_user.unfollow(user_to_unfollow)
             db.session.commit()
-            return jsonify({"user_id": user_id}), 200
+            return jsonify({"id": user_to_unfollow.id, "profile_url": user_to_unfollow.profile_url, "username":user_to_unfollow.username}), 200
         else:
             return jsonify({"error": f"You never followed user {user_id}"}), 400
 

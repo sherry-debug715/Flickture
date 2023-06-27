@@ -1,4 +1,5 @@
 import { useState } from "react";
+import { useSelector } from "react-redux";
 import { Link, useHistory } from "react-router-dom";
 import EditPinForm from "../pins/editPin";
 import { useModal } from "../../context/Modal";
@@ -12,7 +13,8 @@ export default function BoardPinCard({pin, boardId}) {
 
     const history = useHistory();
 
-
+    const sessionUser = useSelector(state => state.session.user);
+    
     const handleOpenEditPinForm = (pinId) => {
         setModalContent(
             <EditPinForm 
@@ -34,7 +36,7 @@ export default function BoardPinCard({pin, boardId}) {
                 </div>
             </Link>
 
-            <Link to={`/userProfile/${pin.user_id}`}>
+            <Link to={`/userProfile/${pin.user_id}`} >
                 <div className="board-pin-card-content-container">
                     <div className="board-pin-card-user-profile">
                         {
@@ -49,7 +51,7 @@ export default function BoardPinCard({pin, boardId}) {
                 </div>
             </Link>
             {
-            onHoverPinId === pin.pin_id && 
+            onHoverPinId === pin.pin_id && pin.user_id === sessionUser.id  && 
             <div 
                 className="board-pin-hover-over-container"
                 onClick={() => handleOpenEditPinForm(pin.pin_id)}

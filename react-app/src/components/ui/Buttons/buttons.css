@@ -1,13 +1,16 @@
 .grey-background-btn-container {
     width: 80.75px;
     height: 48px;
-    padding: 12px 16px;
     border-radius: 20px;
     color: #111111;
     font-weight: 600;
     background-color: rgb(239,239,239);
     transition: background-color 0.5s ease-in-out;
     cursor: pointer;
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
 }
 
 .grey-background-btn-container:hover {

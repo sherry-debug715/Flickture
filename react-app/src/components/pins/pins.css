@@ -729,6 +729,26 @@ div .EmojiPickerReact {
     cursor: not-allowed;
 }
 
+.single-pin-follow-button {
+    width: 80.75px;
+    height: 48px;
+    border-radius: 20px;
+    background-color: rgb(230,0,35);
+    font-weight: 600;
+    color: white;
+    transition: filter 0.2s ease-in-out;
+    cursor: pointer;
+    border: none;
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+}
+
+.single-pin-follow-button:hover {
+    filter: brightness(95%);
+}
+
 
 
 

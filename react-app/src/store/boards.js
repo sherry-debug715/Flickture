@@ -74,8 +74,8 @@ export const createBoardThunk = (newBoard) => async dispatch => {
     };
 };
 
-export const getAllUserBoardsThunk = () => async dispatch => {
-    const response = await fetch("/api/boards/user_boards", {
+export const getAllUserBoardsThunk = (userId) => async dispatch => {
+    const response = await fetch(`/api/boards/user_boards/${userId}`, {
         headers: {"Content-Type":"application/json"}
     });
 

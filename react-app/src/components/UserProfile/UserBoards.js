@@ -3,22 +3,23 @@ import { useDispatch, useSelector } from "react-redux";
 import { getAllUserBoardsThunk } from "../../store/boards";
 import BoardCard from "./BoardCard";
 
-export default function UserBoards() {
+export default function UserBoards({userId}) {
     const dispatch = useDispatch();
     const userBoards = useSelector(state => state.boards.allBoards);
-    const user = useSelector(state => state.session.user);
+    const sessionUser = useSelector(state => state.session.user);
     const [onHoverBoardId, setOnHoverBoardId] = useState(null);
 
 
     const boardsArr = Object.values(userBoards);
 
+
     useEffect(() => {
-        dispatch(getAllUserBoardsThunk());
-    }, [dispatch]);
+        dispatch(getAllUserBoardsThunk(userId));
+    }, [dispatch, userId]);
 
     const canBeViewed = (board) => {
-        if(board.private) {
-            if(user.id === board.user_id) {
+        if(board.private && board.name !== "All Pins") {
+            if(sessionUser.id === board.user_id) {
                 return true;
             } else {
                 return false;
@@ -37,7 +38,7 @@ export default function UserBoards() {
                 onMouseEnter={() => setOnHoverBoardId(board.id)}
                 onMouseLeave={() => setOnHoverBoardId(null)}
                 >
-                    <BoardCard board={board} onHoverBoardId={onHoverBoardId} />
+                    <BoardCard board={board} onHoverBoardId={onHoverBoardId} sessionUser={sessionUser}userId={+userId}/>
                 </div>)
             ))}
         </div>

@@ -4,13 +4,13 @@ from app.models import db, Profile, User, Pin
 
 board_routes = Blueprint("boards", __name__)
 
-@board_routes.route('/user_boards')
+@board_routes.route('/user_boards/<int:user_id>')
 @login_required
-def user_boards():
+def user_boards(user_id):
     """
     Returns all profiles of a specific user identified by user_id
     """
-    profiles = Profile.query.filter_by(user_id = current_user.id).all()
+    profiles = Profile.query.filter_by(user_id = user_id).all()
 
     profiles_toReturn = [profile.to_dict() for profile in profiles]
     

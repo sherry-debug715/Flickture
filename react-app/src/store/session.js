@@ -2,10 +2,16 @@
 const SET_USER = 'session/SET_USER';
 const REMOVE_USER = 'session/REMOVE_USER';
 const FOLLOW_USER = 'session/FOLLOW_USER';
+const UNFOLLOW_USER = 'session/UNFOLLOW_USER';
 
-const followUser = userId => ({
+const followUser = user => ({
   type: FOLLOW_USER,
-  userId
+  user
+});
+
+const unfollowUser = user => ({
+  type: UNFOLLOW_USER,
+  user
 });
 
 const setUser = (user) => ({
@@ -15,7 +21,18 @@ const setUser = (user) => ({
 
 const removeUser = () => ({
   type: REMOVE_USER,
-})
+});
+
+export const unfollowUserThunk = userId => async dispatch => {
+  const response = await fetch(`/api/users/unfollow/${userId}`, {
+    method: 'POST'
+  });
+
+  if(response.ok) {
+    const user = await response.json();
+    dispatch(unfollowUser(user));
+  }
+};
 
 export const followUserThunk = (userId) => async dispatch => {
   const response = await fetch(`/api/users/follow/${userId}`, {
@@ -24,9 +41,10 @@ export const followUserThunk = (userId) => async dispatch => {
 
   if(response.ok) {
     const followedUser = await response.json();
-    dispatch(followUser(followedUser.user_id))
+    dispatch(followUser(followedUser))
   }
 };
+
 
 export const authenticate = () => async (dispatch) => {
   const response = await fetch('/api/auth/', {
@@ -117,14 +135,20 @@ export const signUp = (username, email, password, first_name, last_name) => asyn
 const initialState = { user: null };
 
 export default function reducer(state = initialState, action) {
+  let newState;
   switch (action.type) {
     case SET_USER:
       return { user: action.payload }
     case REMOVE_USER:
       return { user: null }
     case FOLLOW_USER:
-      const newState = {user: {...state.user, following: [...state.user.following]}};
-      newState.user.following.push(action.userId);
+      newState = {user: {...state.user, following: [...state.user.following]}};
+      newState.user.following.push(action.user);
+      return newState;
+    case UNFOLLOW_USER:
+      newState = { user: {...state.user, following: [...state.user.following]}};
+      const userIdx = newState.user.following.findIndex(user => user.id === action.user.id);
+      if(userIdx) newState.user.following.splice(userIdx, 1);
       return newState;
     default:
       return state;
