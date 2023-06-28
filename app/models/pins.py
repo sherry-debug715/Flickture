@@ -57,6 +57,6 @@ class Pin(db.Model):
         return {
             "id": self.id,
             "title": self.title,
-            "creator": self.user.to_dict(),
-            "pin_images": [image.to_dict() for image in self.pin_images]
+            "creator": self.user.basic(),
+            "pin_images": [image.basic() for image in self.pin_images]
         }

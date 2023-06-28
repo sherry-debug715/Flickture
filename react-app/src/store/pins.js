@@ -2,7 +2,13 @@ const GET_ALL_PINS = "pins/GET_ALL_PINS";
 const GET_ONE_PIN = "pins/GET_ONE_PIN";
 const GET_PINS_SAME_CATEGORY = "pins/GET_PINS_SAME_CATEGORY";
 const EDIT_PIN = "pins/EDIT_PIN";
-const DELETE_PIN = "pins/DELETE_PIN"
+const DELETE_PIN = "pins/DELETE_PIN";
+const SAVED_PINS = "pins/SAVED_PINS";
+
+const userSavedPins = pins => ({
+    type: SAVED_PINS,
+    pins
+}); 
 
 const deletePin = pinId => ({
     type: DELETE_PIN,
@@ -28,6 +34,15 @@ const editPin = pin => ({
     type: EDIT_PIN,
     pin
 });
+
+export const getUserSavedPinsThunk = userId => async dispatch => {
+    const response = await fetch(`/api/pins/all_pins/saved/${userId}`)
+
+    if(response.ok) {
+        const savedPins = await response.json();
+        dispatch(userSavedPins(savedPins));
+    };
+};
 
 export const deletePinThunk = (pinId) => async dispatch => {
     const response = await fetch(`/api/pins/delete/${pinId}`, {
@@ -145,6 +160,10 @@ export default function pinReducer(state = initialState, action) {
         case EDIT_PIN:
             newState = {...state, singlePin: {}};
             newState.singlePin = action.pin;
+            return newState;
+        case SAVED_PINS:
+            newState = {...state, allPins: {...state.allPins, pins: {}}};
+            newState.allPins.pins = normalization(action.pins);
             return newState;
         default:
             return state;

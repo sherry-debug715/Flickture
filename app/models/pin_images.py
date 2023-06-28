@@ -29,3 +29,9 @@ class PinImage(db.Model):
             "image_url": self.image_url,
             "preview": self.preview
         }
+    
+    def basic(self):
+        return {
+            "id": self.id,
+            "image_url": self.image_url,
+        }
