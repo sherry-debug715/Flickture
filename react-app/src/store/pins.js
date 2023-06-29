@@ -4,7 +4,8 @@ const GET_PINS_SAME_CATEGORY = "pins/GET_PINS_SAME_CATEGORY";
 const EDIT_PIN = "pins/EDIT_PIN";
 const DELETE_PIN = "pins/DELETE_PIN";
 const GET_SAVED_PINS = "pins/GET_SAVED_PINS";
-const REMOVE_SAVED_PIN = "pins/SAVE_PIN";
+const REMOVE_SAVED_PIN = "pins/REMOVE_SAVED_PIN";
+const REMOVE_SAVED_PIN_AFTER_ADD_TO_BOARD = "pins/REMOVE_SAVED_PIN_AFTER_ADD_TO_BOARD"
 
 const removeSavedPin = pinId => ({
     type: REMOVE_SAVED_PIN,
@@ -41,6 +42,11 @@ const editPin = pin => ({
     pin
 });
 
+const removeSavedPinAfterAddToBoard = savedId => ({
+    type: REMOVE_SAVED_PIN_AFTER_ADD_TO_BOARD,
+    savedId
+})
+
 export const removeSavedPinThunk = pinId => async dispatch => {
     const response = await fetch(`/api/pins/remove_saved_pin/${pinId}`, {
         headers: {"Content-Type": "application/json"},
@@ -49,7 +55,7 @@ export const removeSavedPinThunk = pinId => async dispatch => {
 
     if(response.ok) {
         const oldSavedPin = await response.json();
-        dispatch(removeSavedPin(oldSavedPin.pin_id));
+        dispatch(removeSavedPin(oldSavedPin.id));
         return oldSavedPin;
     }
 };
@@ -156,6 +162,14 @@ export const createPinAndImageThunk = data => async dispatch => {
     }
 };
 
+export const savePinToBoardThunk = (pinId, boardId, savedPinId) => async dispatch => {
+    const response = await fetch(`/api/boards/add_pin_to_board/${pinId}/${boardId}`, {
+        method: "POST"
+    });
+
+    if(response.ok) dispatch(removeSavedPinAfterAddToBoard(savedPinId));
+};
+
 export const normalization = (arr) => {
     const normalized = {};
     arr.forEach(obj => normalized[obj.id] = obj);
@@ -196,6 +210,10 @@ export default function pinReducer(state = initialState, action) {
         case REMOVE_SAVED_PIN:
             newState = {...state, savedPins: {...state.savedPins}};
             delete newState.savedPins[action.pinId];
+            return newState
+        case REMOVE_SAVED_PIN_AFTER_ADD_TO_BOARD:
+            newState = {...state, savedPins: {...state.savedPins}};
+            delete newState.savedPins[action.savedId];
             return newState
         default:
             return state;

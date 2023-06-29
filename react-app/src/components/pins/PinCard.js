@@ -40,14 +40,14 @@ export default function PinCard({pin, pinSaved}) {
                     >
                         
                         <div className="all-pins-hover-over-container-top">
-                            <div onClick={() => handleFavorite(pin.id)}>
+                            {pin.user_id !== sessionUser.id && <div onClick={() => handleFavorite(pin.id)}>
                                 <i 
                                 className="material-icons"
                                 id={handleHeartColorChange()}
                                 >
                                     favorite
                                 </i>
-                            </div>
+                            </div>}
                         </div>
                         
                         <Link to={`/explore/${pin.id}`}  > 

@@ -765,6 +765,76 @@ div .EmojiPickerReact {
     filter: brightness(95%);
 }
 
+.edit-non-userPin-form-container {
+    height: 70vh;
+    width: 55vw;
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+}
+
+.edit-non-userPin-form-inner-container {
+    height: 95%;
+    width: 90%;
+    display: flex;
+    flex-direction: column;
+}
+
+.edit-non-userPin-form-title {
+    height: 15%;
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+    font-weight: 600;
+    font-size: 25px;
+    color: var(--charcoal-grey);
+}
+
+.edit-non-userPin-form-content-container {
+    width: 100%;
+    height: 70%;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+}
+
+.edit-non-userPin-form-left-section {
+    width: 45%;
+    height: 100%;
+    border-radius: 10px;
+
+}
+
+.edit-non-userPin-form-left-section>img {
+    height: 100%;
+    width: 100%;
+    object-fit: fit;
+    border-radius: 10px;
+}
+
+.edit-non-userPin-form-btn-container {
+    height: 15%;
+    width: 100%;
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+}
+
+.edit-non-userPin-form-btn-inner-container {
+    height: 100%;
+    width: 80%;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: flex-end;
+    /* border: 1px solid black; */
+}
+
+
+
 
 
 
