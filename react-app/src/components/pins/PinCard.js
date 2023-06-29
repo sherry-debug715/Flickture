@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { savePinThunk, removeSavedPinThunk, getUserSavedPinsThunk } from "../../store/pins";
 import { Link } from "react-router-dom";
@@ -15,10 +15,16 @@ export default function PinCard({pin, pinSaved}) {
 
     const sessionUser = useSelector(state => state.session.user);
 
+    useEffect(() => {
+        if(pinSaved(pin.id)) setAddToFav(true);
+        else setAddToFav(false);
+    }, [pin.id]);
+
+
     const handleFavorite = async(pinId) => {
-        if(pinSaved(pinId)) {
+        if(addToFav) {
             const unsavePin = await dispatch(removeSavedPinThunk(pinId))
-            if(unsavePin.pin_id) {
+            if(unsavePin.id) {
                 dispatch(getUserSavedPinsThunk(sessionUser.id));
                 setAddToFav(false)
             };
