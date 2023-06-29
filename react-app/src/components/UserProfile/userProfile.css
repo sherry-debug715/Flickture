@@ -21,6 +21,19 @@
     width: 95%;
 }
 
+.saved-pins-inner-container-title {
+    font-weight: 600;
+    font-size: 25px;
+    margin: 2% 0; 
+}
+
+.saved-pins-pincard-main-container {
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    column-gap: 5%;
+}
+
 .userProfile-user-info {
     height: 30%;
     display: flex;
@@ -272,9 +285,18 @@
 .saved-pin-single-container {
     display: flex;
     flex-direction: column;
+    justify-content: space-between;
     width: 250px;
-    height: 350px;
-    /* border: 1px solid black; */
+    height: 370px;
+    margin-bottom: 3%;
+    border-radius: 10px;
+    border: 1px solid var( --lightgrey-hover-background-color);
+    box-shadow: var(--box-shadow);
+    transition: filter .3s ease-in-out;
+}
+
+.saved-pin-single-container:hover {
+    filter: brightness(80%)
 }
 
 .saved-pin-img {
@@ -287,13 +309,16 @@
     font-weight: 500;
     color: var(--charcoal-grey);
     margin-top: 1%;
+    margin-left: 2%;
+
 }
 
 .saved-pin-user-info-container {
     display: flex;
     flex-direction: row;
     align-items: center;
-    margin-top: 4%;
+    margin-left: 2%;
+    margin-bottom: 2%;
 }
 
 .saved-pin-user-img {
