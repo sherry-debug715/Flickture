@@ -4,7 +4,12 @@ const GET_PINS_SAME_CATEGORY = "pins/GET_PINS_SAME_CATEGORY";
 const EDIT_PIN = "pins/EDIT_PIN";
 const DELETE_PIN = "pins/DELETE_PIN";
 const GET_SAVED_PINS = "pins/GET_SAVED_PINS";
-const SAVE_PIN = "pins/SAVE_PIN";
+const REMOVE_SAVED_PIN = "pins/SAVE_PIN";
+
+const removeSavedPin = pinId => ({
+    type: REMOVE_SAVED_PIN,
+    pinId
+});
 
 const userSavedPins = pins => ({
     type: GET_SAVED_PINS,
@@ -36,6 +41,18 @@ const editPin = pin => ({
     pin
 });
 
+export const removeSavedPinThunk = pinId => async dispatch => {
+    const response = await fetch(`/api/pins/remove_saved_pin/${pinId}`, {
+        headers: {"Content-Type": "application/json"},
+        method: "DELETE"
+    });
+
+    if(response.ok) {
+        const oldSavedPin = await response.json();
+        dispatch(removeSavedPin(oldSavedPin.pin_id));
+        return oldSavedPin;
+    }
+};
 
 export const savePinThunk = pinId =>  async dispatch => {
     const response = await fetch(`/api/pins/save_pin/${pinId}`, {
@@ -176,6 +193,10 @@ export default function pinReducer(state = initialState, action) {
             newState = {...state, savedPins: {}};
             newState.savedPins = normalization(action.pins);
             return newState;
+        case REMOVE_SAVED_PIN:
+            newState = {...state, savedPins: {...state.savedPins}};
+            delete newState.savedPins[action.pinId];
+            return newState
         default:
             return state;
     };

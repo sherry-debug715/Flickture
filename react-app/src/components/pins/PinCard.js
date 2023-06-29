@@ -1,6 +1,6 @@
 import { useState } from "react";
-import { useDispatch } from "react-redux";
-import { savePinThunk } from "../../store/pins";
+import { useDispatch, useSelector } from "react-redux";
+import { savePinThunk, removeSavedPinThunk, getUserSavedPinsThunk } from "../../store/pins";
 import { Link } from "react-router-dom";
 import "./pins.css";
 
@@ -13,11 +13,24 @@ export default function PinCard({pin, pinSaved}) {
 
     const dispatch = useDispatch();
 
+    const sessionUser = useSelector(state => state.session.user);
 
-    const handleSaveToFavorate = async(pinId) => {
-        const savedPin = await dispatch(savePinThunk(pinId));
+    const handleFavorite = async(pinId) => {
+        if(pinSaved(pinId)) {
+            const unsavePin = await dispatch(removeSavedPinThunk(pinId))
+            if(unsavePin.pin_id) {
+                dispatch(getUserSavedPinsThunk(sessionUser.id));
+                setAddToFav(false)
+            };
+        } else {
+            const savedPin = await dispatch(savePinThunk(pinId));
+            if(savedPin) setAddToFav(true);
+        }
+    }
 
-        if(savedPin) setAddToFav(true);
+    const handleHeartColorChange = () => {
+        if(addToFav || pinSaved(pin.id)) return "all-pins-material-icons-favorite-added";
+        if(!addToFav) return "all-pins-material-icons-favorite"
     };
 
     return (
@@ -27,10 +40,10 @@ export default function PinCard({pin, pinSaved}) {
                     >
                         
                         <div className="all-pins-hover-over-container-top">
-                            <div onClick={() => handleSaveToFavorate(pin.id)}>
+                            <div onClick={() => handleFavorite(pin.id)}>
                                 <i 
                                 className="material-icons"
-                                id={addToFav || pinSaved(pin.id) ?"all-pins-material-icons-favorite-added" :"all-pins-material-icons-favorite"}
+                                id={handleHeartColorChange()}
                                 >
                                     favorite
                                 </i>

@@ -262,3 +262,25 @@ def all_pins_saved(user_id):
     saved_pins = SavedPin.query.filter(SavedPin.user_id == user_id).all()
 
     return jsonify([pin.to_dict() for pin in saved_pins])
+
+@pin_routes.route('/remove_saved_pin/<int:pin_id>', methods=['DELETE'])
+@login_required
+def remove_saved_pin(pin_id):
+    find_pin = Pin.query.get(pin_id)
+
+    if find_pin is None:
+        return jsonify({"error": "Pin not found"}), 404
+    
+    find_saved_pin = SavedPin.query.filter(SavedPin.pin_id == pin_id).first()
+
+    if find_saved_pin is None:
+        return jsonify({"error": f"pin with id of {pin_id} is not saved"})
+    
+    db.session.delete(find_saved_pin)
+
+    try:
+        db.session.commit()
+        return jsonify({"pin_id": pin_id}), 200
+    except Exception as e:
+        db.session.rollback()
+        return jsonify({"error": str(e)}), 500
