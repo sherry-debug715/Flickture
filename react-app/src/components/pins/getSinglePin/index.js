@@ -135,7 +135,7 @@ export default function SinglePin() {
                                             </i>
                                         </div>
                                         <div  id="getAllPin-add-profile-icon" 
-                                        onClick={() => setShowMenu(true)}
+                                        onClick={openMenu}
                                         >
                                             +
                                         </div>

@@ -11,6 +11,7 @@ export default function SavePinToBoard({setSelectedBoardId, boardPinBelongsTo, o
     const [showMenu, setShowMenu] = useState(false);
     const dispatch = useDispatch();
     const userBoards = useSelector(state => state.boards.allBoards);
+    const sessionUser = useSelector(state => state.session.user);
     const userBoardsArr = Object.values(userBoards);
     const [newBoardName, setNewBoardName] = useState(null);
     const [selectedBoard, setSelectedBoard] = useState(localStorage.getItem("newBoardName") || "All Pins");
@@ -52,7 +53,7 @@ export default function SavePinToBoard({setSelectedBoardId, boardPinBelongsTo, o
     };
 
     useEffect(() => {
-        dispatch(getAllUserBoardsThunk());
+        dispatch(getAllUserBoardsThunk(sessionUser.id));
     },[dispatch]);
 
     const openMenu = (e) => {

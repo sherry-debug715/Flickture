@@ -292,11 +292,7 @@
     border-radius: 10px;
     border: 1px solid var( --lightgrey-hover-background-color);
     box-shadow: var(--box-shadow);
-    transition: filter .3s ease-in-out;
-}
-
-.saved-pin-single-container:hover {
-    filter: brightness(80%)
+    position: relative;
 }
 
 .saved-pin-img {
@@ -332,4 +328,22 @@
 .saved-pin-user-info-container div {
     color: var(--charcoal-grey);
     font-weight: 500;
+}
+
+#saved-pin-add-profile-icon{
+    font-size: 30px;
+    color: #363636;
+    height: 35px;
+    width: 40px;
+    border-radius: 5px;
+    background-color: rgba(250,249,246, 0.9);
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+    cursor: pointer;
+    margin-left: 5px;
+    position: absolute;
+    top: 2%;
+    left: 2%;
 }
