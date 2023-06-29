@@ -10,6 +10,7 @@ import { useModal } from "../../../context/Modal";
 import EditPinForm from "../../pins/editPin";
 import DeleteBoardForm from "../deleteBoard";
 import { editBoardThunk } from "../../../store/boards";
+import EditNonUserPin from "../../pins/editPin/editNonUserPin";
 import "../boards.css";
 
 export default function EditBoardForm() {
@@ -44,6 +45,16 @@ export default function EditBoardForm() {
             boardId={boardId} 
             setCheckChangedBoardId={setCheckChangedBoardId}
             />)
+    };
+
+    const handleOpenEditNonUserPinForm = (pin) => {
+        setModalContent(
+            <EditNonUserPin 
+                closeEditNonUserPinForm={closeModal}  
+                openLocation={"Edit your board form"}
+                pin={pin}
+            />
+        );
     };
 
     const handleOpenDeleteBoardForm = () => {
@@ -159,7 +170,10 @@ export default function EditBoardForm() {
                                         onHoverPinId === pin.pin_id && 
                                         <div 
                                             className="edit-board-form-hover-over-container"
-                                            onClick={() => handleOpenEditPinForm(pin.pin_id)}
+                                            onClick={() => {
+                                                if(pin.user_id === sessionUserId) return handleOpenEditPinForm(pin.pin_id)
+                                                else return handleOpenEditNonUserPinForm(pin)
+                                            }}
                                         >
                                             <span 
                                                 className="material-symbols-outlined"

@@ -14,6 +14,7 @@ import Checkbox from '@mui/material/Checkbox';
 import { ThemeProvider, createTheme } from '@mui/material/styles';
 import { removeSavedPinThunk } from "../../../store/pins";
 import { savePinToBoardThunk } from "../../../store/pins";
+import { getOnePinThunk } from "../../../store/pins";
 
 const ITEM_HEIGHT = 60;
 const ITEM_PADDING_TOP = 8;
@@ -38,6 +39,8 @@ const theme = createTheme({
   });
 
 export default function EditNonUserPin({closeEditNonUserPinForm, openLocation, pin}) {
+
+    console.log("pin======", pin)
     const dispatch = useDispatch();
 
     const userBoards = useSelector(state => state.boards.allBoards);
@@ -46,13 +49,21 @@ export default function EditNonUserPin({closeEditNonUserPinForm, openLocation, p
     
     const [saved, setSaved] = useState(false);
 
+    const [boardPinBelongsTo, setBoardPinBelongsTo] = useState([]);
+
     useEffect(() => {
         dispatch(getAllUserBoardsThunk(sessionUser.id));
-    },[dispatch, saved]);
+        if(openLocation === "Edit your board form") {
+            dispatch(getOnePinThunk(pin.pin_id))
+            .then(data => setBoardPinBelongsTo(data.pin_in_profiles))
+        }
+    },[dispatch, saved, openLocation]);
 
     const userBoardsArr = Object.values(userBoards);
 
     const [selectedBoards, setSelectedBoards] = useState([]);
+
+    console.log("selectedBoards", selectedBoards)
 
     const organizedUserBoards = [];
     userBoardsArr.forEach(board => {
@@ -101,6 +112,16 @@ export default function EditNonUserPin({closeEditNonUserPinForm, openLocation, p
             setSaved(true);
         };
     };
+
+    function pinAlreadyInBoard(boardId){
+        if(boardPinBelongsTo) {
+            const boardPinBelongsToId = boardPinBelongsTo.map(board => board.id);
+            return boardPinBelongsToId.includes(boardId);
+        };
+        return false;
+    };
+
+    console.log("organizedUserBoards", organizedUserBoards)
     
     return (
         <div className="edit-non-userPin-form-container">
@@ -117,7 +138,7 @@ export default function EditNonUserPin({closeEditNonUserPinForm, openLocation, p
                 <div className="edit-non-userPin-form-content-container">
                     <div className="edit-non-userPin-form-left-section">
                         <img 
-                        src={pin.pin.pin_images[0].image_url} alt="edited-pin" 
+                        src={openLocation === "Save Pin Card" ? pin.pin.pin_images[0].image_url : pin.image_url} alt="edited-pin" 
                         />
                     </div>
                     <div className="edit-non-userPin-form-right-section">
@@ -136,7 +157,7 @@ export default function EditNonUserPin({closeEditNonUserPinForm, openLocation, p
                                 >
                                 {organizedUserBoards.map((board) => (
                                     <MenuItem key={board.id} value={board}>
-                                    <Checkbox checked={selectedBoards.findIndex(item => item.id === board.id) > -1} color="success" />
+                                    <Checkbox checked={selectedBoards.findIndex(item => item.id === board.id) > -1 || pinAlreadyInBoard(board.id)} color="success" />
                                     
                                     <ListItemText primary={board.name} />
                                     </MenuItem>
