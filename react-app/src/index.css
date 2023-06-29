@@ -24,5 +24,7 @@
 
 :root {
     --lightgrey-hover-background-color: #DCDCDC;
-    --charcoal-grey: #36454F
+    --charcoal-grey: #36454F;
+    --box-shadow: 2px 2px 8px rgba(0, 0, 0, 0.2);
+
 }

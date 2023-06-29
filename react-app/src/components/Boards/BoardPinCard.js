@@ -11,8 +11,6 @@ export default function BoardPinCard({pin, boardId}) {
 
     const { setModalContent, closeModal } = useModal();
 
-    const history = useHistory();
-
     const sessionUser = useSelector(state => state.session.user);
     
     const handleOpenEditPinForm = (pinId) => {

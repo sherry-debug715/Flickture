@@ -12,6 +12,7 @@ import { unfollowUserThunk } from "../../store/session";
 import GreyBackgroundBtn from "../ui/Buttons/greyBackgroundBtn";
 import Following from "../Follow/Following";
 import Follower from "../Follower/Follower";
+import SavedPins from "./SavedPins";
 
 export default function UserProfile() {
     const sessionUser = useSelector(state => state.session.user);
@@ -142,6 +143,8 @@ export default function UserProfile() {
                     <UserBoards userId={userId} />
                 </div>}
 
+                <hr />
+                {sessionUser.id === +userId && <SavedPins />}
             </div>
         </div>
     )

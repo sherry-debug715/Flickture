@@ -3,7 +3,7 @@ import { useParams, useHistory } from "react-router-dom";
 import { useSelector, useDispatch } from "react-redux";
 import { Link } from "react-router-dom";
 import "../pins.css";
-import { getOnePinThunk } from "../../../store/pins";
+import { getOnePinThunk, getUserSavedPinsThunk, savePinThunk } from "../../../store/pins";
 import GreyBackgroundBtn from "../../ui/Buttons/greyBackgroundBtn";
 import PinsOfCategory from "./PinsOFCategory";
 import DetailPageAddToBoard from "./DetailPageAddToBoard";
@@ -16,6 +16,8 @@ export default function SinglePin() {
 
     const [showMenu, setShowMenu] = useState(false);
 
+    const [addToFav, setAddToFav] = useState(false);
+
     const {pinId} = useParams();
 
     const dispatch = useDispatch();
@@ -26,6 +28,17 @@ export default function SinglePin() {
 
     const sessionUser = useSelector(state => state.session.user);
 
+    const savedPinsState = useSelector(state => state.pins.savedPins);
+
+    const savedPinIds = Object.values(savedPinsState).map(savedPin => savedPin.pin.id);
+
+    const pinSaved = (pinId) => savedPinIds.includes(pinId);
+
+    const handleSaveToFavorate = async(pinId) => {
+        const savedPin = await dispatch(savePinThunk(pinId));
+
+        if(savedPin) setAddToFav(true);
+    };
 
     const openMenu = (e) => {
         e.stopPropagation()
@@ -46,7 +59,8 @@ export default function SinglePin() {
 
 
     useEffect(() => {
-        dispatch(getOnePinThunk(pinId))
+        dispatch(getOnePinThunk(pinId));
+        dispatch(getUserSavedPinsThunk(sessionUser.id));
     },[dispatch, pinId, sessionUser.following]);
 
     const handleFollow = userId => {
@@ -95,10 +109,12 @@ export default function SinglePin() {
                                     <div className="single-pin-title">{pin.title}
                                     </div>
                                     {sessionUser && <div    className="single-pin-save-btn-container">
-                                        <div>
+                                        <div
+                                            onClick={() => handleSaveToFavorate(pin.id)}
+                                        >
                                             <i 
                                             className="material-icons"
-                                            id="material-icons-favorite"
+                                            id={addToFav || pinSaved(pin.id) ? "all-pins-material-icons-favorite-added" :"material-icons-favorite"}
                                             >
                                                 favorite
                                             </i>
@@ -110,8 +126,7 @@ export default function SinglePin() {
                                         </div>
                                         {showMenu && <DetailPageAddToBoard 
                                         setShowMenu={setShowMenu} 
-                                        pinId={pinId}
-                                        
+                                        pinId={pinId}                                        
                                         />}
                                     </div>}
                                 </div>
@@ -172,7 +187,7 @@ export default function SinglePin() {
                 <>
                     <div className="single-pin-more-like-this">More like this</div>
                     <div className="single-pin-bottom-container">
-                        <PinsOfCategory pinId={pinId} />
+                        <PinsOfCategory pinId={pinId} pinSaved={pinSaved} />
                     </div>
                 </>
             )

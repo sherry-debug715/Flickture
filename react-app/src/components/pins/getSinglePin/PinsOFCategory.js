@@ -6,7 +6,7 @@ import "../pins.css";
 
 import PinCard from "../PinCard";
 
-export default function PinsOfCategory({pinId}) {
+export default function PinsOfCategory({pinId, pinSaved}) {
     const dispatch = useDispatch();
     const pinsOfCategory = useSelector(state => state.pins.pinsOfCategory);
     const pinArr = Object.values(pinsOfCategory.pins);
@@ -58,9 +58,8 @@ export default function PinsOfCategory({pinId}) {
         <div className="all-pins-container" ref={scrollContainerRef}>
             <div className="all-pins-image-container"  >
                 {pinArr.map(pin => (
-                    <Link key={pin.id} to={`/explore/${pin.id}`} onClick={scrollToTop} >
-                        <PinCard pin={pin} />
-                    </Link>
+                    <PinCard pin={pin} pinSaved={pinSaved} key={pin.id} />
+                
                 ))}
             </div>
         </div>

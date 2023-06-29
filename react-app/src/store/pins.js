@@ -2,7 +2,14 @@ const GET_ALL_PINS = "pins/GET_ALL_PINS";
 const GET_ONE_PIN = "pins/GET_ONE_PIN";
 const GET_PINS_SAME_CATEGORY = "pins/GET_PINS_SAME_CATEGORY";
 const EDIT_PIN = "pins/EDIT_PIN";
-const DELETE_PIN = "pins/DELETE_PIN"
+const DELETE_PIN = "pins/DELETE_PIN";
+const GET_SAVED_PINS = "pins/GET_SAVED_PINS";
+const SAVE_PIN = "pins/SAVE_PIN";
+
+const userSavedPins = pins => ({
+    type: GET_SAVED_PINS,
+    pins
+}); 
 
 const deletePin = pinId => ({
     type: DELETE_PIN,
@@ -28,6 +35,25 @@ const editPin = pin => ({
     type: EDIT_PIN,
     pin
 });
+
+
+export const savePinThunk = pinId =>  async dispatch => {
+    const response = await fetch(`/api/pins/save_pin/${pinId}`, {
+        headers: {"Content-Type": "application/json"},
+        method: "POST"
+    });
+
+    if(response.ok) return true;
+};
+
+export const getUserSavedPinsThunk = userId => async dispatch => {
+    const response = await fetch(`/api/pins/all_pins/saved/${userId}`)
+
+    if(response.ok) {
+        const savedPins = await response.json();
+        dispatch(userSavedPins(savedPins));
+    };
+};
 
 export const deletePinThunk = (pinId) => async dispatch => {
     const response = await fetch(`/api/pins/delete/${pinId}`, {
@@ -119,7 +145,7 @@ export const normalization = (arr) => {
     return normalized;
 };
 
-const initialState = {allPins:{pins: {}, totalPages: 1}, singlePin:{}, pinsOfCategory: {pins:{}, totalPages: 1}};
+const initialState = {allPins:{pins: {}, totalPages: 1}, singlePin:{}, pinsOfCategory: {pins:{}, totalPages: 1}, savedPins:{}};
 
 export default function pinReducer(state = initialState, action) {
     let newState;
@@ -145,6 +171,10 @@ export default function pinReducer(state = initialState, action) {
         case EDIT_PIN:
             newState = {...state, singlePin: {}};
             newState.singlePin = action.pin;
+            return newState;
+        case GET_SAVED_PINS:
+            newState = {...state, savedPins: {}};
+            newState.savedPins = normalization(action.pins);
             return newState;
         default:
             return state;

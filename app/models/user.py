@@ -89,6 +89,13 @@ class User(db.Model, UserMixin):
             "following": [{"id": user.id, "username": user.username, "profile_url": user.profile_url } for user in self.following]
         }
     
+    def basic(self):
+        return {
+            'id': self.id,
+            'username': self.username,
+            "profile_url": self.profile_url,
+        }
+    
 
 
 

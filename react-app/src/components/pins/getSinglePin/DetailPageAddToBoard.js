@@ -16,10 +16,12 @@ export default function DetailPageAddToBoard({setShowMenu, pinId}) {
 
     const userBoards = useSelector(state => state.boards.allBoards);
 
+    const sessionUserId = useSelector(state => state.session.user.id)
+
     const userBoardsArr = Object.values(userBoards);
 
     useEffect(() => {
-        dispatch(getAllUserBoardsThunk());
+        dispatch(getAllUserBoardsThunk(sessionUserId));
     },[dispatch]);
 
     const handleOpenCreateBoardForm = () => {
