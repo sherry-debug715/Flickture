@@ -124,7 +124,7 @@ export default function SinglePin() {
                                     <div className="single-pin-title">{pin.title}
                                     </div>
                                     {sessionUser && <div className="single-pin-save-btn-container">
-                                        <div
+                                        {pin.user_id !== sessionUser.id && <div
                                             onClick={() => handleFavorite(pin.id)}
                                         >
                                             <i 
@@ -133,7 +133,7 @@ export default function SinglePin() {
                                             >
                                                 favorite
                                             </i>
-                                        </div>
+                                        </div>}
                                         <div  id="getAllPin-add-profile-icon" 
                                         onClick={openMenu}
                                         >

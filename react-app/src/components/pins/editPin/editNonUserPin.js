@@ -102,11 +102,16 @@ export default function EditNonUserPin({closeEditNonUserPinForm, openLocation, p
         };
     };
     
-    console.log("selectedBoards", selectedBoards)
-
     return (
         <div className="edit-non-userPin-form-container">
             <div className="edit-non-userPin-form-inner-container">
+                <span 
+                    className="material-symbols-rounded"
+                    id="material-symbols-close"
+                    onClick={() => closeEditNonUserPinForm()}
+                >
+                    close
+                </span>
                 <h1 className="edit-non-userPin-form-title">Manage pin</h1>
 
                 <div className="edit-non-userPin-form-content-container">
