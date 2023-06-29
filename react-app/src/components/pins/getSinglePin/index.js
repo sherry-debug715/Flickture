@@ -43,7 +43,7 @@ export default function SinglePin() {
     const handleFavorite = async(pinId) => {
         if(addToFav) {
             const unsavePin = await dispatch(removeSavedPinThunk(pinId))
-            if(unsavePin.pin_id) setAddToFav(false);
+            if(unsavePin.id) setAddToFav(false);
         } else {
             const savedPin = await dispatch(savePinThunk(pinId));
             if(savedPin) setAddToFav(true);
