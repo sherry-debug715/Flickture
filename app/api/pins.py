@@ -280,7 +280,7 @@ def remove_saved_pin(pin_id):
 
     try:
         db.session.commit()
-        return jsonify({"message": "Pin removed from favorite"}), 200
+        return jsonify({"pin_id": pin_id}), 200
     except Exception as e:
         db.session.rollback()
         return jsonify({"error": str(e)}), 500

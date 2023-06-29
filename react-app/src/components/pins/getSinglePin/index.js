@@ -3,7 +3,7 @@ import { useParams, useHistory } from "react-router-dom";
 import { useSelector, useDispatch } from "react-redux";
 import { Link } from "react-router-dom";
 import "../pins.css";
-import { getOnePinThunk, getUserSavedPinsThunk, savePinThunk } from "../../../store/pins";
+import { getOnePinThunk, getUserSavedPinsThunk, savePinThunk, removeSavedPinThunk } from "../../../store/pins";
 import GreyBackgroundBtn from "../../ui/Buttons/greyBackgroundBtn";
 import PinsOfCategory from "./PinsOFCategory";
 import DetailPageAddToBoard from "./DetailPageAddToBoard";
@@ -32,14 +32,29 @@ export default function SinglePin() {
 
     const savedPinIds = Object.values(savedPinsState).map(savedPin => savedPin.pin.id);
 
-    const pinSaved = (pinId) => savedPinIds.includes(pinId);
+    const pinSaved = (pinId) => savedPinIds.includes(+pinId);
+    
+    useEffect(() => {
+        if(pinSaved(pinId)) {
+            setAddToFav(true);
+        } else setAddToFav(false);
+    }, [pinId]);
+    
+    const handleFavorite = async(pinId) => {
+        if(addToFav) {
+            const unsavePin = await dispatch(removeSavedPinThunk(pinId))
+            if(unsavePin.pin_id) setAddToFav(false);
+        } else {
+            const savedPin = await dispatch(savePinThunk(pinId));
+            if(savedPin) setAddToFav(true);
+        }
+    }
 
-    const handleSaveToFavorate = async(pinId) => {
-        const savedPin = await dispatch(savePinThunk(pinId));
-
-        if(savedPin) setAddToFav(true);
+    const handleHeartColorChange = () => {
+        let isFav = addToFav;
+        return isFav ? "all-pins-material-icons-favorite-added" : "all-pins-material-icons-favorite";
     };
-
+    
     const openMenu = (e) => {
         e.stopPropagation()
         setShowMenu(prev => !prev);
@@ -108,13 +123,13 @@ export default function SinglePin() {
                                 <div className="sinlge-pin-title-save-btns-container">
                                     <div className="single-pin-title">{pin.title}
                                     </div>
-                                    {sessionUser && <div    className="single-pin-save-btn-container">
+                                    {sessionUser && <div className="single-pin-save-btn-container">
                                         <div
-                                            onClick={() => handleSaveToFavorate(pin.id)}
+                                            onClick={() => handleFavorite(pin.id)}
                                         >
                                             <i 
                                             className="material-icons"
-                                            id={addToFav || pinSaved(pin.id) ? "all-pins-material-icons-favorite-added" :"material-icons-favorite"}
+                                            id={handleHeartColorChange()}
                                             >
                                                 favorite
                                             </i>
