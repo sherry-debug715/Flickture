@@ -115,8 +115,31 @@ def save_pin_to_board(pin_id, board_id):
     db.session.commit()
 
     return jsonify({"message": "Pin saved to board successfully"}), 200
+
+@board_routes.route('/remove_pin_from_board/<int:pin_id>/<int:board_id>', methods=["DELETE"])
+@login_required
+def remove_pin_from_board(pin_id, board_id):
+    find_board = Profile.query.get(board_id)
+
+    if not find_board:
+        return {"Error": "Board not found"}, 404
     
-        
+    if find_board.user_id != current_user.id:
+        return {"Error": "Not authorized to modify this board"}, 403
+    
+    pin_to_remove = Pin.query.get(pin_id)
+
+    if not pin_to_remove:
+        return {"Error": "Pin not found"}, 404
+    
+    if pin_to_remove not in find_board.pins:
+        return {"Error": "This pin is not associated with the board"}, 400
+    
+    find_board.pins.remove(pin_to_remove)
+    
+    db.session.commit()
+
+    return {"Success": "Pin removed from board"}, 200
 
 
 

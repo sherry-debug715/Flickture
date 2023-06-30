@@ -20,11 +20,11 @@ export default function EditBoardForm() {
 
     const sessionUserId = useSelector(state => state.session.user.id);
 
+    const boardPins = useSelector(state => state.boards.singleBoard.pins)
+
     const [name, setName]= useState("");
 
     const [boardPrivate, setBoardPrivate] = useState(false);
-
-    const [boardPins, setBoardPins] = useState([]);
 
     const [resetForm, setResetForm] = useState(false);
 
@@ -53,6 +53,7 @@ export default function EditBoardForm() {
                 closeEditNonUserPinForm={closeModal}  
                 openLocation={"Edit your board form"}
                 pin={pin}
+                boardId={boardId}
             />
         );
     };
@@ -69,13 +70,11 @@ export default function EditBoardForm() {
         )
     }
 
-
     useEffect(() => {
         dispatch(getBoardDetailThunk(boardId))
         .then(data => {
             setName(data.name);
             setBoardPrivate(data.private);
-            setBoardPins(data.pins);
         })
     },[dispatch, resetForm, checkChangedBoardId]);
 
@@ -95,6 +94,8 @@ export default function EditBoardForm() {
 
         if(editedBoard) history.push(`/userProfile/${sessionUserId}`);
     };
+
+    if(!boardPins) return null;
 
     return (
         <div className="edit-board-form-main-container">

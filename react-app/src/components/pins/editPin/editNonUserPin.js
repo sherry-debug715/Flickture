@@ -14,7 +14,7 @@ import Checkbox from '@mui/material/Checkbox';
 import { ThemeProvider, createTheme } from '@mui/material/styles';
 import { removeSavedPinThunk } from "../../../store/pins";
 import { savePinToBoardThunk } from "../../../store/pins";
-import { getOnePinThunk } from "../../../store/pins";
+import { removePinFromBoardThunk } from "../../../store/boards";
 
 const ITEM_HEIGHT = 60;
 const ITEM_PADDING_TOP = 8;
@@ -38,32 +38,44 @@ const theme = createTheme({
       },
   });
 
-export default function EditNonUserPin({closeEditNonUserPinForm, openLocation, pin}) {
+export default function EditNonUserPin({closeEditNonUserPinForm, openLocation, pin, boardId}) {
 
-    console.log("pin======", pin)
     const dispatch = useDispatch();
 
+    const pinId = pin.pin_id;
+
     const userBoards = useSelector(state => state.boards.allBoards);
+
+    const userBoardsArr = Object.values(userBoards);
 
     const sessionUser = useSelector(state => state.session.user);
     
     const [saved, setSaved] = useState(false);
 
-    const [boardPinBelongsTo, setBoardPinBelongsTo] = useState([]);
-
-    useEffect(() => {
-        dispatch(getAllUserBoardsThunk(sessionUser.id));
-        if(openLocation === "Edit your board form") {
-            dispatch(getOnePinThunk(pin.pin_id))
-            .then(data => setBoardPinBelongsTo(data.pin_in_profiles))
-        }
-    },[dispatch, saved, openLocation]);
-
-    const userBoardsArr = Object.values(userBoards);
+    const [initialSelected, setInitialSelected] = useState([]);
 
     const [selectedBoards, setSelectedBoards] = useState([]);
 
-    console.log("selectedBoards", selectedBoards)
+    console.log("initialSelected", initialSelected)
+
+    useEffect(() => {
+        dispatch(getAllUserBoardsThunk(sessionUser.id))
+        .then(data => {
+            if(openLocation === "Edit your board form") {
+                const userBoards = Object.values(data);
+                userBoards.forEach(board => {
+                    const boardPinsArr = board.pins;
+                    
+                    if(boardPinsArr.findIndex(pin => pin.id === pinId) !== -1) {
+                        const newSelected = {id: board.id, name: board.name, private: board.private}
+                        setSelectedBoards(prev => [...prev, newSelected])
+                        setInitialSelected(prev => [...prev, newSelected]);  
+                    };
+                });
+            } else return;
+        });
+        
+    },[dispatch, saved, openLocation]);
 
     const organizedUserBoards = [];
     userBoardsArr.forEach(board => {
@@ -98,6 +110,11 @@ export default function EditNonUserPin({closeEditNonUserPinForm, openLocation, p
             const unsavePin = await dispatch(removeSavedPinThunk(pin.pin.id));
             if(unsavePin.id) closeEditNonUserPinForm();
         };
+
+        if(openLocation === "Edit your board form") {
+            const removePin = await dispatch(removePinFromBoardThunk(pinId, boardId));
+            if(removePin) closeEditNonUserPinForm();
+        }
     };
 
     const handleSave = async() => {
@@ -112,16 +129,6 @@ export default function EditNonUserPin({closeEditNonUserPinForm, openLocation, p
             setSaved(true);
         };
     };
-
-    function pinAlreadyInBoard(boardId){
-        if(boardPinBelongsTo) {
-            const boardPinBelongsToId = boardPinBelongsTo.map(board => board.id);
-            return boardPinBelongsToId.includes(boardId);
-        };
-        return false;
-    };
-
-    console.log("organizedUserBoards", organizedUserBoards)
     
     return (
         <div className="edit-non-userPin-form-container">
@@ -157,7 +164,7 @@ export default function EditNonUserPin({closeEditNonUserPinForm, openLocation, p
                                 >
                                 {organizedUserBoards.map((board) => (
                                     <MenuItem key={board.id} value={board}>
-                                    <Checkbox checked={selectedBoards.findIndex(item => item.id === board.id) > -1 || pinAlreadyInBoard(board.id)} color="success" />
+                                    <Checkbox checked={selectedBoards.findIndex(item => item.id === board.id) > -1 } color="success" />
                                     
                                     <ListItemText primary={board.name} />
                                     </MenuItem>
