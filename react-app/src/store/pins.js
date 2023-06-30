@@ -170,6 +170,14 @@ export const savePinToBoardThunk = (pinId, boardId, savedPinId) => async dispatc
     if(response.ok) dispatch(removeSavedPinAfterAddToBoard(savedPinId));
 };
 
+export const savePinToBoardNoRemovalThunk = (pinId, boardId) => async dispatch => {
+    const response = await fetch(`/api/boards/add_pin_to_board/${pinId}/${boardId}`, {
+        method: "POST"
+    });
+
+    if(response.ok) return true;
+};
+
 export const normalization = (arr) => {
     const normalized = {};
     arr.forEach(obj => normalized[obj.id] = obj);

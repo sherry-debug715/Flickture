@@ -15,6 +15,7 @@ import { ThemeProvider, createTheme } from '@mui/material/styles';
 import { removeSavedPinThunk } from "../../../store/pins";
 import { savePinToBoardThunk } from "../../../store/pins";
 import { removePinFromBoardThunk } from "../../../store/boards";
+import { savePinToBoardNoRemovalThunk } from "../../../store/pins";
 
 const ITEM_HEIGHT = 60;
 const ITEM_PADDING_TOP = 8;
@@ -57,6 +58,7 @@ export default function EditNonUserPin({closeEditNonUserPinForm, openLocation, p
     const [selectedBoards, setSelectedBoards] = useState([]);
 
     console.log("initialSelected", initialSelected)
+    console.log("selectedBoards", selectedBoards)
 
     useEffect(() => {
         dispatch(getAllUserBoardsThunk(sessionUser.id))
@@ -118,15 +120,27 @@ export default function EditNonUserPin({closeEditNonUserPinForm, openLocation, p
     };
 
     const handleSave = async() => {
-        if(openLocation === "Save Pin Card") {
-            const selectedBoardIds = selectedBoards.map(board => board.id);
+        const selectedBoardIds = selectedBoards.map(board => board.id);
 
+        if(openLocation === "Save Pin Card") {
             selectedBoardIds.forEach(id => {
                 dispatch(savePinToBoardThunk(pin.pin.id, id, pin.id));
             });
 
             handleDelete();
             setSaved(true);
+        };
+
+        if(openLocation === "Edit your board form") {
+            const initalSelectedIds = initialSelected.map(board => board.id);
+            const removeDup = new Set(initalSelectedIds);
+            for(let boardId of removeDup) {
+                if(!selectedBoardIds.includes(boardId)) dispatch(removePinFromBoardThunk(pinId, boardId));
+            };
+
+            selectedBoardIds.forEach(id => dispatch(savePinToBoardNoRemovalThunk(pinId, id)));
+            setSaved(true);
+            closeEditNonUserPinForm();
         };
     };
     
