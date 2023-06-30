@@ -57,9 +57,6 @@ export default function EditNonUserPin({closeEditNonUserPinForm, openLocation, p
 
     const [selectedBoards, setSelectedBoards] = useState([]);
 
-    console.log("initialSelected", initialSelected)
-    console.log("selectedBoards", selectedBoards)
-
     useEffect(() => {
         dispatch(getAllUserBoardsThunk(sessionUser.id))
         .then(data => {

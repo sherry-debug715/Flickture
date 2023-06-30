@@ -101,14 +101,23 @@ export default function EditBoardForm() {
         <div className="edit-board-form-main-container">
             <div className="edit-board-form-inner-container">
                 <div className="edit-board-form-inner-container2">
-
-                    <div 
-                        className="clear-form-container"
-                        onClick={() => setResetForm(prev => !prev)}
-                    >
-                        <span className="material-symbols-rounded" id="material-symbols-clear-form">
-                            restart_alt
-                        </span>
+                    <div className="edit-board-form-header">
+                        <Link to={`/userProfile/${sessionUserId}`} className="edit-board-form-arrow-back">
+                            <span 
+                            className="material-symbols-rounded"
+                            id="material-symbols-arrow-back"
+                            >
+                                arrow_back
+                            </span>
+                        </Link>
+                        <div 
+                            className="clear-form-container"
+                            onClick={() => setResetForm(prev => !prev)}
+                        >
+                            <span className="material-symbols-rounded" id="material-symbols-clear-form">
+                                restart_alt
+                            </span>
+                        </div>
                     </div>
 
                     <div className="edit-board-form-content-container">
