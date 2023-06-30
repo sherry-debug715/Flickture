@@ -89,7 +89,6 @@ def get_one_pin(id):
 
     return data_return
 
-
 @pin_routes.route('/edit/<int:id>', methods=["PUT"])
 @login_required
 def edit_pin(id):

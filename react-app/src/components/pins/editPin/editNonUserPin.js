@@ -14,6 +14,8 @@ import Checkbox from '@mui/material/Checkbox';
 import { ThemeProvider, createTheme } from '@mui/material/styles';
 import { removeSavedPinThunk } from "../../../store/pins";
 import { savePinToBoardThunk } from "../../../store/pins";
+import { removePinFromBoardThunk } from "../../../store/boards";
+import { savePinToBoardNoRemovalThunk } from "../../../store/pins";
 
 const ITEM_HEIGHT = 60;
 const ITEM_PADDING_TOP = 8;
@@ -37,22 +39,45 @@ const theme = createTheme({
       },
   });
 
-export default function EditNonUserPin({closeEditNonUserPinForm, openLocation, pin}) {
+export default function EditNonUserPin({closeEditNonUserPinForm, openLocation, pin, boardId}) {
+
     const dispatch = useDispatch();
 
+    const pinId = pin.pin_id;
+
     const userBoards = useSelector(state => state.boards.allBoards);
+
+    const userBoardsArr = Object.values(userBoards);
 
     const sessionUser = useSelector(state => state.session.user);
     
     const [saved, setSaved] = useState(false);
 
-    useEffect(() => {
-        dispatch(getAllUserBoardsThunk(sessionUser.id));
-    },[dispatch, saved]);
-
-    const userBoardsArr = Object.values(userBoards);
+    const [initialSelected, setInitialSelected] = useState([]);
 
     const [selectedBoards, setSelectedBoards] = useState([]);
+
+    console.log("initialSelected", initialSelected)
+    console.log("selectedBoards", selectedBoards)
+
+    useEffect(() => {
+        dispatch(getAllUserBoardsThunk(sessionUser.id))
+        .then(data => {
+            if(openLocation === "Edit your board form") {
+                const userBoards = Object.values(data);
+                userBoards.forEach(board => {
+                    const boardPinsArr = board.pins;
+                    
+                    if(boardPinsArr.findIndex(pin => pin.id === pinId) !== -1) {
+                        const newSelected = {id: board.id, name: board.name, private: board.private}
+                        setSelectedBoards(prev => [...prev, newSelected])
+                        setInitialSelected(prev => [...prev, newSelected]);  
+                    };
+                });
+            } else return;
+        });
+        
+    },[dispatch, saved, openLocation]);
 
     const organizedUserBoards = [];
     userBoardsArr.forEach(board => {
@@ -87,18 +112,35 @@ export default function EditNonUserPin({closeEditNonUserPinForm, openLocation, p
             const unsavePin = await dispatch(removeSavedPinThunk(pin.pin.id));
             if(unsavePin.id) closeEditNonUserPinForm();
         };
+
+        if(openLocation === "Edit your board form") {
+            const removePin = await dispatch(removePinFromBoardThunk(pinId, boardId));
+            if(removePin) closeEditNonUserPinForm();
+        }
     };
 
     const handleSave = async() => {
-        if(openLocation === "Save Pin Card") {
-            const selectedBoardIds = selectedBoards.map(board => board.id);
+        const selectedBoardIds = selectedBoards.map(board => board.id);
 
+        if(openLocation === "Save Pin Card") {
             selectedBoardIds.forEach(id => {
                 dispatch(savePinToBoardThunk(pin.pin.id, id, pin.id));
             });
 
             handleDelete();
             setSaved(true);
+        };
+
+        if(openLocation === "Edit your board form") {
+            const initalSelectedIds = initialSelected.map(board => board.id);
+            const removeDup = new Set(initalSelectedIds);
+            for(let boardId of removeDup) {
+                if(!selectedBoardIds.includes(boardId)) dispatch(removePinFromBoardThunk(pinId, boardId));
+            };
+
+            selectedBoardIds.forEach(id => dispatch(savePinToBoardNoRemovalThunk(pinId, id)));
+            setSaved(true);
+            closeEditNonUserPinForm();
         };
     };
     
@@ -117,7 +159,7 @@ export default function EditNonUserPin({closeEditNonUserPinForm, openLocation, p
                 <div className="edit-non-userPin-form-content-container">
                     <div className="edit-non-userPin-form-left-section">
                         <img 
-                        src={pin.pin.pin_images[0].image_url} alt="edited-pin" 
+                        src={openLocation === "Save Pin Card" ? pin.pin.pin_images[0].image_url : pin.image_url} alt="edited-pin" 
                         />
                     </div>
                     <div className="edit-non-userPin-form-right-section">
@@ -136,7 +178,7 @@ export default function EditNonUserPin({closeEditNonUserPinForm, openLocation, p
                                 >
                                 {organizedUserBoards.map((board) => (
                                     <MenuItem key={board.id} value={board}>
-                                    <Checkbox checked={selectedBoards.findIndex(item => item.id === board.id) > -1} color="success" />
+                                    <Checkbox checked={selectedBoards.findIndex(item => item.id === board.id) > -1 } color="success" />
                                     
                                     <ListItemText primary={board.name} />
                                     </MenuItem>

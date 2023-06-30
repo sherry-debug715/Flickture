@@ -5,6 +5,12 @@ const GET_BOARD_DETAIL = "boards/GET_BOARD_DETAIL";
 const CREATE_BOARD = "boards/CREATE_BOARD";
 const EDIT_BOARD = "boards/EDIT_BOARD";
 const DELETE_BOARD = "boards/DELETE_BOARD";
+const REMOVE_PIN_FROM_BOARD = "boards/REMOVE_PIN_FROM_BOARD";
+
+const removePinFromBoard = (pinId) => ({
+    type: REMOVE_PIN_FROM_BOARD,
+    pinId
+})
 
 const getAllUserBoards = boards => ({
     type: GET_ALL_USER_BOARDS,
@@ -30,6 +36,18 @@ const deleteBoard = boardId => ({
     type: DELETE_BOARD,
     boardId
 });
+
+
+export const removePinFromBoardThunk = (pinId, boardId) => async dispatch => {
+    const response = await fetch(`/api/boards/remove_pin_from_board/${pinId}/${boardId}`, {
+        method: "DELETE"
+    });
+
+    if(response.ok) {
+        dispatch(removePinFromBoard(pinId))
+        return true
+    };
+};
 
 export const deleteBoardThunk = boardId => async dispatch => {
     const response = await fetch(`/api/boards/delete/${boardId}`, {
@@ -124,6 +142,13 @@ export default function boardReducer(state = initialState, action) {
         case DELETE_BOARD:
             newState = {...state, allBoards: {...state.allBoards}};
             delete newState.allBoards[action.boardId]
+            return newState;
+        case REMOVE_PIN_FROM_BOARD:
+            newState = {...state, singleBoard:{...state.singleBoard, pins: [...state.singleBoard.pins]}};
+            const removedPinIdx = newState.singleBoard.pins.findIndex(pin => pin.pin_id === action.pinId);
+            if(removePinFromBoard !== -1) {
+                newState.singleBoard.pins.splice(removedPinIdx, 1);
+            };
             return newState;
         default:
             return state;
