@@ -10,6 +10,7 @@ import DetailPageAddToBoard from "./DetailPageAddToBoard";
 import { followUserThunk } from "../../../store/session";
 import { unfollowUserThunk } from "../../../store/session";
 import GetComments from "../../Comments/GetComments";
+import CreateCommentForm from "../../Comments/CreateComment";
 
 
 
@@ -229,7 +230,7 @@ export default function SinglePin() {
                                 </div>
                             </div>
                             <div className="single-pin-upper-right-inner-container-bottom">
-
+                                <CreateCommentForm pinId={pinId} />
                             </div>
                         </div>
                     </div>

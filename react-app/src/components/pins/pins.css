@@ -210,7 +210,10 @@
 .single-pin-upper-right-inner-container-bottom {
     width: 90%;
     height: 20%;
-    border: 2px solid pink;
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
 }
 
 .sinlge-pin-title-save-btns-container {
