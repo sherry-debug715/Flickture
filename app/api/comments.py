@@ -26,3 +26,16 @@ def create_comment(pin_id):
     db.session.commit()
 
     return new_comment.to_dict(), 201
+
+@comment_routes.route('/all/<int:pin_id>')
+def get_all_comments(pin_id):
+    find_pin = Pin.query.get(pin_id)
+
+    if find_pin is None:
+        return jsonify({"error": "Pin not found"}), 404
+    
+    all_comments = Comment.query.filter_by(pin_id=pin_id).all()
+
+    comments_toReturn = [comment.to_dict() for comment in all_comments]
+
+    return jsonify(comments_toReturn)
