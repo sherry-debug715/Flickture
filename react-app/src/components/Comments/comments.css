@@ -1,0 +1,69 @@
+.all-comments-container {
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    margin-top: 2%;
+}
+
+.each-comment-container {
+    width: 100%;
+    height: 80px;
+    border: 2px solid orange;
+    margin-bottom: 2%;
+}
+
+.comment-card-container {
+    width: 100%;
+    height: 100%;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+}
+
+.comment-user-container {
+    width: 10%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.comment-user-profile {
+    height: 40px;
+    width: 40px;
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+    border-radius: 50%;
+    background-color: var(--lightgrey-hover-background-color);
+    font-weight: 500;
+    font-size: 25px;
+}
+
+.comment-username {
+    color: var(--charcoal-grey);
+    font-weight: 500;
+}
+
+.comment-content-container {
+    display: flex;
+    flex-direction: column;
+    margin-left: 2%;
+    align-items: flex-start;
+    height: 100%;
+    justify-content: space-between;
+    padding: 1% 0;
+    overflow-y: auto;
+    width: 90%;
+}
+
+.comment-content-container div:not(:last-child) {
+    margin-bottom: 15px;
+    color: var(--charcoal-grey);
+    font-weight: 500;
+}
+
+.comment-content-container div:last-child {
+    font-size: 13px;
+    color: grey;
+}

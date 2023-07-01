@@ -44,11 +44,13 @@ export default function commentsReducer(state = initialState, action) {
     switch(action.type) {
         case CREATE_COMMENT:
             newState = {...state};
-            newState[action.newComment.id] = newComment;
+            newState[action.newComment.id] = action.newComment;
             return newState; 
         case GET_COMMENTS:
             newState={};
             newState = normalization(action.comments);
             return newState;
+        default:
+            return state;
     };
 };
