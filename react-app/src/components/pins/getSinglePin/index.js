@@ -19,6 +19,8 @@ export default function SinglePin() {
 
     const [showComments, setShowComments] = useState(false);
 
+    const [isExpanded, setIsExpanded] = useState(false);
+
     const [addToFav, setAddToFav] = useState(false);
 
     const {pinId} = useParams();
@@ -182,9 +184,18 @@ export default function SinglePin() {
                                 </div>
 
                                 <div className="single-pin-image-info-container">
-                                    <div className="single-pin-image-description">
-                                        About: {pin.description}
+                                    <div className={`single-pin-image-description ${isExpanded ? 'expanded' : 'collapsed'}`}>
+                                        About: {isExpanded ? pin.description : pin.description.slice(0, 100)}
                                     </div>
+                                    {
+                                        pin.description.length > 100 && 
+                                        <button 
+                                            onClick={() => setIsExpanded(!isExpanded)}
+                                            className="single-pin-description-expand-option"
+                                        >
+                                        {isExpanded ? 'Less' : 'More'}
+                                        </button>
+                                    }
                                 </div>
 
                                 <div className="comment-container">

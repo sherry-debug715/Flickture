@@ -7,8 +7,6 @@
 
 .each-comment-container {
     width: 100%;
-    height: 80px;
-    border: 2px solid orange;
     margin-bottom: 2%;
 }
 
@@ -50,15 +48,29 @@
     flex-direction: column;
     margin-left: 2%;
     align-items: flex-start;
-    height: 100%;
     justify-content: space-between;
     padding: 1% 0;
     overflow-y: auto;
     width: 90%;
 }
 
+.comment-content {
+    width: 100%; 
+    overflow: hidden;
+    transition: height 0.5s;
+}
+
+.comment-content.collapsed {
+    max-height: 10%;
+}
+
+.comment-content.expanded {
+    max-height: 100%;
+}
+
+
 .comment-content-container div:not(:last-child) {
-    margin-bottom: 15px;
+    margin-bottom: .5%;
     color: var(--charcoal-grey);
     font-weight: 500;
 }
@@ -66,4 +78,9 @@
 .comment-content-container div:last-child {
     font-size: 13px;
     color: grey;
+}
+
+.comment-card-expand-option {
+    font-size: 13px;
+    color: orange;
 }

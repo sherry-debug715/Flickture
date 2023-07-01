@@ -235,8 +235,24 @@
     align-items: center;
 }
 
-.single-pin-image-info-container {
-    height: 10%;
+.single-pin-image-description {
+    width: 100%; 
+    overflow: hidden;
+    transition: max-height 0.5s;
+}
+
+.single-pin-image-description.collapsed {
+    max-height: 10%;
+}
+
+.single-pin-image-description.expanded {
+    max-height: 100%; 
+}
+
+.single-pin-description-expand-option {
+    font-weight: 600;
+    color:#363636;
+    cursor: pointer;
 }
 
 .user-info-container {
