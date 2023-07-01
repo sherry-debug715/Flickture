@@ -9,12 +9,15 @@ import PinsOfCategory from "./PinsOFCategory";
 import DetailPageAddToBoard from "./DetailPageAddToBoard";
 import { followUserThunk } from "../../../store/session";
 import { unfollowUserThunk } from "../../../store/session";
+import GetComments from "../../Comments/GetComments";
 
 
 
 export default function SinglePin() {
 
     const [showMenu, setShowMenu] = useState(false);
+
+    const [showComments, setShowComments] = useState(false);
 
     const [addToFav, setAddToFav] = useState(false);
 
@@ -119,7 +122,7 @@ export default function SinglePin() {
                         </div>
                         
                         <div className="single-pin-upper-right-container">
-                            <div className="single-pin-upper-right-inner-container">
+                            <div className="single-pin-upper-right-inner-container-top">
                                 <div className="sinlge-pin-title-save-btns-container">
                                     <div className="single-pin-title">{pin.title}
                                     </div>
@@ -180,16 +183,42 @@ export default function SinglePin() {
 
                                 <div className="single-pin-image-info-container">
                                     <div className="single-pin-image-description">
-                                        {pin.description}
+                                        About: {pin.description}
                                     </div>
                                 </div>
 
                                 <div className="comment-container">
                                     <div className="comment-upper-container">
-                                        {pin.pin_comments.length > 1 ? pin.pin_comments.length+" Comments" : pin.pin_comments.length+" Comment"} 
+                                        <div>
+                                            {pin.pin_comments.length > 1 ? pin.pin_comments.length+" Comments" : pin.pin_comments.length+" Comment"} 
+                                        </div>
+                                        <div className="single-pin-show-comment-icon">
+                                            {showComments? 
+                                                <span 
+                                                    className="material-symbols-outlined"
+                                                    id="material-symbols-expand"
+                                                    onClick={() => setShowComments(false)}
+                                                >
+                                                    expand_more
+                                                </span>
+                                                :
+                                                <span 
+                                                    className="material-symbols-outlined"
+                                                    id="material-symbols-expand"
+                                                    onClick={() => setShowComments(true)}
+                                                >
+                                                    expand_less
+                                                </span> }
+                                        </div>
                                     </div>
 
+                                    <div className="comment-bottom-content-container">
+                                        {showComments && <GetComments pinId={pinId} />}
+                                    </div>
                                 </div>
+                            </div>
+                            <div className="single-pin-upper-right-inner-container-bottom">
+
                             </div>
                         </div>
                     </div>

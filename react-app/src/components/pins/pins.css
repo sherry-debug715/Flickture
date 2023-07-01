@@ -196,14 +196,21 @@
     width: 60%;
     height: 100%;
     display: flex;
-    flex-direction: row;
-    justify-content: center;
+    flex-direction: column;
     align-items: center;
 }
 
-.single-pin-upper-right-inner-container {
+.single-pin-upper-right-inner-container-top {
     width: 90%;
-    height: 100%;
+    height: 80%;
+    overflow-y: auto;
+    border: 1px solid black;
+}
+
+.single-pin-upper-right-inner-container-bottom {
+    width: 90%;
+    height: 20%;
+    border: 2px solid pink;
 }
 
 .sinlge-pin-title-save-btns-container {
@@ -226,6 +233,10 @@
     flex-direction: row;
     position: relative;
     align-items: center;
+}
+
+.single-pin-image-info-container {
+    height: 10%;
 }
 
 .user-info-container {
@@ -280,11 +291,34 @@
 .comment-container {
     overflow-y: auto;
     margin-top: 2%;
+    width: 100%;
+    /* height: auto; */
 }
 
 .comment-upper-container {
     font-size: 20px;
     font-weight: 500;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+}
+
+.comment-bottom-content-container {
+    width: 100%;
+}
+
+.single-pin-show-comment-icon {
+    /* border: 2px solid orange; */
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    cursor: pointer;
+    margin-left: 1%;
+}
+
+#material-symbols-expand {
+    font-size: 25px;
+    font-weight: 800;
 }
 
 #material-symbols-outlined {

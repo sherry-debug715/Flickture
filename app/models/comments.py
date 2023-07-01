@@ -23,8 +23,8 @@ class Comment(db.Model):
     def to_dict(self):
         return {
             "id": self.id,
-            "user_id": self.user_id,
             "pin_id": self.pin_id,
             "content": self.content,
+            "creator": self.user.basic(),
             "created_at": self.created_at
         }

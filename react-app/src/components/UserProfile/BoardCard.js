@@ -54,7 +54,7 @@ export default function BoardCard({board, onHoverBoardId, sessionUser, userId}) 
                     </div>
                 </Link>
 
-                {onHoverBoardId === board.id && sessionUser.id === userId && board.name !== "All Pins" &&  (
+                {onHoverBoardId === board.id && sessionUser.id === userId &&  (
                 <div
                     className="board-card-hover-over-container"
                     onClick={() => history.push(`/boards/edit/${board.id}`)}
