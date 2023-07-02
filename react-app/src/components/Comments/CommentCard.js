@@ -1,9 +1,21 @@
 import { useState } from "react";
+import { useSelector, useDispatch } from "react-redux";
+import EditComment from "./EditComment";
+import { deleteCommentThunk } from "../../store/comments";
+import { getOnePinThunk } from "../../store/pins";
 import "./comments.css";
 
 export default function CommentCard({comment}) {
 
     const [isExpanded, setIsExpanded] = useState(false);
+
+    const dispatch = useDispatch();
+
+    const [showEditForm, setShowEditForm] = useState(false);
+
+    const [content, setContent] =  useState("");
+    
+    const sessionUser = useSelector(state => state.session.user);
 
     const convertDate = dateString => {
 
@@ -13,8 +25,11 @@ export default function CommentCard({comment}) {
 
         return dateWithoutTime;
     };
+    const showEditDelete = () => sessionUser && sessionUser.id === comment.creator.id;
 
-    return (
+    if(showEditForm) return <EditComment content={content} setContent={setContent} setShowEditForm={setShowEditForm} commentId={comment.id} pinId={comment.pin_id} />
+
+    else return (
         <div className="comment-card-container">
             <div className="comment-user-container">
                 {
@@ -42,9 +57,37 @@ export default function CommentCard({comment}) {
                         </button>
                     }
                 </div>
-                <div>
-                    {convertDate(comment.created_at)}
-                </div>
+               {showEditDelete() && <div className="comment-date-edit-container">
+                    <div>{convertDate(comment.created_at)}</div>
+                    <div 
+                        className="comment-edit-icon-container"
+                        onClick={() => {
+                            setShowEditForm(true)
+                            setContent(comment.content)
+                        }}
+                    >
+                        <span 
+                            className="material-symbols-outlined"
+                            id="material-symbols-outlined-edit"
+                        >
+                            edit
+                        </span>
+                    </div>
+                    <div 
+                        className="comment-edit-icon-container"
+                        onClick={() => {
+                            dispatch(deleteCommentThunk(comment.pin_id, comment.id))
+                            .then(() => dispatch(getOnePinThunk(comment.pin_id)))
+                        }}
+                    >
+                        <span 
+                            className="material-symbols-outlined"
+                            id="material-symbols-outlined-edit"
+                        >
+                            delete
+                        </span>
+                    </div>
+                </div>}
             </div>
         </div>
     )

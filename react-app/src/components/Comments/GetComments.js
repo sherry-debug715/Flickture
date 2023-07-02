@@ -1,4 +1,4 @@
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import { getCommentsThunk } from "../../store/comments";
 import CommentCard from "./CommentCard";

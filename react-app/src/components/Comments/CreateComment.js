@@ -27,6 +27,23 @@ export default function CreateCommentForm({pinId, containerRef}) {
 
     const [emojiOpen, setEmojiOpen] = useState(false);
 
+    const openEmoji = () => {
+        if(emojiOpen) return;
+        setEmojiOpen(true);
+    };
+
+    useEffect(() => {
+        if(!emojiOpen) return;
+
+        const closeEmoji = () => {
+            setEmojiOpen(false);
+        };
+
+        document.addEventListener("click", closeEmoji);
+
+        return () => document.removeEventListener("click", closeEmoji);
+    },[emojiOpen]);
+
     useEffect(() => {
         if (textAreaRef.current  && containerRef.current) {
             textAreaRef.current.style.height = "auto";
@@ -40,7 +57,7 @@ export default function CreateCommentForm({pinId, containerRef}) {
 
     const handleSubmit = async() => {
         const data = {content};
-        console.log("this is data", data)
+
         if(!buttonDisabled()) {
             const newComment = await dispatch(createCommentThunk(pinId, data));
             if(newComment){ 
@@ -50,14 +67,14 @@ export default function CreateCommentForm({pinId, containerRef}) {
         };
     };
 
-    if(!commentsArr.length) return null;
-
     const userAlreadyLeftComment = commentsArr.map(comment => comment.creator.id);
 
     const buttonDisabled = () => {
         if(!content.length || !sessionUser) return true;
         if(sessionUser && userAlreadyLeftComment.includes(sessionUser.id)) return true; 
     };
+
+    if(sessionUser && userAlreadyLeftComment.includes(sessionUser.id)) return null;
 
     return (
         <div className="create-comment-container">
@@ -74,15 +91,9 @@ export default function CreateCommentForm({pinId, containerRef}) {
                     value={content}
                     onChange={e => setContent(e.target.value)}
                     className="create-comment-textarea"
-                    onKeyDown={e => {
-                        if(e.key === "Enter") {
-                            e.preventDefault();
-                            handleSubmit();
-                        }
-                    }}
                 />
                 <div className="create-comment-emoji-container">
-                    <div onClick={() => setEmojiOpen(prev => !prev)} style={{cursor: "pointer"}}>
+                    <div onClick={openEmoji} style={{cursor: "pointer"}}>
                         <Emoji unified="1f603" size={22} />
                     </div>
 

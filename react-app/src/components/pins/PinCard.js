@@ -46,7 +46,7 @@ export default function PinCard({pin, pinSaved}) {
                     >
                         
                         <div className="all-pins-hover-over-container-top">
-                            {pin.user_id !== sessionUser.id && <div onClick={() => handleFavorite(pin.id)}>
+                            {sessionUser && pin.user_id !== sessionUser.id && <div onClick={() => handleFavorite(pin.id)}>
                                 <i 
                                 className="material-icons"
                                 id={handleHeartColorChange()}
