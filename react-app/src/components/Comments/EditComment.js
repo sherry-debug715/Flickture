@@ -4,10 +4,11 @@ import EmojiPicker, {
     EmojiStyle,
     Emoji
   } from "emoji-picker-react";
+import { editCommentThunk } from "../../store/comments";
 import GreyBackgroundBtn from "../ui/Buttons/greyBackgroundBtn";
 import RedBackgroundBtn from "../ui/Buttons/RedBackgroundBtn";
 
-export default function EditComment({content, setContent, setShowEditForm}) {
+export default function EditComment({content, setContent, setShowEditForm, commentId, pinId}) {
 
     const dispatch = useDispatch();
 
@@ -27,6 +28,12 @@ export default function EditComment({content, setContent, setShowEditForm}) {
             });
         }
     }, [content]); 
+
+    const handleSave = async() => {
+        const editedContent = {"content": content}
+        const editedComment = await dispatch(editCommentThunk(pinId, commentId, editedContent));
+        if(editedComment) setShowEditForm(false);
+    };
 
     const buttonDisabled = () => content === originalContent || !content.length;
 
@@ -68,6 +75,7 @@ export default function EditComment({content, setContent, setShowEditForm}) {
                 <RedBackgroundBtn
                     text={"Save"}
                     disabled={buttonDisabled}
+                    onClick={handleSave}
                 />
             </div>
         </div>

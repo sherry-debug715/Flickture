@@ -23,7 +23,7 @@ export default function CommentCard({comment}) {
     };
     const showEditDelete = () => sessionUser && sessionUser.id === comment.creator.id;
 
-    if(showEditForm) return <EditComment content={content} setContent={setContent} setShowEditForm={setShowEditForm} />
+    if(showEditForm) return <EditComment content={content} setContent={setContent} setShowEditForm={setShowEditForm} commentId={comment.id} pinId={comment.pin_id} />
 
     else return (
         <div className="comment-card-container">
