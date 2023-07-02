@@ -33,7 +33,7 @@ def follow(user_id):
         current_user.follow(user_to_follow)
         db.session.commit()
 
-        return jsonify({"id": user_to_follow.id, "profile_url": user_to_follow.profile_url, "username":user_to_follow.username}), 200
+        return jsonify({"id": current_user.id, "profile_url": current_user.profile_url, "username":current_user.username}), 200
     except Exception as e:
         return jsonify({"error": str(e)}), 400
 
@@ -48,7 +48,7 @@ def unfollow(user_id):
         if(current_user.is_following(user_to_unfollow)):
             current_user.unfollow(user_to_unfollow)
             db.session.commit()
-            return jsonify({"id": user_to_unfollow.id, "profile_url": user_to_unfollow.profile_url, "username":user_to_unfollow.username}), 200
+            return jsonify({"id": current_user.id, "profile_url": current_user.profile_url, "username":current_user.username}), 200
         else:
             return jsonify({"error": f"You never followed user {user_id}"}), 400
 

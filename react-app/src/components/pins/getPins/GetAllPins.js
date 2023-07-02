@@ -5,7 +5,7 @@ import "../pins.css";
 
 import PinCard from "../PinCard";
 
-export default function GetAllPins() {
+export default function GetAllPins({searchContent}) {
     const dispatch = useDispatch();
     const allPins = useSelector(state => state.pins.allPins);
     const savedPinsState = useSelector(state => state.pins.savedPins);
@@ -19,7 +19,10 @@ export default function GetAllPins() {
     const scrollContainerRef = useRef();
 
     const savedPinIds = Object.values(savedPinsState).map(savedPin => savedPin.pin.id);
-    
+
+    useEffect(() => {
+        setPage(1);
+      }, [searchContent]);      
 
     const pinSaved = (pinId) => savedPinIds.includes(pinId);
 
@@ -50,7 +53,7 @@ export default function GetAllPins() {
     
     useEffect(() => {
         setReadyToFetch(false);
-        dispatch(getAllPinsThunk(page))
+        dispatch(getAllPinsThunk(page, searchContent))
         .then(() => setReadyToFetch(true));    
         if(sessionUser) {
             dispatch(getUserSavedPinsThunk(sessionUser.id));

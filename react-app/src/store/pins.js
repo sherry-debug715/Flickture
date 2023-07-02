@@ -5,7 +5,24 @@ const EDIT_PIN = "pins/EDIT_PIN";
 const DELETE_PIN = "pins/DELETE_PIN";
 const GET_SAVED_PINS = "pins/GET_SAVED_PINS";
 const REMOVE_SAVED_PIN = "pins/REMOVE_SAVED_PIN";
-const REMOVE_SAVED_PIN_AFTER_ADD_TO_BOARD = "pins/REMOVE_SAVED_PIN_AFTER_ADD_TO_BOARD"
+const REMOVE_SAVED_PIN_AFTER_ADD_TO_BOARD = "pins/REMOVE_SAVED_PIN_AFTER_ADD_TO_BOARD";
+const CLEAR_PIN_STATE = "pins/CLEAR_PIN_STATE";
+const ADD_FOLLOWER = "pins/ADD_FOLLOWER";
+const REMOVE_FOLLOW = "pins/REMOVE_FOLLOW";
+
+export const removeFollow = user => ({
+    type: REMOVE_FOLLOW,
+    user
+});
+
+export const addFollower = (follower) => ({
+    type: ADD_FOLLOWER,
+    follower
+});
+
+export const clearPins = () => ({
+    type: CLEAR_PIN_STATE,
+  });
 
 const removeSavedPin = pinId => ({
     type: REMOVE_SAVED_PIN,
@@ -130,8 +147,8 @@ export const getOnePinThunk = (pinId) => async dispatch => {
     };    
 };
 
-export const getAllPinsThunk = (page) => async dispatch => {
-    const response = await fetch(`/api/pins?page=${page}`, {
+export const getAllPinsThunk = (page, searchQuery="") => async dispatch => {
+    const response = await fetch(`/api/pins?page=${page}&search=${encodeURIComponent(searchQuery)}`, {
         headers: {"Content-Type": "application/json"}
     });
 
@@ -222,6 +239,20 @@ export default function pinReducer(state = initialState, action) {
         case REMOVE_SAVED_PIN_AFTER_ADD_TO_BOARD:
             newState = {...state, savedPins: {...state.savedPins}};
             delete newState.savedPins[action.savedId];
+            return newState
+        case ADD_FOLLOWER:
+            newState = {...state, singlePin: {...state.singlePin, followers: [...state.singlePin.followers]}};
+            const findIdx1 = newState.singlePin.followers.findIndex(user => user.id === action.follower.id);
+            if(findIdx1 === -1) {
+                newState.singlePin.followers.push(action.follower);
+                return newState;
+            } else return state;
+        case REMOVE_FOLLOW:
+            newState = {...state, singlePin: {...state.singlePin, followers: [...state.singlePin.followers]}};
+            newState.singlePin.followers = newState.singlePin.followers.filter(user => user.id !== action.user.id);
+            return newState;
+        case CLEAR_PIN_STATE:
+            newState = {...state, allPins:{pins: {}, totalPages: 1}}
             return newState
         default:
             return state;

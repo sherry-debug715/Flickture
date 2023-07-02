@@ -52,7 +52,6 @@ export default function DetailPageAddToBoard({setShowMenu, pinId}) {
     organizedUserBoards.push(eachBoard);
     });
 
-    console.log("organizedUserBoards", organizedUserBoards)
     const handleSave = (board) => {
         fetch(`/api/boards/add_pin_to_board/${pinId}/${board.id}`, {
             method: "POST"
