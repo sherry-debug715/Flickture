@@ -4,6 +4,31 @@ from app.models import db, Pin, Comment, User
 
 comment_routes = Blueprint("comments", __name__)
 
+@comment_routes.route('/delete/<int:pin_id>/<int:comment_id>', methods=["DELETE"])
+@login_required
+def delete_comment(pin_id, comment_id):
+    comment_to_delete = Comment.query.get(comment_id)
+
+    if not comment_to_delete:
+        return {"Error": f"Comment with id of {comment_id} is not found"}, 404
+    
+    find_pin = Pin.query.get(pin_id)
+
+    if not find_pin:
+        return {"Error": f"Pin with id of {pin_id} is not found"}, 404
+    
+    find_pin_dic = find_pin.get_all_pins()
+    
+    pin_comments = find_pin_dic["pin_comments"]
+
+    if comment_to_delete.to_dict() not in pin_comments:
+        return {"Error": f"Comment with id of {comment_id} doesn't belong to pin id {pin_id}"}
+    
+    db.session.delete(comment_to_delete)
+    db.session.commit()
+    return jsonify({"message": "Comment deleted successfully"}), 200
+    
+
 @comment_routes.route('/edit/<int:pin_id>/<int:comment_id>', methods=["PUT"])
 @login_required
 def edit_comment(pin_id, comment_id):
