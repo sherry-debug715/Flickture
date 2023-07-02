@@ -1,6 +1,10 @@
+import { useState } from "react";
 import "./comments.css";
 
 export default function CommentCard({comment}) {
+
+    const [isExpanded, setIsExpanded] = useState(false);
+
     const convertDate = dateString => {
 
         const date = new Date(dateString);
@@ -26,8 +30,17 @@ export default function CommentCard({comment}) {
             </div>
 
             <div className="comment-content-container">
-                <div>
-                    {comment.content}
+                <div className={`comment-content ${isExpanded ? 'expanded': 'collapsed'}`}>
+                    {isExpanded ? comment.content : comment.content.slice(0, 100)} <br />
+                    {
+                        comment.content.length > 100 && 
+                        <button
+                            onClick={() => setIsExpanded(!isExpanded)}
+                            className="comment-card-expand-option"
+                        >
+                            {isExpanded ? 'Less' : 'More'}
+                        </button>
+                    }
                 </div>
                 <div>
                     {convertDate(comment.created_at)}

@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useEffect, useState, useRef } from "react";
 import { useParams, useHistory } from "react-router-dom";
 import { useSelector, useDispatch } from "react-redux";
 import { Link } from "react-router-dom";
@@ -10,6 +10,7 @@ import DetailPageAddToBoard from "./DetailPageAddToBoard";
 import { followUserThunk } from "../../../store/session";
 import { unfollowUserThunk } from "../../../store/session";
 import GetComments from "../../Comments/GetComments";
+import CreateCommentForm from "../../Comments/CreateComment";
 
 
 
@@ -19,7 +20,11 @@ export default function SinglePin() {
 
     const [showComments, setShowComments] = useState(false);
 
+    const [isExpanded, setIsExpanded] = useState(false);
+
     const [addToFav, setAddToFav] = useState(false);
+
+    const containerRef = useRef(null);
 
     const {pinId} = useParams();
 
@@ -182,9 +187,18 @@ export default function SinglePin() {
                                 </div>
 
                                 <div className="single-pin-image-info-container">
-                                    <div className="single-pin-image-description">
-                                        About: {pin.description}
+                                    <div className={`single-pin-image-description ${isExpanded ? 'expanded' : 'collapsed'}`}>
+                                        About: {isExpanded ? pin.description : pin.description.slice(0, 100)}
                                     </div>
+                                    {
+                                        pin.description.length > 100 && 
+                                        <button 
+                                            onClick={() => setIsExpanded(!isExpanded)}
+                                            className="single-pin-description-expand-option"
+                                        >
+                                        {isExpanded ? 'Less' : 'More'}
+                                        </button>
+                                    }
                                 </div>
 
                                 <div className="comment-container">
@@ -217,8 +231,10 @@ export default function SinglePin() {
                                     </div>
                                 </div>
                             </div>
-                            <div className="single-pin-upper-right-inner-container-bottom">
-
+                            <div 
+                            ref={containerRef} 
+                            className="single-pin-upper-right-inner-container-bottom">
+                                <CreateCommentForm pinId={pinId} containerRef={containerRef} />
                             </div>
                         </div>
                     </div>

@@ -24,6 +24,7 @@ export default function GetComments({pinId}) {
 
     if(!commentsArr.length) return null;
 
+
     return (
         <div className="all-comments-container">
             {sortCommentsArr.map(comment => (
