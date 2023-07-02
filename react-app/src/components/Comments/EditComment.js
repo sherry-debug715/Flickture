@@ -16,6 +16,23 @@ export default function EditComment({content, setContent, setShowEditForm, comme
 
     const [emojiOpen, setEmojiOpen] = useState(false);
 
+    const openEmoji = () => {
+        if(emojiOpen) return;
+        setEmojiOpen(true);
+    };
+
+    useEffect(() => {
+        if(!emojiOpen) return;
+
+        const closeEmoji = () => {
+            setEmojiOpen(false);
+        };
+
+        document.addEventListener("click", closeEmoji);
+
+        return () => document.removeEventListener("click", closeEmoji);
+    },[emojiOpen]);
+
     const textAreaRef = useRef(null);
 
     useEffect(() => setOriginalContent(content), []);
@@ -50,7 +67,7 @@ export default function EditComment({content, setContent, setShowEditForm, comme
                 />
 
                 <div className="edit-comment-emoji-container">
-                    <div onClick={() => setEmojiOpen(prev => !prev)} style={{cursor: "pointer"}}>
+                    <div onClick={openEmoji} style={{cursor: "pointer"}}>
                         <Emoji unified="1f603" size={22} />
                     </div>
 

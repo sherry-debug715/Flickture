@@ -27,6 +27,23 @@ export default function CreateCommentForm({pinId, containerRef}) {
 
     const [emojiOpen, setEmojiOpen] = useState(false);
 
+    const openEmoji = () => {
+        if(emojiOpen) return;
+        setEmojiOpen(true);
+    };
+
+    useEffect(() => {
+        if(!emojiOpen) return;
+
+        const closeEmoji = () => {
+            setEmojiOpen(false);
+        };
+
+        document.addEventListener("click", closeEmoji);
+
+        return () => document.removeEventListener("click", closeEmoji);
+    },[emojiOpen]);
+
     useEffect(() => {
         if (textAreaRef.current  && containerRef.current) {
             textAreaRef.current.style.height = "auto";
@@ -76,7 +93,7 @@ export default function CreateCommentForm({pinId, containerRef}) {
                     className="create-comment-textarea"
                 />
                 <div className="create-comment-emoji-container">
-                    <div onClick={() => setEmojiOpen(prev => !prev)} style={{cursor: "pointer"}}>
+                    <div onClick={openEmoji} style={{cursor: "pointer"}}>
                         <Emoji unified="1f603" size={22} />
                     </div>
 
