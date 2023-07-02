@@ -31,7 +31,8 @@ export const unfollowUserThunk = userId => async dispatch => {
   if(response.ok) {
     const user = await response.json();
     dispatch(unfollowUser(user));
-  }
+    return user;
+  };
 };
 
 export const followUserThunk = (userId) => async dispatch => {
@@ -41,7 +42,8 @@ export const followUserThunk = (userId) => async dispatch => {
 
   if(response.ok) {
     const followedUser = await response.json();
-    dispatch(followUser(followedUser))
+    dispatch(followUser(followedUser));
+    return followedUser;
   }
 };
 

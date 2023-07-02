@@ -17,6 +17,8 @@ import EditBoardForm from './components/Boards/editBoard';
 function App() {
   const [loaded, setLoaded] = useState(false);
   const dispatch = useDispatch();
+  const [searchContent, setSearchContent] = useState("");
+
 
   useEffect(() => {
     (async() => {
@@ -31,7 +33,7 @@ function App() {
 
   return (
     <BrowserRouter>
-      <NavBar />
+      <NavBar setSearchContent={setSearchContent} searchContent={searchContent} />
       <Switch>
         <Route path='/' exact={true} >
           <Landing />
@@ -40,7 +42,7 @@ function App() {
           <UserProfile />
         </Route>
         <Route path='/explore' exact={true} >
-          <GetAllPins />
+          <GetAllPins searchContent={searchContent} />
         </Route>
         <Route path='/explore/:pinId' exact={true} >
           <SinglePin />

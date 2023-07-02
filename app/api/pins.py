@@ -1,7 +1,8 @@
 from flask import Blueprint, jsonify, request
 from flask_login import login_required, current_user
-from app.models import db, Pin, User, Category, PinImage, Profile, SavedPin
+from app.models import db, Pin, User, Category, PinImage, Profile, SavedPin, Category
 from app.aws import upload_file_to_s3, get_unique_filename, remove_file_from_s3, S3_LOCATION
+from sqlalchemy import or_
 
 pin_routes = Blueprint('pins', __name__)
 
@@ -50,8 +51,19 @@ def pins_of_same_category(id):
 def get_all_pins():
     page = request.args.get('page', 1, type=int)
     per_page = request.args.get('size', 20, type=int)
+    search_query = request.args.get('search', '')
+    query = Pin.query
 
-    all_pins = Pin.query.paginate(page, per_page, error_out=False)
+    if search_query:
+        query = query.filter(
+            or_(
+                Pin.title.like('%' + search_query + '%'),
+                Pin.description.like('%' + search_query + '%'),
+                Pin.categories.any(Category.name.like('%' + search_query + '%'))
+            )
+        )
+
+    all_pins = query.paginate(page, per_page, error_out=False)
 
 
     pins = []

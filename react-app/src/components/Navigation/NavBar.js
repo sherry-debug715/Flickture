@@ -1,16 +1,21 @@
 import React from 'react';
 import { useState, useEffect } from 'react';
 import { NavLink, Link, useHistory } from 'react-router-dom';
-import { useSelector } from 'react-redux';
+import { useSelector, useDispatch } from 'react-redux';
 import LogoutButton from '../auth/LogoutButton';
 import LoginForm from '../auth/LoginForm';
 import SignUpForm from '../auth/SignUpForm';
 import OpenModalButton from '../OpenModalButton';
+import { getAllPinsThunk } from '../../store/pins';
+import { clearPins } from '../../store/pins';
 import "./navBar.css";
 
 
-const NavBar = () => {
+const NavBar = ({setSearchContent, searchContent}) => {
+
   const [showMenu, setShowMenu] = useState(false);
+
+  const dispatch = useDispatch();
 
   const openMenu = () => {
       if (showMenu) return;
@@ -61,7 +66,11 @@ const NavBar = () => {
     )
   };
 
-
+  const handleSearch = () => {
+    dispatch(clearPins())
+    dispatch(getAllPinsThunk(1, searchContent))
+    .then(() => history.push("/explore"))
+  };
 
   return (
     <div className='navBar-container'>
@@ -84,10 +93,17 @@ const NavBar = () => {
           Create Pin
         </div>}
         <div className='searchBar'>
+
           <input 
-          type="search" 
-          placeholder='Search'
+            type="search" 
+            placeholder='Search'
+            value={searchContent}
+            onChange={e => setSearchContent(e.target.value)}
+            onKeyDown={e => {
+              if(e.key === "Enter") return handleSearch();
+            }}
           />
+        
         </div>
         <div>{sessionContent}</div>
       </nav>

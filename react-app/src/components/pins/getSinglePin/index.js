@@ -11,6 +11,7 @@ import { followUserThunk } from "../../../store/session";
 import { unfollowUserThunk } from "../../../store/session";
 import GetComments from "../../Comments/GetComments";
 import CreateCommentForm from "../../Comments/CreateComment";
+import { removeFollow, addFollower } from "../../../store/pins";
 
 
 
@@ -23,6 +24,8 @@ export default function SinglePin() {
     const [isExpanded, setIsExpanded] = useState(false);
 
     const [addToFav, setAddToFav] = useState(false);
+
+    const [isFollowing, setIsFollowing] = useState(false);
 
     const containerRef = useRef(null);
 
@@ -41,6 +44,12 @@ export default function SinglePin() {
     const savedPinIds = Object.values(savedPinsState).map(savedPin => savedPin.pin.id);
 
     const pinSaved = (pinId) => savedPinIds.includes(+pinId);
+
+    useEffect(() => {
+        if(sessionUser && pin.followers) {
+            setIsFollowing(pin.followers.findIndex(user => user.id === sessionUser.id) !== -1);
+        }
+    }, [sessionUser, pin.followers]);
     
     useEffect(() => {
         if(pinSaved(pinId)) {
@@ -88,22 +97,24 @@ export default function SinglePin() {
         }
     },[dispatch, pinId]);
 
-    const handleFollow = userId => {
-        dispatch(followUserThunk(userId));
+    const handleFollow = async userId => {
+        const followedUser = await dispatch(followUserThunk(userId));
+        if(followedUser) {
+            dispatch(addFollower(followedUser));
+            setIsFollowing(true);
+        };
     };
 
-    const handleUnfollow = userId => {
-        dispatch(unfollowUserThunk(userId));
+    const handleUnfollow = async userId => {
+        const unfollowedUser = await dispatch(unfollowUserThunk(userId));
+        if(unfollowedUser){ 
+            dispatch(removeFollow(unfollowedUser));
+            setIsFollowing(false);
+        };
     }
 
 
     if(!pin.pin_images || !pin.followers ) return null;
-
-    const alreadyFollowing = () => {
-        if(sessionUser && pin.followers) {
-            return pin.followers.findIndex(user => user.id === sessionUser.id) !== -1
-        } else return;
-    };
 
     return (
         <div className="single-pin-main-container">
@@ -176,9 +187,9 @@ export default function SinglePin() {
                                             </div>
                                         </div>
                                     </div>                                    
-                                    <div className="single-pin-user-info-right-container">
+                                    {sessionUser && <div className="single-pin-user-info-right-container">
                                         
-                                        {alreadyFollowing() ? 
+                                        {isFollowing === true ? 
                                         <GreyBackgroundBtn 
                                         text={"Unfollow"} 
                                         onClick={() => handleUnfollow(pin.creator.id)}
@@ -189,7 +200,7 @@ export default function SinglePin() {
                                         Follow
                                     </button>}
                                         
-                                    </div>
+                                    </div>}
                                 </div>
 
                                 <div className="single-pin-image-info-container">
