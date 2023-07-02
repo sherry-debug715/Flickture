@@ -2,6 +2,12 @@ import { normalization } from "./pins";
 const CREATE_COMMENT = "comments/CREATE_COMMENT";
 const GET_COMMENTS = "comments/GET_COMMENTS";
 const EDIT_COMMENT = "comments/EDIT_COMMENT";
+const DELETE_COMMENT = "comments/DELETE_COMMENT";
+
+const deleteComment = commentId => ({
+    type: DELETE_COMMENT,
+    commentId
+});
 
 const editComment = editedComment => ({
     type: EDIT_COMMENT,
@@ -17,6 +23,17 @@ const getComments = comments => ({
     type:GET_COMMENTS,
     comments
 });
+
+
+export const deleteCommentThunk = (pinId, commentId) => async dispatch => {
+    const response = await fetch(`/api/comments/delete/${pinId}/${commentId}`, {
+        method: "DELETE"
+    });
+
+    if(response.ok) {
+        dispatch(deleteComment(commentId));
+    }
+};
 
 export const editCommentThunk = (pinId, commentId, content) => async dispatch => {
     const response = await fetch(`/api/comments/edit/${pinId}/${commentId}`, {
@@ -77,6 +94,10 @@ export default function commentsReducer(state = initialState, action) {
             newState={...state};
             newState[action.editedComment.id] = action.editedComment;
             return newState;
+        case DELETE_COMMENT:
+            newState={...state};
+            delete newState[action.commentId];
+            return newState
         default:
             return state;
     };

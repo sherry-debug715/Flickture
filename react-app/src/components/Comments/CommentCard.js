@@ -1,11 +1,15 @@
 import { useState } from "react";
-import { useSelector } from "react-redux";
+import { useSelector, useDispatch } from "react-redux";
 import EditComment from "./EditComment";
+import { deleteCommentThunk } from "../../store/comments";
+import { getOnePinThunk } from "../../store/pins";
 import "./comments.css";
 
 export default function CommentCard({comment}) {
 
     const [isExpanded, setIsExpanded] = useState(false);
+
+    const dispatch = useDispatch();
 
     const [showEditForm, setShowEditForm] = useState(false);
 
@@ -58,7 +62,6 @@ export default function CommentCard({comment}) {
                     <div 
                         className="comment-edit-icon-container"
                         onClick={() => {
-                            console.log("Edit button clicked");
                             setShowEditForm(true)
                             setContent(comment.content)
                         }}
@@ -70,7 +73,13 @@ export default function CommentCard({comment}) {
                             edit
                         </span>
                     </div>
-                    <div className="comment-edit-icon-container">
+                    <div 
+                        className="comment-edit-icon-container"
+                        onClick={() => {
+                            dispatch(deleteCommentThunk(comment.pin_id, comment.id))
+                            .then(() => dispatch(getOnePinThunk(comment.pin_id)))
+                        }}
+                    >
                         <span 
                             className="material-symbols-outlined"
                             id="material-symbols-outlined-edit"
