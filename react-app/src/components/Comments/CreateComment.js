@@ -40,7 +40,7 @@ export default function CreateCommentForm({pinId, containerRef}) {
 
     const handleSubmit = async() => {
         const data = {content};
-        console.log("this is data", data)
+
         if(!buttonDisabled()) {
             const newComment = await dispatch(createCommentThunk(pinId, data));
             if(newComment){ 
@@ -50,14 +50,14 @@ export default function CreateCommentForm({pinId, containerRef}) {
         };
     };
 
-    if(!commentsArr.length) return null;
-
     const userAlreadyLeftComment = commentsArr.map(comment => comment.creator.id);
 
     const buttonDisabled = () => {
         if(!content.length || !sessionUser) return true;
         if(sessionUser && userAlreadyLeftComment.includes(sessionUser.id)) return true; 
     };
+
+    if(sessionUser && userAlreadyLeftComment.includes(sessionUser.id)) return null;
 
     return (
         <div className="create-comment-container">
@@ -74,12 +74,6 @@ export default function CreateCommentForm({pinId, containerRef}) {
                     value={content}
                     onChange={e => setContent(e.target.value)}
                     className="create-comment-textarea"
-                    onKeyDown={e => {
-                        if(e.key === "Enter") {
-                            e.preventDefault();
-                            handleSubmit();
-                        }
-                    }}
                 />
                 <div className="create-comment-emoji-container">
                     <div onClick={() => setEmojiOpen(prev => !prev)} style={{cursor: "pointer"}}>

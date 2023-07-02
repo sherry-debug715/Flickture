@@ -83,8 +83,10 @@ export default function SinglePin() {
 
     useEffect(() => {
         dispatch(getOnePinThunk(pinId));
-        dispatch(getUserSavedPinsThunk(sessionUser.id));
-    },[dispatch, pinId, sessionUser.following]);
+        if(sessionUser) {
+            dispatch(getUserSavedPinsThunk(sessionUser.id));
+        }
+    },[dispatch, pinId]);
 
     const handleFollow = userId => {
         dispatch(followUserThunk(userId));
@@ -97,7 +99,11 @@ export default function SinglePin() {
 
     if(!pin.pin_images || !pin.followers ) return null;
 
-    const alreadyFollowing = () => pin.followers.findIndex(user => user.id === sessionUser.id) !== -1;
+    const alreadyFollowing = () => {
+        if(sessionUser && pin.followers) {
+            return pin.followers.findIndex(user => user.id === sessionUser.id) !== -1
+        } else return;
+    };
 
     return (
         <div className="single-pin-main-container">
@@ -231,11 +237,11 @@ export default function SinglePin() {
                                     </div>
                                 </div>
                             </div>
-                            <div 
-                            ref={containerRef} 
-                            className="single-pin-upper-right-inner-container-bottom">
+                            {sessionUser && <div 
+                                ref={containerRef} 
+                                className="single-pin-upper-right-inner-container-bottom">
                                 <CreateCommentForm pinId={pinId} containerRef={containerRef} />
-                            </div>
+                            </div>}
                         </div>
                     </div>
 

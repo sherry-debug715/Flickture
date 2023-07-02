@@ -52,7 +52,9 @@ export default function GetAllPins() {
         setReadyToFetch(false);
         dispatch(getAllPinsThunk(page))
         .then(() => setReadyToFetch(true));    
-        dispatch(getUserSavedPinsThunk(sessionUser.id));
+        if(sessionUser) {
+            dispatch(getUserSavedPinsThunk(sessionUser.id));
+        }
     }, [dispatch, page]);
 
 
