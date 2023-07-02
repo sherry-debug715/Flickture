@@ -1,16 +1,25 @@
 import { useState, useRef, useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { createCommentThunk } from "../../store/comments";
+import { createCommentThunk, getCommentsThunk } from "../../store/comments";
+import { getOnePinThunk } from "../../store/pins";
 import EmojiPicker, {
     EmojiStyle,
     Emoji
   } from "emoji-picker-react";
 
-export default function CreateCommentForm({pinId}) {
+export default function CreateCommentForm({pinId, containerRef}) {
     
     const dispatch = useDispatch();
 
     const sessionUser = useSelector(state => state.session.user);
+
+    const allComments = useSelector(state => state.comments);
+
+    useEffect(() => {
+        dispatch(getCommentsThunk(pinId));
+    }, [dispatch]);
+
+    const commentsArr = Object.values(allComments);
 
     const [content, setContent] = useState("");
 
@@ -18,14 +27,37 @@ export default function CreateCommentForm({pinId}) {
 
     const [emojiOpen, setEmojiOpen] = useState(false);
 
-    const buttonDisabled = () => !content.length;
-
     useEffect(() => {
-        if (textAreaRef.current) {
+        if (textAreaRef.current  && containerRef.current) {
             textAreaRef.current.style.height = "auto";
             textAreaRef.current.style.height = `${textAreaRef.current.scrollHeight}px`;
+
+            if (content.length > 167) {
+                containerRef.current.style.height = `${textAreaRef.current.scrollHeight}px`;
+            }
         }
     }, [content]); 
+
+    const handleSubmit = async() => {
+        const data = {content};
+        console.log("this is data", data)
+        if(!buttonDisabled()) {
+            const newComment = await dispatch(createCommentThunk(pinId, data));
+            if(newComment){ 
+                setContent("");
+                dispatch(getOnePinThunk(pinId));
+            };
+        };
+    };
+
+    if(!commentsArr.length) return null;
+
+    const userAlreadyLeftComment = commentsArr.map(comment => comment.creator.id);
+
+    const buttonDisabled = () => {
+        if(!content.length || !sessionUser) return true;
+        if(sessionUser && userAlreadyLeftComment.includes(sessionUser.id)) return true; 
+    };
 
     return (
         <div className="create-comment-container">
@@ -42,6 +74,12 @@ export default function CreateCommentForm({pinId}) {
                     value={content}
                     onChange={e => setContent(e.target.value)}
                     className="create-comment-textarea"
+                    onKeyDown={e => {
+                        if(e.key === "Enter") {
+                            e.preventDefault();
+                            handleSubmit();
+                        }
+                    }}
                 />
                 <div className="create-comment-emoji-container">
                     <div onClick={() => setEmojiOpen(prev => !prev)} style={{cursor: "pointer"}}>
@@ -60,14 +98,18 @@ export default function CreateCommentForm({pinId}) {
                         /> }
                     </div>
                 </div>   
-                <div className="create-comment-btn-container">
+                <button 
+                className={!buttonDisabled() ? "create-comment-btn-container" : "create-comment-btn-container-disabled"}
+                disabled={buttonDisabled()}
+                onClick={handleSubmit}                
+                >
                     <span 
                         className="material-symbols-outlined"
                         id="material-symbols-send"
                     >
                         send
                     </span>
-                </div>                 
+                </button>                 
             </div>
 
         </div>

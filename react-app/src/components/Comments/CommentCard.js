@@ -31,7 +31,7 @@ export default function CommentCard({comment}) {
 
             <div className="comment-content-container">
                 <div className={`comment-content ${isExpanded ? 'expanded': 'collapsed'}`}>
-                    {isExpanded ? comment.content : comment.content.slice(0, 100)+"..."} <br />
+                    {isExpanded ? comment.content : comment.content.slice(0, 100)} <br />
                     {
                         comment.content.length > 100 && 
                         <button

@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useEffect, useState, useRef } from "react";
 import { useParams, useHistory } from "react-router-dom";
 import { useSelector, useDispatch } from "react-redux";
 import { Link } from "react-router-dom";
@@ -23,6 +23,8 @@ export default function SinglePin() {
     const [isExpanded, setIsExpanded] = useState(false);
 
     const [addToFav, setAddToFav] = useState(false);
+
+    const containerRef = useRef(null);
 
     const {pinId} = useParams();
 
@@ -229,8 +231,10 @@ export default function SinglePin() {
                                     </div>
                                 </div>
                             </div>
-                            <div className="single-pin-upper-right-inner-container-bottom">
-                                <CreateCommentForm pinId={pinId} />
+                            <div 
+                            ref={containerRef} 
+                            className="single-pin-upper-right-inner-container-bottom">
+                                <CreateCommentForm pinId={pinId} containerRef={containerRef} />
                             </div>
                         </div>
                     </div>

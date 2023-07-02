@@ -33,6 +33,7 @@ export const createCommentThunk = (pinId, content) => async dispatch => {
     if(response.ok) {
         const newComment = await response.json();
         dispatch(createComment(newComment));
+        return newComment;
     };
 };
 
