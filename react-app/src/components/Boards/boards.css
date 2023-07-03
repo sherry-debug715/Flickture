@@ -2,18 +2,23 @@
     width: 100%;
     height: 88vh;
     display: flex;
-    flex-direction: row;
+    flex-direction: column;
     justify-content: center;
     align-items: center;
 }
 
+.board-pins-back-arrow-container {
+    height: 10%;
+    width: 90%;
+}
+
+
 .board-pins-inner-container {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(300px, 1fr)); 
+    gap: 2%;
     width: 90%;
     height: 90%;
-    display: flex;
-    flex-direction: row;
-    flex-wrap: wrap;
-    justify-content: space-between;
 }
 
 .board-pins-pin-card-container {
