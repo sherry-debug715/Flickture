@@ -1,6 +1,6 @@
 import { useEffect } from "react";
 import { useSelector, useDispatch } from "react-redux";
-import { useParams } from "react-router-dom";
+import { useParams, Link } from "react-router-dom";
 import { getBoardDetailThunk } from "../../store/boards";
 import BoardPinCard from "./BoardPinCard";
 import "./boards.css";
@@ -22,6 +22,20 @@ export default function BoardPins() {
 
     return (
         <div className="board-pins-container">
+            <div className="board-pins-back-arrow-container">
+                <div className="material-symbols-outlined-container">
+                    <Link 
+                        to={`/userProfile/${userBoards.user_id}`} 
+                    >
+                            <span 
+                            className="material-symbols-outlined"
+                            id="material-symbols-outlined"
+                            >
+                                arrow_back
+                            </span>
+                    </Link>
+                </div>
+            </div>
             <div className="board-pins-inner-container">
                 {boardPins.map(pin => (
                     <div key={pin.pin_id} className="board-pins-pin-card-container" >
