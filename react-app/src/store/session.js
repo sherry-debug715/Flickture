@@ -23,26 +23,27 @@ const removeUser = () => ({
   type: REMOVE_USER,
 });
 
-export const unfollowUserThunk = userId => async dispatch => {
+export const unfollowUserThunk = (userId, user) => async dispatch => {
   const response = await fetch(`/api/users/unfollow/${userId}`, {
     method: 'POST'
   });
 
   if(response.ok) {
-    const user = await response.json();
+    const sessionUser = await response.json();
     dispatch(unfollowUser(user));
-    return user;
+    return sessionUser;
   };
 };
 
-export const followUserThunk = (userId) => async dispatch => {
+export const followUserThunk = (userId, user) => async dispatch => {
+  console.log("user===from thunk", user)
   const response = await fetch(`/api/users/follow/${userId}`, {
     method: 'POST'
   });
 
   if(response.ok) {
     const followedUser = await response.json();
-    dispatch(followUser(followedUser));
+    dispatch(followUser(user));
     return followedUser;
   }
 };
@@ -149,8 +150,9 @@ export default function reducer(state = initialState, action) {
       return newState;
     case UNFOLLOW_USER:
       newState = { user: {...state.user, following: [...state.user.following]}};
-      const userIdx = newState.user.following.findIndex(user => user.id === action.user.id);
-      if(userIdx) newState.user.following.splice(userIdx, 1);
+      newState.user.following = newState.user.following.filter(user => user.id !== action.user.id)
+      // const userIdx = newState.user.following.findIndex(user => user.id === action.user.id);
+      // if(userIdx) newState.user.following.splice(userIdx, 1);
       return newState;
     default:
       return state;

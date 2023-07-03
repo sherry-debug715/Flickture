@@ -28,10 +28,9 @@
 }
 
 .saved-pins-pincard-main-container {
-    display: flex;
-    flex-direction: row;
-    flex-wrap: wrap;
-    column-gap: 5%;
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+    gap: 1rem;
 }
 
 .userProfile-user-info {
@@ -119,6 +118,8 @@
     display: flex;
     flex-direction: row;
     flex-wrap: wrap;
+    justify-content: space-between;
+    align-content: flex-start;
 }
 
 .board-card-container {
@@ -127,6 +128,7 @@
     display: flex;
     flex-direction: column;
     margin: 0 2% 0 0;
+    flex-grow: 1; 
 }
 
 .board-card-outer-container {

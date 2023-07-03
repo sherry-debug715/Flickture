@@ -122,7 +122,7 @@ export default function EditBoardForm() {
 
                     <div className="edit-board-form-content-container">
                         <h1 className="edit-board-form-title">Edit your board</h1>
-                        <div className="edit-board-name-field">
+                        {name !== "All Pins" && <div className="edit-board-name-field">
                             <InputField 
                                 size={{ m: 2, width: "40ch"}}
                                 setter={setName}
@@ -133,7 +133,7 @@ export default function EditBoardForm() {
                                 variant={"standard"}
                                 labelFontSize={"20px"}
                             />
-                        </div>
+                        </div>}
 
                         <div className="edit-board-form-set-private-container">
                             <div>

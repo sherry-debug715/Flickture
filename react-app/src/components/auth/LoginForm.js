@@ -66,7 +66,7 @@ const LoginForm = ({handleNavToHome}) => {
               setter={setEmail}
               val={email}
               label={"Email"}
-              id={"standard-basic"}
+              id={"standard-basic1"}
               multiline={false}
               variant={"standard"}
               labelFontSize={"20px"}   

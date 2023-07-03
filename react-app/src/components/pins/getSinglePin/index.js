@@ -97,16 +97,16 @@ export default function SinglePin() {
         }
     },[dispatch, pinId]);
 
-    const handleFollow = async userId => {
-        const followedUser = await dispatch(followUserThunk(userId));
+    const handleFollow = async (userId, user) => {
+        const followedUser = await dispatch(followUserThunk(userId, user));
         if(followedUser) {
             dispatch(addFollower(followedUser));
             setIsFollowing(true);
         };
     };
 
-    const handleUnfollow = async userId => {
-        const unfollowedUser = await dispatch(unfollowUserThunk(userId));
+    const handleUnfollow = async (userId, user) => {
+        const unfollowedUser = await dispatch(unfollowUserThunk(userId, user));
         if(unfollowedUser){ 
             dispatch(removeFollow(unfollowedUser));
             setIsFollowing(false);
@@ -187,15 +187,15 @@ export default function SinglePin() {
                                             </div>
                                         </div>
                                     </div>                                    
-                                    {sessionUser && <div className="single-pin-user-info-right-container">
+                                    {sessionUser && sessionUser.id !== pin.creator.id && <div className="single-pin-user-info-right-container">
                                         
                                         {isFollowing === true ? 
                                         <GreyBackgroundBtn 
                                         text={"Unfollow"} 
-                                        onClick={() => handleUnfollow(pin.creator.id)}
+                                        onClick={() => handleUnfollow(pin.creator.id, {id: pin.creator.id, profile_url:pin.creator.profile_url, username: pin.creator.username})}
                                         /> : <button 
                                         className="single-pin-follow-button"
-                                        onClick={() => handleFollow(pin.creator.id)}
+                                        onClick={() => handleFollow(pin.creator.id, {id: pin.creator.id, profile_url:pin.creator.profile_url, username: pin.creator.username})}
                                     >
                                         Follow
                                     </button>}
