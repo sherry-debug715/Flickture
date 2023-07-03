@@ -272,15 +272,12 @@
 
 .edit-board-form-pin-container {
     overflow-y: auto;
-    display: flex;
-    flex-direction: row;
-    justify-content: space-between;
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(230px, 1fr)); 
+    grid-gap: 35px; 
     align-items: center;
     height: 90%;
     width: 100%;
-    /* border: 1px solid orange; */
-    flex-wrap: wrap;
-
 }
 
 .edit-board-form-pin-inner-container,
@@ -289,7 +286,7 @@
     flex-direction: row;
     height: 200px;
     width: 230px;
-    margin-top: 4%;
+    margin-top: 8%;
 }
 
 .edit-board-form-pin-main-container {

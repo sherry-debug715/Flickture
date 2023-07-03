@@ -47,8 +47,10 @@ const NavBar = ({setSearchContent, searchContent}) => {
       {sessionUser.profile_url ? <img src={sessionUser.profile_url} className='profile-image' alt="profile" /> : <div className='profile-image'>{sessionUser.first_name[0]}</div>}
       {showMenu && (
         <div className='profile-drop-down-container'>
-          <Link to={`/userProfile/${sessionUser.id}`}>user profile</Link>
-          <div><LogoutButton /></div>
+          <div>
+            <Link to={`/userProfile/${sessionUser.id}`}>user profile</Link>
+          </div>
+          <div id="logout-btn"><LogoutButton /></div>
         </div>
       )}
     </div>  

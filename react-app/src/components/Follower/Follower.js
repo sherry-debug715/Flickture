@@ -1,10 +1,11 @@
 import { useDispatch, useSelector } from "react-redux";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import { userProfileThunk } from "../../store/user";
 import { followUserThunk } from "../../store/session";
 import "../Follow/Follow.css";
 
 export default function Follower({userId, closeFollowerModal}) {
+
     const curUser = useSelector(state => state.user);
 
     const sessionUser = useSelector(state => state.session.user);
@@ -15,10 +16,9 @@ export default function Follower({userId, closeFollowerModal}) {
         dispatch(userProfileThunk(userId));
     }, [dispatch, userId]);
 
-    const handleFollow = followedUserId => {
-        dispatch(followUserThunk(followedUserId))
+    const handleFollow = (followedUserId, user) => {
+        dispatch(followUserThunk(followedUserId, user))
         .then(() => dispatch(userProfileThunk(userId)))
-        .then(() => closeFollowerModal());
     };
 
     if(!curUser.id) return null;
@@ -26,10 +26,15 @@ export default function Follower({userId, closeFollowerModal}) {
 
     const followers = curUser.followers;
 
-    const sessionUserFollowing = (userId) => {
-        const sessionUserFollow = sessionUser.following;
-        return sessionUserFollow.findIndex(user => user.id === userId) !== -1
-    };
+    const alreadyFollowing = (userId) => {
+        if(sessionUser) {
+            const sessionUserFollow = sessionUser.following;
+
+            return sessionUserFollow.findIndex(user => user.id === +userId) !== -1;
+        };
+    }
+
+
     
     return (
         <div className="followers-modal-container">
@@ -65,10 +70,10 @@ export default function Follower({userId, closeFollowerModal}) {
                             
 
                             {sessionUser.id !== user.id && <div 
-                                className={!sessionUserFollowing(user.id) ?"each-user-container-follow-btn" : "each-user-container-follow-btn-disabled"}
-                                onClick={() => handleFollow(user.id)}
+                                className={!alreadyFollowing(user.id) ?"each-user-container-follow-btn" : "each-user-container-follow-btn-disabled"}
+                                onClick={() => handleFollow(user.id ,user)}
                             >
-                                {sessionUserFollowing(user.id) ? "Following" : "Follow"}
+                                {alreadyFollowing(user.id) ? "Following" : "Follow"}
                             </div> }
                                 
                         </div>

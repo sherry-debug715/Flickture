@@ -20,15 +20,15 @@ export default function Following({userId, closeFollowingModal}) {
         dispatch(userProfileThunk(userId));
     }, [dispatch, userId]);
 
-    const handleUnfollow = unfollowedUserId => {
-        dispatch(unfollowUserThunk(unfollowedUserId))
+    const handleUnfollow = (unfollowedUserId, user) => {
+        dispatch(unfollowUserThunk(unfollowedUserId, user))
         .then(() => {
             dispatch(userProfileThunk(userId));
         });
     };
 
-    const handleFollow = followedId => {
-        dispatch(followUserThunk(followedId))
+    const handleFollow = (followedId, user) => {
+        dispatch(followUserThunk(followedId, user))
         .then(() => {
             dispatch(userProfileThunk(userId));
         });
@@ -71,12 +71,12 @@ export default function Following({userId, closeFollowingModal}) {
 
                             {userId === sessionUser.id ? <div 
                                 className="each-user-container-unfollow-btn"
-                                onClick={() => handleUnfollow(user.id)}
+                                onClick={() => handleUnfollow(user.id, user)}
                             >
                                 Unfollow
                             </div> : user.id !== sessionUser.id && <div 
                                 className={!sessionUserFollowing(user.id) ?"each-user-container-follow-btn" : "each-user-container-follow-btn-disabled"}
-                                onClick={() => handleFollow(user.id)}
+                                onClick={() => handleFollow(user.id, user)}
                             >
                                 {sessionUserFollowing(user.id) ? "Following" : "Follow"}
                             </div>}
