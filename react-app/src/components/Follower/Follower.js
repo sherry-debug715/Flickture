@@ -69,7 +69,7 @@ export default function Follower({userId, closeFollowerModal}) {
 
                             
 
-                            {sessionUser.id !== user.id && <div 
+                            {sessionUser && sessionUser.id !== user.id && <div 
                                 className={!alreadyFollowing(user.id) ?"each-user-container-follow-btn" : "each-user-container-follow-btn-disabled"}
                                 onClick={() => handleFollow(user.id ,user)}
                             >

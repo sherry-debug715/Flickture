@@ -58,13 +58,13 @@ export default function UserProfile() {
         };
     };
 
-    const handleFollow = curuserId => {
-        dispatch(followUserThunk(curuserId))
+    const handleFollow = (curuserId, user) => {
+        dispatch(followUserThunk(curuserId, user))
         .then(() =>  dispatch(userProfileThunk(userId)))
     };
 
-    const handleUnfollow = curuserId => {
-        dispatch(unfollowUserThunk(curuserId))
+    const handleUnfollow = (curuserId, user) => {
+        dispatch(unfollowUserThunk(curuserId, user))
         .then(() =>  dispatch(userProfileThunk(userId)))
 
     }
@@ -118,21 +118,21 @@ export default function UserProfile() {
                 </div>
 
                 <div className="userProfile-create-board-icon-container">
-                    {curUser.id === sessionUser.id && <div 
+                    {sessionUser && curUser.id === sessionUser.id && <div 
                         className="userProfile-create-board-icon"
                         onClick={handleOpenCreateBoardForm}
                     >+</div>}
                 </div>
 
-                { curUser.id !== sessionUser.id && 
+                { sessionUser && curUser.id !== sessionUser.id && 
                     <div className="userProfile-follow-container">
                         {
                         alreadyFollowing() ? <GreyBackgroundBtn 
                             text={"Unfollow"} 
-                            onClick={() => handleUnfollow(curUser.id)}
+                            onClick={() => handleUnfollow(curUser.id, curUser)}
                             /> : <button 
                             className="single-pin-follow-button"
-                            onClick={() => handleFollow(curUser.id)}
+                            onClick={() => handleFollow(curUser.id, curUser)}
                             >
                             Follow
                         </button>
@@ -144,7 +144,7 @@ export default function UserProfile() {
                 </div>}
 
                 <hr />
-                {sessionUser.id === +userId && <SavedPins />}
+                {sessionUser && sessionUser.id === +userId && <SavedPins />}
             </div>
         </div>
     )
