@@ -2,6 +2,8 @@ import React, { useState } from 'react';
 import { useDispatch } from 'react-redux'
 import { signUp } from '../../store/session';
 import { useModal } from '../../context/Modal';
+import InputField from '../ui/Input/InputField';
+import "./auth.css";
 
 const SignUpForm = ({handleNavToHome}) => {
   const [errors, setErrors] = useState([]);
@@ -27,83 +29,109 @@ const SignUpForm = ({handleNavToHome}) => {
     }
   };
 
-  const updateFirstName = e => setFirstName(e.target.value);
-
-  const updateLastName = e => setLastName(e.target.value);
-
-  const updateUsername = (e) => setUsername(e.target.value);
-
-  const updateEmail = (e) => setEmail(e.target.value);
-
-  const updatePassword = (e) => setPassword(e.target.value);
-
-  const updateRepeatPassword = (e) => setRepeatPassword(e.target.value);
+  const btnDisabled = () => {
+    if(!username.length || !email.length || !password.length || !repeatPassword.length || !first_name.length || !last_name.length) return true;
+  };
 
 
   return (
-    <form onSubmit={onSignUp}>
-      <div>
-        {errors.map((error, ind) => (
-          <div key={ind}>{error}</div>
-        ))}
+    <div className='signup-form-container'>
+      <div className='signup-form-inner-container'>
+        <h1>Sign up to Flickture</h1>
+        <form onSubmit={onSignUp} className='signup-form'>
+          <div>
+            {errors.map((error, ind) => (
+              <div key={ind}>{error}</div>
+            ))}
+          </div>
+          <div>
+             <InputField 
+              size={{ m: 2, width: "30ch"}}
+              setter={setUsername}
+              val={username}
+              label={"Username"}
+              id={"standard-basic"}
+              multiline={false}
+              variant={"standard"}
+              labelFontSize={"20px"}      
+            /> 
+          </div>
+          <div>
+            <InputField 
+              size={{ m: 2, width: "30ch"}}
+              setter={setFirstName}
+              val={first_name}
+              label={"First Name"}
+              id={"standard-basic"}
+              multiline={false}
+              variant={"standard"}
+              labelFontSize={"20px"}      
+            /> 
+          </div>
+          <div>
+            <InputField 
+              size={{ m: 2, width: "30ch"}}
+              setter={setLastName}
+              val={last_name}
+              label={"Last Name"}
+              id={"standard-basic"}
+              multiline={false}
+              variant={"standard"}
+              labelFontSize={"20px"}      
+            /> 
+          </div>
+          <div>
+            <InputField 
+              size={{ m: 2, width: "30ch"}}
+              setter={setEmail}
+              val={email}
+              label={"Email"}
+              id={"standard-basic"}
+              multiline={false}
+              variant={"standard"}
+              labelFontSize={"20px"}   
+              type="email"   
+            /> 
+          </div>
+          <div>
+            <InputField 
+              size={{ m: 2, width: "30ch"}}
+              setter={setPassword}
+              val={password}
+              label={"Password"}
+              id={"standard-basic"}
+              multiline={false}
+              variant={"standard"}
+              labelFontSize={"20px"}  
+              type="password"       
+            /> 
+          </div>
+          <div>
+            <InputField 
+              size={{ m: 2, width: "30ch"}}
+              setter={setRepeatPassword}
+              val={repeatPassword}
+              label={"Repeat Password"}
+              id={"standard-basic"}
+              multiline={false}
+              variant={"standard"}
+              labelFontSize={"20px"}  
+              type="password"       
+            /> 
+          </div>
+          <div className='signup-form-btn-container'>
+            <button 
+              type='submit'
+              className={!btnDisabled() ? "red-background-btn-container" : "red-background-btn-container-disabled"} 
+              disabled={btnDisabled()}
+              id="signup-btn"
+            >
+              Sign Up
+            </button>
+          </div>
+        </form>
       </div>
-      <div>
-        <label>User Name</label>
-        <input
-          type='text'
-          name='username'
-          onChange={updateUsername}
-          value={username}
-        ></input>
-      </div>
-      <div>
-        <label>First Name</label>
-        <input
-          type='text'
-          name='firstname'
-          onChange={updateFirstName}
-          value={first_name}
-        ></input>
-      </div>
-      <div>
-        <label>Last Name</label>
-        <input
-          type='text'
-          name='lastname'
-          onChange={updateLastName}
-          value={last_name}
-        ></input>
-      </div>
-      <div>
-        <label>Email</label>
-        <input
-          type='text'
-          name='email'
-          onChange={updateEmail}
-          value={email}
-        ></input>
-      </div>
-      <div>
-        <label>Password</label>
-        <input
-          type='password'
-          name='password'
-          onChange={updatePassword}
-          value={password}
-        ></input>
-      </div>
-      <div>
-        <label>Repeat Password</label>
-        <input
-          type='password'
-          name='repeat_password'
-          onChange={updateRepeatPassword}
-          value={repeatPassword}
-          required={true}
-        ></input>
-      </div>
-      <button type='submit'>Sign Up</button>
-    </form>
+    </div>
   );
 };
 

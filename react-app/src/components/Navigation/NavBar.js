@@ -56,10 +56,10 @@ const NavBar = ({setSearchContent, searchContent}) => {
   } else {
     sessionContent = (
       <ul className='logIn-signUp-container'>
-        <li>
+        <li className='auth-container'>
           <OpenModalButton buttonText="Log in" modalComponent={<LoginForm handleNavToHome={handleNavToHome} />} />
         </li>
-        <li>
+        <li className='auth-container'>
           <OpenModalButton buttonText="Sign up" modalComponent={<SignUpForm  handleNavToHome={handleNavToHome} />} />
         </li>
       </ul>
@@ -77,12 +77,14 @@ const NavBar = ({setSearchContent, searchContent}) => {
       <nav className='navBar-inner-container'>
         <div className='navBar-logo-container'>      
             <NavLink 
-              to='/' 
+              to='/explore' 
               exact={true} 
               activeClassName='active'
               id="logo"
             >
-              flickture
+              <span>f</span>
+              <span>l</span>
+              <span>ickture</span>
             </NavLink>                
         </div>
         {sessionUser && 
