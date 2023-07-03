@@ -69,12 +69,12 @@ export default function Following({userId, closeFollowingModal}) {
                                 <div className="each-user-username">{user.username}</div>
                             </div>
 
-                            {userId === sessionUser.id ? <div 
+                            {sessionUser && userId === sessionUser.id ? <div 
                                 className="each-user-container-unfollow-btn"
                                 onClick={() => handleUnfollow(user.id, user)}
                             >
                                 Unfollow
-                            </div> : user.id !== sessionUser.id && <div 
+                            </div> : sessionUser && user.id !== sessionUser.id && <div 
                                 className={!sessionUserFollowing(user.id) ?"each-user-container-follow-btn" : "each-user-container-follow-btn-disabled"}
                                 onClick={() => handleFollow(user.id, user)}
                             >
