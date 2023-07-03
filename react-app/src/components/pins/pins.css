@@ -458,6 +458,13 @@
     justify-content: space-between;
 }
 
+.clear-form-container {
+    display: flex;
+    flex-direction: row;
+    justify-content: flex-start;
+    align-items: center;
+}
+
 .create-pin-form-content-container {
     display: flex;
     flex-direction: row;
@@ -669,7 +676,6 @@ div .EmojiPickerReact {
     position: absolute;
     z-index: 13;
 }
-
 
 #material-symbols-clear-form {
     font-weight: 700;
