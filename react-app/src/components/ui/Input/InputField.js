@@ -38,7 +38,7 @@ export default function InputField({size, setter, val, label, type, id, multilin
                     onChange={e => setter(e.target.value)}
                     InputLabelProps={{
                         shrink: true,
-                        style: { fontSize: labelFontSize }, // or any other size you want
+                        style: { fontSize: labelFontSize },
                     }}
                 />
             </Box>
