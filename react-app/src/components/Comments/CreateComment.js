@@ -27,7 +27,8 @@ export default function CreateCommentForm({pinId, containerRef}) {
 
     const [emojiOpen, setEmojiOpen] = useState(false);
 
-    const openEmoji = () => {
+    const openEmoji = (e) => {
+        e.stopPropagation();
         if(emojiOpen) return;
         setEmojiOpen(true);
     };

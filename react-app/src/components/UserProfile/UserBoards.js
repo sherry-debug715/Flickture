@@ -30,7 +30,7 @@ export default function UserBoards({userId}) {
     };
     
     return (
-        <div className="user-boards-container">
+        <div className="user-boards-container-grid">
             {boardsArr.map(board => (
                 (canBeViewed(board) && <div 
                 key={board.id} 
