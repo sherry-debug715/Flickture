@@ -29,6 +29,23 @@ export default function CreatePin() {
     const dispatch = useDispatch();
     const sessionUser = useSelector(state => state.session.user);
 
+    const openEmoji = () => {
+        if(emojiOpen) return;
+        setEmojiOpen(true);
+    };
+
+    useEffect(() => {
+        if(!emojiOpen) return;
+
+        const closeEmoji = () => {
+            setEmojiOpen(false);
+        };
+
+        document.addEventListener("click", closeEmoji);
+
+        return () => document.removeEventListener("click", closeEmoji);
+    },[emojiOpen]);
+
     const handleSubmit = async(e) => {
         e.preventDefault();
         const data = {
@@ -55,7 +72,6 @@ export default function CreatePin() {
             setImageFile(file)
             const reader = new FileReader()
             reader.onload = () => {
-            // Do whatever you want with the file contents
                 const binaryStr = reader.result
                 setImageUrl(binaryStr);
             }
@@ -88,7 +104,7 @@ export default function CreatePin() {
                 <div className="create-board-container">
                     <div className="create-board-inner-contaner">
                         <div 
-                            className="clear-form-container"
+                            className="create-pin-clear-form-container"
                             onClick={clearForm}
                         >
                             <span className="material-symbols-outlined" id="material-symbols-clear-form">
@@ -174,7 +190,7 @@ export default function CreatePin() {
                                     </div>
                                     <div className="emoji-picker-container">
                                         { emojiOpen && <EmojiPicker
-                                            onEmojiClick={(emojiData, event) => {
+                                            onEmojiClick={(emojiData) => {
                                                 const emoji = String.fromCodePoint(parseInt(emojiData.unified, 16));
                                                 setDescription(prev => prev + emoji);
                                             }}
