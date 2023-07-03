@@ -185,7 +185,7 @@ export default function CreatePin() {
                                 onBlur={() => setTextAreaId("about-pin-input")}
                                 />
                                 <div className="create-pin-emoji-container" >
-                                    <div onClick={() => setEmojiOpen(prev => !prev)} style={{cursor:"pointer"}}>
+                                    <div onClick={openEmoji} style={{cursor:"pointer"}}>
                                         <Emoji unified="1f603" size={22} />
                                     </div>
                                     <div className="emoji-picker-container">

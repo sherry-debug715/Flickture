@@ -36,7 +36,6 @@ export const unfollowUserThunk = (userId, user) => async dispatch => {
 };
 
 export const followUserThunk = (userId, user) => async dispatch => {
-  console.log("user===from thunk", user)
   const response = await fetch(`/api/users/follow/${userId}`, {
     method: 'POST'
   });
