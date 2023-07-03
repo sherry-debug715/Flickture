@@ -55,7 +55,7 @@ const LoginForm = ({handleNavToHome}) => {
 
         <h1>Log in to Flickture</h1>
         <form onSubmit={onLogin} className='login-form'>
-          <div>
+          <div className='login-form-error-container'>
             {errors.map((error, ind) => (
               <div key={ind}>{error}</div>
             ))}
@@ -69,7 +69,8 @@ const LoginForm = ({handleNavToHome}) => {
               id={"standard-basic"}
               multiline={false}
               variant={"standard"}
-              labelFontSize={"20px"}            
+              labelFontSize={"20px"}   
+              type="email"         
             /> 
           </div>
           <div>

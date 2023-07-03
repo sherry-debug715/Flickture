@@ -1,5 +1,5 @@
 .login-form-container {
-    height: 60vh;
+    height: 65vh;
     width: 25vw;
     display: flex;
     flex-direction: column;
@@ -17,9 +17,18 @@
 
 .login-form-inner-container>h1 {
     font-size: 25px;
-    height: 20%;
+    height: 15%;
     font-weight: 500;
-    color: var(--charcoal-grey)
+    color: var(--charcoal-grey);
+}
+
+.login-form-error-container {
+    height: 10%;
+    color: orange;
+    font-weight: 500;
+    margin-bottom: 5%;
+    font-size: 15px;
+    
 }
 
 .login-form {
