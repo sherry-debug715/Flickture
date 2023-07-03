@@ -113,22 +113,19 @@
     margin-top: 5%;
 }
 
-.user-boards-container {
+/* .user-boards-container {
     width: 100%;
     display: flex;
     flex-direction: row;
     flex-wrap: wrap;
     justify-content: space-between;
     align-content: flex-start;
-}
+} */
 
-.board-card-container {
-    width: 320px;
-    height: 270px;
-    display: flex;
-    flex-direction: column;
-    margin: 0 2% 0 0;
-    flex-grow: 1; 
+.user-boards-container {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(270px, 1fr)); 
+    gap: 2rem; 
 }
 
 .board-card-outer-container {
@@ -140,6 +137,8 @@
 .board-card-inner-container {
     width: 100%;
     height: 100%;
+    
+
 }
 
 .board-profile-container {
