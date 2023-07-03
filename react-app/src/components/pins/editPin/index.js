@@ -15,7 +15,7 @@ import EmojiPicker, {
     Emoji,
   } from "emoji-picker-react";
 
-export default function EditPinForm({pinId, closeEditFormModal, boardId, setCheckChangedBoardId}) {
+export default function EditPinForm({pinId, closeEditFormModal, boardId, setCheckChangedBoardId, openLocation}) {
     const dispatch = useDispatch();
     const [imageUrl, setImageUrl] = useState("")
     const [title, setTitle] = useState("");
@@ -29,6 +29,24 @@ export default function EditPinForm({pinId, closeEditFormModal, boardId, setChec
     const sessionUser = useSelector(state => state.session.user);
     const [reset, setReset] = useState(false);
     const { setModalContent, closeModal } = useModal();
+
+    const openEmoji = (e) => {
+        e.stopPropagation();
+        if(emojiOpen) return;
+        setEmojiOpen(true);
+    };
+
+    useEffect(() => {
+        if(!emojiOpen) return;
+
+        const closeEmoji = () => {
+            setEmojiOpen(false);
+        };
+
+        document.addEventListener("click", closeEmoji);
+
+        return () => document.removeEventListener("click", closeEmoji);
+    },[emojiOpen]);
 
     const handleOpenDeletePinForm = () => {
         setModalContent(<DeletePinForm pinId={pinId} closeDeletePinModal={closeModal} boardId={boardId} />)
@@ -63,10 +81,10 @@ export default function EditPinForm({pinId, closeEditFormModal, boardId, setChec
         };
 
         const returnedData = await dispatch(editPinThunk(pinId, editedPin));
-
-        
         if(returnedData) {
-            setCheckChangedBoardId(selectedBoardId)
+            if(openLocation === "EditBoardForm") {
+                setCheckChangedBoardId(selectedBoardId)
+            }
             dispatch(getBoardDetailThunk(boardId))
             .then(() => localStorage.removeItem("newBoardName"))
             .then(() => closeEditFormModal())
@@ -84,7 +102,7 @@ export default function EditPinForm({pinId, closeEditFormModal, boardId, setChec
                 <div className="create-board-container">
                     <div className="create-board-inner-contaner">
                         <div 
-                            className="clear-form-container"
+                            className="edit-pin-clear-form-container"
                             onClick={() => setReset(prev => !prev)}
                         >
                             <span className="material-symbols-rounded" id="material-symbols-clear-form">
@@ -150,12 +168,12 @@ export default function EditPinForm({pinId, closeEditFormModal, boardId, setChec
                                 onBlur={() => setTextAreaId("about-pin-input")}
                                 />
                                 <div className="edit-pin-emoji-container" >
-                                    <div onClick={() => setEmojiOpen(prev => !prev)} style={{cursor:"pointer"}}>
+                                    <div onClick={openEmoji} style={{cursor:"pointer"}}>
                                         <Emoji unified="1f603" size={22} />
                                     </div>
                                     <div className="edit-pin-emoji-picker-container">
                                         { emojiOpen && <EmojiPicker
-                                            onEmojiClick={(emojiData, event) => {
+                                            onEmojiClick={(emojiData) => {
                                                 const emoji = String.fromCodePoint(parseInt(emojiData.unified, 16));
                                                 setDescription(prev => prev + emoji);
                                             }}

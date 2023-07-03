@@ -44,6 +44,7 @@ export default function EditBoardForm() {
             closeEditFormModal={closeModal} 
             boardId={boardId} 
             setCheckChangedBoardId={setCheckChangedBoardId}
+            openLocation={"EditBoardForm"}
             />)
     };
 
