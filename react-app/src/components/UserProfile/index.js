@@ -143,8 +143,8 @@ export default function UserProfile() {
                 {showPage === "Saved" && <div className="userProfile-board-container">
                     <UserBoards userId={userId} />
                 </div>}
-                
-                {showPage === "Created" && <CreatedPins />}
+
+                {showPage === "Created" && <CreatedPins userId={userId} />}
 
                 <hr />
                 {sessionUser && sessionUser.id === +userId && <SavedPins />}

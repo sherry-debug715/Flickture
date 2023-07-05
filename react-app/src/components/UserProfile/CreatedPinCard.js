@@ -20,7 +20,7 @@ export default function CreatedPinCard({pin}) {
         >
             <Link to={`/explore/${pin.id}`} >
                 <img 
-                    src={pin.pin_images[0].image_url} alt="preview" 
+                    src={pin.image_url} alt="preview" 
                     className="created-pin-img"
                 />
             </Link>

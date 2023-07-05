@@ -9,6 +9,13 @@ const REMOVE_SAVED_PIN_AFTER_ADD_TO_BOARD = "pins/REMOVE_SAVED_PIN_AFTER_ADD_TO_
 const CLEAR_PIN_STATE = "pins/CLEAR_PIN_STATE";
 const ADD_FOLLOWER = "pins/ADD_FOLLOWER";
 const REMOVE_FOLLOW = "pins/REMOVE_FOLLOW";
+const GET_USER_CREATED_PINS = "pins/GET_USER_CREATED_PINS";
+
+
+export const getUserCreatedPins = pins => ({
+    type: GET_USER_CREATED_PINS,
+    pins
+});
 
 export const removeFollow = user => ({
     type: REMOVE_FOLLOW,
@@ -59,10 +66,21 @@ const editPin = pin => ({
     pin
 });
 
+
+
 const removeSavedPinAfterAddToBoard = savedId => ({
     type: REMOVE_SAVED_PIN_AFTER_ADD_TO_BOARD,
     savedId
 })
+
+export const getUserCreatedPinsThunk = userId => async dispatch => {
+    const response = await fetch(`/api/pins/user_created/${userId}`);
+
+    if(response.ok) {
+        const createdPins = await response.json();
+        dispatch(getUserCreatedPins(createdPins));
+    };
+};
 
 export const removeSavedPinThunk = pinId => async dispatch => {
     const response = await fetch(`/api/pins/remove_saved_pin/${pinId}`, {
@@ -201,11 +219,15 @@ export const normalization = (arr) => {
     return normalized;
 };
 
-const initialState = {allPins:{pins: {}, totalPages: 1}, singlePin:{}, pinsOfCategory: {pins:{}, totalPages: 1}, savedPins:{}};
+const initialState = {allPins:{pins: {}, totalPages: 1}, singlePin:{}, pinsOfCategory: {pins:{}, totalPages: 1}, savedPins:{}, createdPins: {}};
 
 export default function pinReducer(state = initialState, action) {
     let newState;
     switch(action.type) {
+        case GET_USER_CREATED_PINS:
+            newState = {...state, createdPins:{}};
+            newState.createdPins = normalization(action.pins);
+            return newState;
         case GET_ALL_PINS:
             newState = {...state, allPins:{...state.allPins}};
             const pins =  {...newState.allPins.pins, ...normalization(action.pins.pins)};

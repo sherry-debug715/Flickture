@@ -1,13 +1,21 @@
-import { useSelector } from "react-redux";
+import { useEffect } from "react";
+import { useSelector, useDispatch } from "react-redux";
 import { useModal } from "../../context/Modal";
 import CreatedPinCard from "./CreatedPinCard";
+import { getUserCreatedPinsThunk } from "../../store/pins";
 import "./userProfile.css";
 
-export default function CreatedPins() {
+export default function CreatedPins({userId}) {
 
-    const sessionUser = useSelector(state => state.session.user);
+    const dispatch = useDispatch();
 
-    const userPins = sessionUser.pins;
+    const createdUserPins = useSelector(state => state.pins.createdPins);
+
+    useEffect(() => {
+        dispatch(getUserCreatedPinsThunk(userId));
+    }, [dispatch])
+
+    const userPins = Object.values(createdUserPins);
 
     return (
         <div className="created-pin-card-container-grid">
