@@ -6,6 +6,25 @@ from sqlalchemy import or_
 
 pin_routes = Blueprint('pins', __name__)
 
+@pin_routes.route('/user_created/<int:user_id>')
+def user_created_pins(user_id):
+    find_user = User.query.get(user_id)
+
+    if not find_user:
+        return jsonify({"Error": f"User with id {user_id} not found"})
+    
+    find_user_pins = Pin.query.filter(Pin.user_id == user_id).all()
+
+    user_created = [pin.board_pins() for pin in find_user_pins]
+
+    for pin in user_created:
+        image_url = pin["pin_images"][0]["image_url"]
+        pin["image_url"] = image_url
+        del pin["pin_images"]
+        
+
+    return jsonify(user_created)
+
 @pin_routes.route('/same_categories/<int:id>')
 def pins_of_same_category(id):
     pin = Pin.query.get(id)

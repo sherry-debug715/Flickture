@@ -13,6 +13,7 @@ import GreyBackgroundBtn from "../ui/Buttons/greyBackgroundBtn";
 import Following from "../Follow/Following";
 import Follower from "../Follower/Follower";
 import SavedPins from "./SavedPins";
+import CreatedPins from "./CreatedPins";
 
 export default function UserProfile() {
     const sessionUser = useSelector(state => state.session.user);
@@ -118,7 +119,7 @@ export default function UserProfile() {
                 </div>
 
                 <div className="userProfile-create-board-icon-container">
-                    {sessionUser && curUser.id === sessionUser.id && <div 
+                    {sessionUser && curUser.id === sessionUser.id && showPage === "Saved" && <div 
                         className="userProfile-create-board-icon"
                         onClick={handleOpenCreateBoardForm}
                     >+</div>}
@@ -142,9 +143,12 @@ export default function UserProfile() {
                 {showPage === "Saved" && <div className="userProfile-board-container">
                     <UserBoards userId={userId} />
                 </div>}
+                
+                {showPage === "Created" && <CreatedPins />}
 
                 <hr />
                 {sessionUser && sessionUser.id === +userId && <SavedPins />}
+
             </div>
         </div>
     )
