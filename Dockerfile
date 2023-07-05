@@ -1,6 +1,6 @@
 FROM python:3.9
 # Set the following enviroment variables
-# REACT_APP_BASE_URL -> Your deployment URL
+# REACT_APP_BASE_URL -> Your deployment URL setup
 ENV REACT_APP_BASE_URL=https://feb-starter-app.herokuapp.com/
 # FLASK_APP -> entry point to your flask app
 ENV FLASK_APP=app
