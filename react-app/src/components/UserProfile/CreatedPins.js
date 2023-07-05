@@ -22,7 +22,7 @@ export default function CreatedPins({userId}) {
            
                 {userPins.map(pin => (
                     <div className="created-pin-card-inner-container" key={pin.id} >
-                        <CreatedPinCard pin={pin} />
+                        <CreatedPinCard pin={pin} userId={userId} />
                     </div>
                 ))}
         </div>

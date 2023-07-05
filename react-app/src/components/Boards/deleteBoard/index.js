@@ -21,7 +21,7 @@ export default function DeleteBoardForm({numOfPins,boardId,boardName,closeDelete
     return (
         <div className="delete-board-form-container">
             <div className="delete-board-form-inner-container">
-                <h1 className="delete-board-form-title">Delete thie board</h1>
+                <h1 className="delete-board-form-title">Delete this board</h1>
 
                 <div className="delete-board-form-warning">
                     The board {boardName} and {numOfPins} {numOfPins > 1 ? "pins" : "pin"} will be removed from your profile.<br />

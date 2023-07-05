@@ -61,9 +61,10 @@ const getPinOfCategory = pins => ({
     pins
 });
 
-const editPin = pin => ({
+const editPin = (pin, editCreatedPin) => ({
     type: EDIT_PIN,
-    pin
+    pin,
+    editCreatedPin
 });
 
 
@@ -136,7 +137,8 @@ export const editPinThunk = (pinId, editedPin) => async dispatch => {
 
     if(response.ok) {
         const pin = await response.json();
-        dispatch(editPin(pin));
+        const editedPinToUpdatedCreatedPin = {id: pin.id, image_url:pin.pin_images[0].image_url, title: pin.title}
+        dispatch(editPin(pin, editedPinToUpdatedCreatedPin));
         return pin;
     };
 };
@@ -239,6 +241,10 @@ export default function pinReducer(state = initialState, action) {
             newState={...state, singlePin:{}};
             newState.singlePin = action.pin;
             return newState;
+        case DELETE_PIN:
+            newState = { ...state, createdPins:{...state.createdPins}};
+            delete newState.createdPins[action.pinId];
+            return newState;
         case GET_PINS_SAME_CATEGORY:
             newState = {...state, pinsOfCategory:{...state.pinsOfCategory}};
             const getPinsOfCategory =  {...newState.pinsOfCategory.pins, ...normalization(action.pins.pins)};
@@ -247,8 +253,9 @@ export default function pinReducer(state = initialState, action) {
             newState.pinsOfCategory.totalPages = allPages;
             return newState;
         case EDIT_PIN:
-            newState = {...state, singlePin: {}};
+            newState = {...state, singlePin: {}, createdPins:{...state.createdPins}};
             newState.singlePin = action.pin;
+            newState.createdPins[action.pin.id] = action.editCreatedPin;
             return newState;
         case GET_SAVED_PINS:
             newState = {...state, savedPins: {}};
