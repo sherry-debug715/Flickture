@@ -86,7 +86,8 @@ class User(db.Model, UserMixin):
             'email': self.email,
             "profile_url": self.profile_url,
             "followers": [{"id": user.id, "username": user.username, "profile_url": user.profile_url } for user in self.followers],
-            "following": [{"id": user.id, "username": user.username, "profile_url": user.profile_url } for user in self.following]
+            "following": [{"id": user.id, "username": user.username, "profile_url": user.profile_url } for user in self.following],
+            "pins": [pin.board_pins() for pin in self.pins]
         }
     
     def basic(self):

@@ -113,13 +113,6 @@
     margin-top: 5%;
 }
 
-/* .user-boards-container-flex {
-    width: 100%;
-    display: flex;
-    flex-direction: row;
-    flex-wrap: wrap;
-    justify-content: space-between;
-} */
 
 .user-boards-container-grid {
     display: grid;
@@ -128,17 +121,45 @@
     margin-bottom: 5%;
 }
 
+.created-pin-card-container-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(220px, 1fr)); 
+    gap: 2rem; 
+    margin-bottom: 5%;
+    margin-top: 10%;
+}
+
+.created-pin-card-inner-container {
+    height: 100%;
+    width: 100%;
+    position: relative;
+}
+
+.created-pin-img {
+    width: 100%;
+    height: 300px;
+    border-radius: 15px;
+}
+
+.created-pin-title {
+    color: var(--charcoal-grey);
+    font-weight: 500;
+    margin-top: 2%;
+}
+
+
 .board-card-outer-container {
     width: 100%;
     height: 100%;
     position: relative;
 }
 
+
 .board-card-inner-container {
     width: 100%;
     height: 100%;
-
 }
+
 
 .board-profile-container {
     width: 100%;
