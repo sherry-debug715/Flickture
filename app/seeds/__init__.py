@@ -16,7 +16,7 @@ def seed():
         undo_users_pins_and_pinImages()
         undo_profiles()
     
-    # seed_users_pins_and_pinImages()
+    seed_users_pins_and_pinImages()
     seed_profiles()
     # Add other seed functions here
 
@@ -25,5 +25,5 @@ def seed():
 @seed_commands.command('undo')
 def undo():
     undo_profiles()
-    # undo_users_pins_and_pinImages()
+    undo_users_pins_and_pinImages()
     # Add other undo functions here
