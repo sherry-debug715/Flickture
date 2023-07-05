@@ -132,7 +132,15 @@ def edit_pin(id):
     if not pin:
         return jsonify(message="Pin not found"), 404
     
+    found_pin = pin.get_all_pins()
+
+    profiles_pin_belongs = found_pin["pin_in_profiles"]
+
+    pin_ids = [pin["id"] for pin in profiles_pin_belongs]
+
+    
     updated_pin_info = request.get_json()
+
 
     title = updated_pin_info.get("title")
 
@@ -146,11 +154,11 @@ def edit_pin(id):
         pin.title = title
         pin.description = description
 
-    if selectedBoardId != oldBoardId:
-        old_pin_board = Profile.query.filter_by(user_id=current_user.id, id=oldBoardId).first()
+    # if selectedBoardId not in pin_ids:
+    #     old_pin_board = Profile.query.filter_by(user_id=current_user.id, id=oldBoardId).first()
 
-        if old_pin_board.name != "All Pins":
-            old_pin_board.pins.remove(pin)
+    #     if old_pin_board and old_pin_board.name != "All Pins":
+    #         old_pin_board.pins.remove(pin)
 
     if selectedBoardId is not None:
         selected_new_pin_profile = Profile.query.filter_by(user_id=current_user.id, id=selectedBoardId).first()

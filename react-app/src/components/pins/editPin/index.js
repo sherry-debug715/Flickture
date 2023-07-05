@@ -20,7 +20,7 @@ export default function EditPinForm({pinId, closeEditFormModal, boardId, setChec
     const [imageUrl, setImageUrl] = useState("")
     const [title, setTitle] = useState("");
     const [description, setDescription] = useState("");
-    const [selectedBoardId, setSelectedBoardId] = useState(76);
+    const [selectedBoardId, setSelectedBoardId] = useState(null);
     const [textAreaId, setTextAreaId] = useState("about-pin-input");
     const [boardPinBelongsTo, setBoardPinBelongsTo] = useState([]);
     const [textCount, setTextCount] = useState(0);
@@ -29,6 +29,7 @@ export default function EditPinForm({pinId, closeEditFormModal, boardId, setChec
     const sessionUser = useSelector(state => state.session.user);
     const [reset, setReset] = useState(false);
     const { setModalContent, closeModal } = useModal();
+
 
     const openEmoji = (e) => {
         e.stopPropagation();
@@ -85,9 +86,11 @@ export default function EditPinForm({pinId, closeEditFormModal, boardId, setChec
             if(openLocation === "EditBoardForm") {
                 setCheckChangedBoardId(selectedBoardId)
             }
-            dispatch(getBoardDetailThunk(boardId))
-            .then(() => localStorage.removeItem("newBoardName"))
-            .then(() => closeEditFormModal())
+            if(openLocation !== "Created pin card") {
+                dispatch(getBoardDetailThunk(boardId))
+                .then(() => localStorage.removeItem("newBoardName"))
+            }
+            closeEditFormModal()
         };
 
     };
