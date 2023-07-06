@@ -173,7 +173,7 @@ export const getAllPinsThunk = (page, searchQuery="") => async dispatch => {
     if(process.env.NODE_ENV === "production") {
         url = `https://flickture-b5784f016188.herokuapp.com/api/pins?page=${page}&search=${searchQuery}`
     } else {
-        url = `/api/pins?page=${page}&search=${encodeURIComponent(searchQuery)}`
+        url = `/api/pins?page=${page}&search=${searchQuery}`
     };
     console.log("url", url)
     const response = await fetch(url, {

@@ -113,7 +113,6 @@ def get_one_pin(id):
     data_return = pin.get_all_pins()
 
     user = User.query.get(data_return['user_id']).to_dict()
-    # followers = user.followers
 
     data_return["followers"] = user["followers"]
 
