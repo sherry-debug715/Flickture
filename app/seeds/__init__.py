@@ -12,9 +12,9 @@ seed_commands = AppGroup('seed')
 # Creates the `flask seed all` command
 @seed_commands.command('all')
 def seed():
-    if environment == 'production':
-        undo_users_pins_and_pinImages()
-        undo_profiles()
+    # if environment == 'production':
+    #     undo_users_pins_and_pinImages()
+    #     undo_profiles()
     
     seed_users_pins_and_pinImages()
     seed_profiles()
