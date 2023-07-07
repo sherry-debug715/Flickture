@@ -1,4 +1,4 @@
-from .db import db, environment, SCHEMA
+from .db import db, environment, SCHEMA, add_prefix_for_prod
 from sqlalchemy import func
 
 class Category(db.Model):
@@ -8,7 +8,7 @@ class Category(db.Model):
         __table_args__ = {'schema': SCHEMA}
 
     id = db.Column(db.Integer, primary_key=True)
-    pin_id = db.Column(db.Integer, db.ForeignKey("pins.id"))
+    pin_id = db.Column(db.Integer, db.ForeignKey(add_prefix_for_prod("pins.id")))
     name = db.Column(db.String, nullable=False)
     created_at = db.Column(db.DateTime, default=func.now())
     updated_at = db.Column(db.DateTime, default=func.now(), onupdate=func.now())

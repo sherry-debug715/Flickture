@@ -1,4 +1,4 @@
-from .db import db, environment, SCHEMA
+from .db import db, environment, SCHEMA, add_prefix_for_prod
 from sqlalchemy import func
 
 class PinImage(db.Model):
@@ -8,8 +8,8 @@ class PinImage(db.Model):
         __table_args__ = {'schema': SCHEMA}
 
     id = db.Column(db.Integer, primary_key=True)
-    user_id = db.Column(db.Integer, db.ForeignKey("users.id"))
-    pin_id = db.Column(db.Integer, db.ForeignKey("pins.id"))
+    user_id = db.Column(db.Integer, db.ForeignKey(add_prefix_for_prod("users.id")))
+    pin_id = db.Column(db.Integer, db.ForeignKey(add_prefix_for_prod("pins.id")))
     image_url = db.Column(db.Text, nullable=False)
     preview = db.Column(db.Boolean, nullable=False)
     created_at = db.Column(db.DateTime, default=func.now())
