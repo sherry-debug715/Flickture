@@ -136,10 +136,10 @@ def seed_users_pins_and_pinImages():
 # dependent entities
 def undo_users_pins_and_pinImages():
     if environment == 'production':
-        db.session.execute("TRUNCATE users RESTART IDENTITY CASCADE;")
-        db.session.execute("TRUNCATE pins RESTART IDENTITY CASCADE;")
-        db.session.execute("TRUNCATE pin_images RESTART IDENTITY CASCADE;")
-        db.session.execute("TRUNCATE categories RESTART IDENTITY CASCADE;")
+        db.session.execute(f"TRUNCATE table {SCHEMA}.users RESTART IDENTITY CASCADE;")
+        db.session.execute(f"TRUNCATE table {SCHEMA}.pins RESTART IDENTITY CASCADE;")
+        db.session.execute(f"TRUNCATE table {SCHEMA}.pin_images RESTART IDENTITY CASCADE;")
+        db.session.execute(f"TRUNCATE table {SCHEMA}.categories RESTART IDENTITY CASCADE;")
     else:
         db.session.execute(text("DELETE FROM users"))
         db.session.execute(text("DELETE FROM pins"))
