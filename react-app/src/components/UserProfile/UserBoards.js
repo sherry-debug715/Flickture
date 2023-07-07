@@ -14,7 +14,9 @@ export default function UserBoards({userId}) {
 
 
     useEffect(() => {
-        dispatch(getAllUserBoardsThunk(userId));
+        if(sessionUser) {
+            dispatch(getAllUserBoardsThunk(userId));
+        }
     }, [dispatch, userId]);
 
     const canBeViewed = (board) => {

@@ -39,9 +39,15 @@ const LoginForm = ({handleNavToHome}) => {
   }
 
   const handleDemoUser2Login = () => {
-    dispatch(login("susannschuster@gmail.com", "password"))
-    .then(closeModal);
-    handleNavToHome();
+    if(process.env.NODE_ENV === "production") {
+      dispatch(login("henry_be@gmail.com", "password"))
+      .then(closeModal);
+      handleNavToHome();
+    } else {
+      dispatch(login("susannschuster@gmail.com", "password"))
+      .then(closeModal);
+      handleNavToHome();
+    }
   }
 
   const loginBtnDisabled = () => {

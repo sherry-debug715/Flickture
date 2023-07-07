@@ -13,7 +13,8 @@ export default function CreatedPinCard({pin, userId}) {
 
     const [onHoverPinId, setOnHoverPinId] = useState(null);
 
-    const sessionUserId = useSelector(state => state.session.user.id);
+
+    const sessionUser = useSelector(state => state.session.user);
 
     const handleOpenEditPinForm = pinId => {
         setModalContent(
@@ -39,7 +40,7 @@ export default function CreatedPinCard({pin, userId}) {
                 />
             </Link>
             <div className="created-pin-title">{pin.title}</div>   
-            {sessionUserId === +userId && onHoverPinId === pin.id && (
+            {sessionUser && sessionUser.id === +userId && onHoverPinId === pin.id && (
                 <div 
                     className="created-pin-card-edit-icon"
                     onClick={() => handleOpenEditPinForm(pin.id)}

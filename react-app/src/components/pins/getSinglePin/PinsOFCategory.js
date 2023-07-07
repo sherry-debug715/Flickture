@@ -54,11 +54,15 @@ export default function PinsOfCategory({pinId, pinSaved}) {
         });
     };
 
+    const handlePinCardClick = () => {
+        scrollToTop();
+      };
+
     return (
         <div className="all-pins-container" ref={scrollContainerRef}>
             <div className="all-pins-image-container"  >
                 {pinArr.map(pin => (
-                    <PinCard pin={pin} pinSaved={pinSaved} key={pin.id} />
+                    <PinCard pin={pin} pinSaved={pinSaved} key={pin.id} onClick={handlePinCardClick} />
                 
                 ))}
             </div>
