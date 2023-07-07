@@ -5,7 +5,7 @@ from sqlalchemy.sql import text
 
 access_key = os.environ.get("UNSPLASH_ACCESS_KEY")
 
-api_url = "https://api.unsplash.com/search/photos?query='ocean'&per_page=20"
+api_url = "https://api.unsplash.com/search/photos?query='nature'&per_page=20"
 
 def fetch_data_from_unsplash():
     url = api_url
@@ -70,7 +70,6 @@ def remove_dup(check_list):
     return no_dup
 
 
-# Adds a demo user, you can add other users here if you want
 def seed_users_pins_and_pinImages():
 
     original_user_pins_data = fetch_data_from_unsplash()
@@ -111,7 +110,7 @@ def seed_users_pins_and_pinImages():
 
             new_pin_category1 = Category(
                 pin_id=new_pin.id,
-                name="ocean",
+                name="nature",
             )
 
             new_pin_category2 = Category(
@@ -119,23 +118,9 @@ def seed_users_pins_and_pinImages():
                 name="peace",
             )
 
-            new_pin_category3 = Category(
-                pin_id=new_pin.id,
-                name="water",
-            )
-
-            new_pin_category4 = Category(
-                pin_id=new_pin.id,
-                name="deep",
-            )
-
-
 
             new_pin.categories.append(new_pin_category1)
             new_pin.categories.append(new_pin_category2)
-            new_pin.categories.append(new_pin_category3)
-            new_pin.categories.append(new_pin_category4)
-
 
 
     db.session.commit()

@@ -1,4 +1,4 @@
-from .db import db, environment, SCHEMA
+from .db import db, environment, SCHEMA, add_prefix_for_prod
 from sqlalchemy import func
 
 class SavedPin(db.Model):
@@ -8,9 +8,9 @@ class SavedPin(db.Model):
         __table_args__ = {'schema': SCHEMA}
 
     id = db.Column(db.Integer, primary_key=True)
-    user_id = db.Column(db.Integer, db.ForeignKey("users.id"))
-    profile_id = db.Column(db.Integer, db.ForeignKey("profiles.id"))
-    pin_id = db.Column(db.Integer, db.ForeignKey("pins.id"))
+    user_id = db.Column(db.Integer, db.ForeignKey(add_prefix_for_prod("users.id")))
+    profile_id = db.Column(db.Integer, db.ForeignKey(add_prefix_for_prod("profiles.id")))
+    pin_id = db.Column(db.Integer, db.ForeignKey(add_prefix_for_prod("pins.id")))
     created_at = db.Column(db.DateTime, default=func.now())
     updated_at = db.Column(db.DateTime, default=func.now(), onupdate=func.now())
 

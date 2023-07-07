@@ -1,4 +1,4 @@
-from .db import db, environment, SCHEMA
+from .db import db, environment, SCHEMA, add_prefix_for_prod
 from sqlalchemy import func
 
 pins_profiles = db.Table(
@@ -7,17 +7,22 @@ pins_profiles = db.Table(
     db.Column(
         "pin_id",
         db.Integer,
-        db.ForeignKey("pins.id"),
+        db.ForeignKey(add_prefix_for_prod("pins.id")),
         primary_key=True
     ),
 
     db.Column(
         "profile_id",
         db.Integer,
-        db.ForeignKey("profiles.id"),
+        db.ForeignKey(add_prefix_for_prod("profiles.id")),
         primary_key=True
     )
 )
+
+
+if environment == "production":
+    pins_profiles.schema = SCHEMA
+    
 
 class Profile(db.Model):
     __tablename__ = "profiles"
@@ -26,7 +31,7 @@ class Profile(db.Model):
         __table_args__ = {'schema': SCHEMA}
 
     id = db.Column(db.Integer, primary_key=True)
-    user_id = db.Column(db.Integer, db.ForeignKey("users.id"))
+    user_id = db.Column(db.Integer, db.ForeignKey(add_prefix_for_prod("users.id")))
     name = db.Column(db.String(50), nullable=False)
     private = db.Column(db.Boolean, nullable=False)
     created_at = db.Column(db.DateTime, default=func.now())
