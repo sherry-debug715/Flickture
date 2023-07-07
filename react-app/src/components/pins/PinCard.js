@@ -5,7 +5,7 @@ import { Link } from "react-router-dom";
 import "./pins.css";
 
 
-export default function PinCard({pin, pinSaved}) {
+export default function PinCard({pin, pinSaved, onClick}) {
 
     const [onHoverPinId, setOnHoverPinId] = useState(null);
 
@@ -43,6 +43,7 @@ export default function PinCard({pin, pinSaved}) {
                 <div className="each-pin-container"
                     onMouseEnter={() => setOnHoverPinId(pin.id)}
                     onMouseLeave={() => setOnHoverPinId(null)}
+                    onClick={onClick}
                     >
                         
                         <div className="all-pins-hover-over-container-top">
