@@ -121,6 +121,13 @@
     margin-bottom: 5%;
 }
 
+.user-boards-container-flex {
+    width: 100%;
+    display: flex;
+    flex-direction: row;
+    justify-content: flex-start;  
+}
+
 .created-pin-card-container-grid {
     display: grid;
     grid-template-columns: repeat(auto-fill, minmax(220px, 1fr)); 
@@ -160,9 +167,16 @@
 }
 
 
-.board-card-outer-container {
+.board-card-outer-container-grid {
     width: 100%;
     height: 100%;
+    position: relative;
+}
+
+.board-card-outer-container-flex {
+    height: 300px;
+    width: 320px;
+    margin-right:20px;
     position: relative;
 }
 

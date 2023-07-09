@@ -175,7 +175,7 @@ export const getAllPinsThunk = (page, searchQuery="") => async dispatch => {
     } else {
         url = `/api/pins?page=${page}&search=${searchQuery}`
     };
-    console.log("url", url)
+
     const response = await fetch(url, {
         headers: {"Content-Type": "application/json"}
     });

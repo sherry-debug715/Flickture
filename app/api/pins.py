@@ -153,11 +153,6 @@ def edit_pin(id):
         pin.title = title
         pin.description = description
 
-    # if selectedBoardId not in pin_ids:
-    #     old_pin_board = Profile.query.filter_by(user_id=current_user.id, id=oldBoardId).first()
-
-    #     if old_pin_board and old_pin_board.name != "All Pins":
-    #         old_pin_board.pins.remove(pin)
 
     if selectedBoardId is not None:
         selected_new_pin_profile = Profile.query.filter_by(user_id=current_user.id, id=selectedBoardId).first()

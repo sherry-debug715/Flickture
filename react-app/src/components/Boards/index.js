@@ -36,6 +36,14 @@ export default function BoardPins() {
                     </Link>
                 </div>
             </div>
+            {!boardPins.length ? (
+                <div className="saved-pins-inner-container">
+                <h1 className="saved-pins-inner-container-title">Board Detail</h1>
+                <div>
+                   {"You haven't saved any ideas yet, "}<Link to="/explore" className="saved-idea-empty">let's find some inspiration! </Link>
+                </div>
+            </div>
+            ) : 
             <div className="board-pins-inner-container">
                 {boardPins.map(pin => (
                     <div key={pin.pin_id} className="board-pins-pin-card-container" >
@@ -43,6 +51,7 @@ export default function BoardPins() {
                     </div>
                 ))}
             </div>
+            }
         </div>
     )
 };

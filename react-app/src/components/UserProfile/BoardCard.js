@@ -1,6 +1,6 @@
 import { Link, useHistory } from "react-router-dom";
 
-export default function BoardCard({board, onHoverBoardId, sessionUser, userId}) {
+export default function BoardCard({board, onHoverBoardId, sessionUser, userId, numOfBoards}) {
 
     const history = useHistory();
 
@@ -29,7 +29,7 @@ export default function BoardCard({board, onHoverBoardId, sessionUser, userId}) 
     if(imageUrls[2]) leftImageBottom = imageUrls[2];
 
     return (
-            <div className="board-card-outer-container">
+            <div className={numOfBoards > 3 ? "board-card-outer-container-grid" : "board-card-outer-container-flex"}>
                 <Link 
                     className="board-card-inner-container"
                     to={`/boards/${board.id}`}
