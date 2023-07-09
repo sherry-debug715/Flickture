@@ -214,7 +214,7 @@ def create_pin_image():
     all_pins_profile.pins.append(new_pin)
 
     # Find the profile by the selectedBoardId of the current user
-    if selectedBoardId is not None:
+    if selectedBoardId != "0":
         selected_new_pin_profile = Profile.query.filter_by(user_id=current_user.id, id=selectedBoardId).first()
 
         selected_board = selected_new_pin_profile.to_dict()
