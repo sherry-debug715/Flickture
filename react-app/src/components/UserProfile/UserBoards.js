@@ -32,7 +32,7 @@ export default function UserBoards({userId}) {
     };
     
     return (
-        <div className="user-boards-container-grid">
+        <div className={boardsArr.length > 3 ?"user-boards-container-grid" : "user-boards-container-flex"}>
             {boardsArr.map(board => (
                 (canBeViewed(board) && <div 
                 key={board.id} 
@@ -40,7 +40,13 @@ export default function UserBoards({userId}) {
                 onMouseEnter={() => setOnHoverBoardId(board.id)}
                 onMouseLeave={() => setOnHoverBoardId(null)}
                 >
-                    <BoardCard board={board} onHoverBoardId={onHoverBoardId} sessionUser={sessionUser}userId={+userId}/>
+                    <BoardCard 
+                        board={board} 
+                        onHoverBoardId={onHoverBoardId} 
+                        sessionUser={sessionUser}
+                        userId={+userId}
+                        numOfBoards={boardsArr.length}
+                    />
                 </div>)
             ))}
         </div>
