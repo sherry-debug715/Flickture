@@ -22,7 +22,7 @@ export default function CreatePin() {
     const [textCount, setTextCount] = useState(0);
     const textAreaRef = useRef(null);
     const [emojiOpen, setEmojiOpen] = useState(false);
-    const [selectedCreateBoardId, setSelectedCreateBoardId] = useState(76);
+    const [selectedCreateBoardId, setSelectedCreateBoardId] = useState(0);
     const [newBoardName, setNewBoardName] = useState(null);
     const [newBoardId, setNewBoardId] = useState(null);
     const history = useHistory();
@@ -46,6 +46,7 @@ export default function CreatePin() {
         return () => document.removeEventListener("click", closeEmoji);
     },[emojiOpen]);
 
+    
     const handleSubmit = async(e) => {
         e.preventDefault();
         const data = {
