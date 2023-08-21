@@ -1,10 +1,11 @@
-import { useState, useEffect } from "react";
+import { useState } from "react";
 import { useHistory, Link } from "react-router-dom";
-import { useSelector } from "react-redux";
+import { useSelector, useDispatch } from "react-redux";
 import RedBackgroundBtn from "../ui/Buttons/RedBackgroundBtn";
 import InputField from "../ui/Input/InputField";
 import { useModal } from "../../context/Modal";
-import { getUserInfoThunk } from "../../store/user";
+import ChangePictureModal from "./EditUserProfileChangePictureModal";
+import { editUserProfileThunk } from "../../store/user";
 import "./userProfile.css";
 
 export default function EditUserProfile () {
@@ -14,13 +15,44 @@ export default function EditUserProfile () {
     const [userName, setUsername] = useState(sessionUser.username);
     const [email, setEmail] = useState(sessionUser.email);
     const [profileUrl, setProfileUrl] = useState(sessionUser.profile_url || null);
-    
+    const [imageFile, setImageFile] = useState(null);
+    const { setModalContent, closeModal } = useModal();
+    const dispatch = useDispatch();
+    const history = useHistory();
+
+    const handleSubmit = async() => {
+        const editedUser = {
+            firstName,
+            lastName,
+            userName,
+            email,
+            imageFile
+        };
+
+        const editResult = await dispatch(editUserProfileThunk(sessionUser.id, editedUser));
+        if (editResult) history.push(`/userProfile/${sessionUser.id}`);
+    };
+
+    const buttonDisable = () => !firstName.length && !lastName.length && !userName.length && !email.length;
+
+
     const resetForm = () => {
         setFirstName(sessionUser.first_name);
         setLastName(sessionUser.last_name);
         setUsername(sessionUser.username);
         setEmail(sessionUser.email);
         setProfileUrl(sessionUser.profile_url || null)
+    };
+
+    const handleOpenChangePictureModal = () => {
+        setModalContent(
+        <ChangePictureModal 
+        closeModal={closeModal} 
+        setImageFile={setImageFile} 
+        setProfileUrl={setProfileUrl}
+        />
+        
+        )
     };
 
     return (
@@ -49,17 +81,22 @@ export default function EditUserProfile () {
                     <div className="edit-profile-form-content-container">
                         <h1 className="edit-profile-form-title">Edit your profile</h1> 
                         <div className="edit-profile-form-content-area">                                  <div className="edit-profile-form-image-container">
-                                <span className="edit-profile-form-image-label">
-                                    Photo
-                                </span>
-                                { sessionUser.profile_url ? <img src={profileUrl} alt="profile" className="edit-profile-form-profile-image" /> : <div className="edit-profile-form-profile-no-image"> {sessionUser.username[0]} </div> }  
-                                {/* <RedBackgroundBtn 
-                                text={"Change"}
-                            /> */}                    
+                                <div>
+                                    <span className="edit-profile-form-image-label">
+                                        Photo
+                                    </span>
+                                    { sessionUser.profile_url ? <img src={profileUrl} alt="profile" className="edit-profile-form-profile-image" /> : <div className="edit-profile-form-profile-no-image"> {sessionUser.username[0]} </div> }  
+                                </div>
+                                <button 
+                                    className="edit-profile-form-change-btn-container"
+                                    onClick={handleOpenChangePictureModal}
+                                >
+                                    Change
+                                </button>           
                             </div>   
-                            <div>
+                            <div className="edit-profile-form-first-last-name">
                                 <InputField 
-                                    size={{ m: 2, width: "40ch"}}
+                                    size={{ m: 2, width: "18ch"}}
                                     setter={setFirstName}
                                     val={firstName}
                                     label={"First Name"}
@@ -69,7 +106,7 @@ export default function EditUserProfile () {
                                     labelFontSize={"20px"}
                                 />
                                 <InputField 
-                                    size={{ m: 2, width: "40ch"}}
+                                    size={{ m: 2, width: "18ch"}}
                                     setter={setLastName}
                                     val={lastName}
                                     label={"Last Name"}
@@ -103,9 +140,11 @@ export default function EditUserProfile () {
                     </div> 
                     <div className="edit-profile-btn-container">
                         <div className="edit-profile-save-btn">
-                            {/* <RedBackgroundBtn 
+                            <RedBackgroundBtn 
                                 text={"Save"}
-                            /> */}
+                                onClick={handleSubmit}
+                                disabled={buttonDisable}
+                            />
                         </div>
                     </div>
                 </div>
