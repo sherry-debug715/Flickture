@@ -1,6 +1,6 @@
 import { useEffect } from "react";
 import { useSelector, useDispatch } from "react-redux";
-import { useParams } from "react-router-dom";
+import { useParams, Link } from "react-router-dom";
 import UserBoards from "./UserBoards";
 import CreateBoard from "../Boards/createBoard";
 import { useModal } from "../../context/Modal";
@@ -83,6 +83,7 @@ export default function UserProfile() {
                         curUser.profile_url ? <img src={curUser.profile_url} className='user-profile-img-image' alt="profile" /> : <div className='profile-image'>{curUser.first_name[0]}</div>
                         }
                     </div>
+                    <Link className="user-profile-edit-btn" to="/users/userProfile/edit">edit</Link>
 
                     <div className="user-profile-username">
                         {curUser.username}

@@ -4,8 +4,6 @@ import { useDispatch } from 'react-redux';
 import NavBar from './components/Navigation/NavBar';
 import Landing from './components/Landing';
 import ProtectedRoute from './components/auth/ProtectedRoute';
-import UsersList from './components/UsersList';
-import User from './components/User';
 import GetAllPins from './components/pins/getPins/GetAllPins';
 import SinglePin from './components/pins/getSinglePin';
 import CreatePin from './components/pins/createPin';
@@ -13,6 +11,7 @@ import UserProfile from './components/UserProfile';
 import { authenticate } from './store/session';
 import BoardPins from './components/Boards';
 import EditBoardForm from './components/Boards/editBoard';
+import EditUserProfile from './components/UserProfile/EditUserProfile';
 
 function App() {
   const [loaded, setLoaded] = useState(false);
@@ -56,11 +55,8 @@ function App() {
         <Route path='/boards/edit/:boardId' exact={true} >
           <EditBoardForm />
         </Route>
-        <ProtectedRoute path='/users' exact={true} >
-          <UsersList/>
-        </ProtectedRoute>
-        <ProtectedRoute path='/users/:userId' exact={true} >
-          <User />
+        <ProtectedRoute path='/users/userProfile/edit' exact={true} >
+          <EditUserProfile />
         </ProtectedRoute>
       </Switch>
     </BrowserRouter>

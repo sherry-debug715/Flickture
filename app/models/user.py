@@ -79,9 +79,13 @@ class User(db.Model, UserMixin):
     def basic(self):
         return {
             'id': self.id,
+            "first_name": self.first_name,
+            "last_name": self.last_name,
             'username': self.username,
+            'email': self.email,
             "profile_url": self.profile_url,
         }
+    
     
 follows = db.Table(
     "follows", 
