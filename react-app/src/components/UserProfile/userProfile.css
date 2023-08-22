@@ -39,6 +39,27 @@
     flex-direction: column;
     align-items: center;
     justify-content: center;
+    position: relative;
+}
+
+.user-profile-edit-btn {
+    position: absolute;
+    top: 4%;
+    right: 43%;
+    color: rgb(95,95,95);
+    width: 30px;
+    border-radius: 5px;
+    height: 24px;
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+    cursor: pointer;
+    transition: background-color .2s ease-in-out;
+}
+
+.user-profile-edit-btn:hover {
+    background-color: rgb(233,233,233);
 }
 
 .user-profile-img {
@@ -410,4 +431,163 @@
 .saved-idea-empty:hover {
     color: #0a66c2;
     text-decoration: underline;
+}
+
+.edit-user-profile-main-container {
+    width: 100%;
+    height: 88vh;
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: flex-start;
+    background-color: rgb(233,233,233);
+}
+
+.edit-user-profile-inner-container {
+    width: 60%;
+    height: 90%;
+    border-radius: 20px;
+    border: 1px solid lightgray; 
+    box-shadow: 0px 0px 10px 2px rgba(147, 145, 145, 0.2);
+    background-color: white;
+    margin-top: 5%;
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+}
+
+.edit-user-profile-inner-container2 {
+    width: 90%;
+    height: 90%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.edit-user-profile-form-header {
+    height: 7%;
+    width: 100%;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: space-between;
+}
+
+.edit-profile-form-image-container {
+    margin-left: 3%;
+    margin-bottom: 3%;
+    display: flex;
+    flex-direction: row;
+    align-items: flex-end;
+}
+
+.edit-profile-form-title {
+    height: 15%;
+    font-size: 25px;
+    font-weight: 500;
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center; 
+}
+
+.edit-profile-form-profile-image {
+    height: 50px;
+    width: 50px;
+    border-radius: 50%;
+}
+
+.edit-profile-form-profile-no-image {
+    height: 50px;
+    width: 50px;
+    border-radius: 50%;
+    background-color: #DCDCDC;
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+    font-size: 20px;
+}
+
+span.edit-profile-form-image-label {
+    color: rgb(102,102,102);
+    margin-bottom: 65%;
+    margin-left: 2%;
+}
+
+button.edit-profile-form-change-btn-container {
+    font-size: 12px;
+    width: 57px;
+    border-radius: 10px;
+    background-color: rgb(239,239,239);
+    font-weight: 500;
+    cursor: pointer;
+    transition: filter .2s ease-in-out;
+}
+
+button.edit-profile-form-change-btn-container:hover {
+    filter: brightness(95%);
+}
+
+.change-picture-modal-main-container {
+    height: 39vh;
+    width: 45vw;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    position: relative;
+}
+
+.change-picture-modal-title {
+    font-size: 30px;
+    padding: 5%;
+    font-weight: 500;
+}
+
+button#fileSelect {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    height: 50px;
+    width: 120px;
+    justify-content: center;
+    border-radius: 28px;
+    background-color: red;
+    color: white;
+    font-size: 20px;
+    font-weight: 500;
+    margin-top: 88%;
+}
+
+#material-symbols-close-change-picture-modal {
+    font-size: 25px;
+    color: grey;
+    font-weight: 600;
+    border-radius: 50%;
+    height: 35px;
+    width: 35px;
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+    transition: background-color .3s ease-in-out;
+    cursor: pointer;
+    position: absolute;
+    left: 8px;
+    top: 3%;
+}
+
+.edit-profile-form-first-last-name {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+}
+
+.edit-profile-btn-container {
+    width: 80%;
+    margin-top: 13%;
+    display: flex;
+    flex-direction: row;
+    justify-content: flex-end;
 }

@@ -1,6 +1,7 @@
-from flask import Blueprint, jsonify
+from flask import Blueprint, jsonify, request
 from flask_login import login_required, current_user
 from app.models import User, db
+from app.aws import upload_file_to_s3, get_unique_filename, remove_file_from_s3, S3_LOCATION
 
 user_routes = Blueprint('users', __name__)
 
@@ -17,11 +18,48 @@ def userInfo(user_id):
     return user.to_dict()
 
 
+
+@user_routes.route('/user_profile/edit/<int:user_id>', methods=["PATCH"])
+@login_required
+def edit_user(user_id):
+    """
+    Edit user information by user id
+    """
+    user = User.query.get(user_id)
+
+    if not user:
+        return jsonify(message="User not found"), 404 
+    
+    first_name = request.form.get("first_name")
+    last_name = request.form.get("last_name")
+    username = request.form.get("username")
+    email = request.form.get("email")
+
+    if first_name:
+        user.first_name = first_name
+    if last_name:
+        user.last_name = last_name
+    if username:
+        user.username = username
+    if email:
+        user.email = email
+
+    if "image" in request.files:
+        upload = upload_file_to_s3(request.files["image"])
+        if "url" not in upload:
+            return {"error": upload}, 404
+        
+        user.profile_url = upload["url"] 
+
+    db.session.commit()
+    return jsonify(user.basic()), 200
+
+
 @user_routes.route('/<int:id>')
 @login_required
 def user(id):
     user = User.query.get(id)
-    return user.to_dict()
+    return user.basic()
 
 @user_routes.route('/follow/<int:user_id>', methods=['POST'])
 @login_required

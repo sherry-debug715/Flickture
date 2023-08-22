@@ -14,6 +14,24 @@ export const userProfileThunk = userId => async dispatch => {
     };
 };
 
+export const editUserProfileThunk = (userId, editedUser) => async dispatch => {
+  const { first_name, last_name, username, email, imageFile } = editedUser;
+  const formData = new FormData();
+  formData.append("first_name", first_name);
+  formData.append("last_name", last_name);
+  formData.append("username", username);
+  formData.append("email", email);
+  if (imageFile) formData.append("image", imageFile);
+
+  const response = await fetch(`/api/users/user_profile/edit/${userId}`, {
+    method: "PATCH",
+    body: formData
+  });
+
+  if (response.ok) return true;
+  
+};
+
 const initialState = {};
 
 export default function userReducer(state = initialState, action) {
