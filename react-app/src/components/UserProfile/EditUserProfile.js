@@ -14,7 +14,7 @@ export default function EditUserProfile () {
     const [lastName, setLastName] = useState(sessionUser.last_name);
     const [userName, setUsername] = useState(sessionUser.username);
     const [email, setEmail] = useState(sessionUser.email);
-    const [profileUrl, setProfileUrl] = useState(sessionUser.profile_url || null);
+    const [profileUrl, setProfileUrl] = useState(sessionUser.profile_url);
     const [imageFile, setImageFile] = useState(null);
     const { setModalContent, closeModal } = useModal();
     const dispatch = useDispatch();
@@ -22,9 +22,9 @@ export default function EditUserProfile () {
 
     const handleSubmit = async() => {
         const editedUser = {
-            firstName,
-            lastName,
-            userName,
+            first_name: firstName,
+            last_name: lastName,
+            username: userName,
             email,
             imageFile
         };
@@ -33,7 +33,12 @@ export default function EditUserProfile () {
         if (editResult) history.push(`/userProfile/${sessionUser.id}`);
     };
 
-    const buttonDisable = () => !firstName.length && !lastName.length && !userName.length && !email.length;
+    const buttonDisable = () => {
+        const formEmpty = !firstName.length && !lastName.length && !userName.length && !email.length;
+        const contentNeverChanged = firstName === sessionUser.first_name && lastName === sessionUser.last_name && userName === sessionUser.username && email === sessionUser.email && profileUrl === sessionUser.profile_url;
+
+        return formEmpty || contentNeverChanged;
+    };
 
 
     const resetForm = () => {
@@ -85,7 +90,7 @@ export default function EditUserProfile () {
                                     <span className="edit-profile-form-image-label">
                                         Photo
                                     </span>
-                                    { sessionUser.profile_url ? <img src={profileUrl} alt="profile" className="edit-profile-form-profile-image" /> : <div className="edit-profile-form-profile-no-image"> {sessionUser.username[0]} </div> }  
+                                    { profileUrl ? <img src={profileUrl} alt="profile" className="edit-profile-form-profile-image" /> : <div className="edit-profile-form-profile-no-image"> {sessionUser.username[0]} </div> }  
                                 </div>
                                 <button 
                                     className="edit-profile-form-change-btn-container"
