@@ -1,3 +1,5 @@
+import { authenticate } from "./session";
+
 const SET_USER = 'user/SET_USER';
 
 const setUser = (user) => ({
@@ -28,7 +30,10 @@ export const editUserProfileThunk = (userId, editedUser) => async dispatch => {
     body: formData
   });
 
-  if (response.ok) return true;
+  if (response.ok) {
+    dispatch(authenticate());
+    return true;
+  };
   
 };
 
