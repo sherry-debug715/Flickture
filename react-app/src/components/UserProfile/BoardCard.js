@@ -52,6 +52,15 @@ export default function BoardCard({board, onHoverBoardId, sessionUser, userId, n
                             </div>
                         </div>
                     </div>
+
+                    {
+                        board.private && 
+                        <div className="board-private">                       
+                            <span className="material-symbols-outlined">
+                                lock
+                            </span>                       
+                        </div>
+                    }
                 </Link>
 
                 {onHoverBoardId === board.id && sessionUser.id === userId &&  (
