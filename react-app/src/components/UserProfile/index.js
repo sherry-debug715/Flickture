@@ -55,7 +55,7 @@ export default function UserProfile() {
                 closeFollowerModal={closeModal}
                 userId={userId}
             />    
-            )
+            );
         };
     };
 
@@ -67,8 +67,7 @@ export default function UserProfile() {
     const handleUnfollow = (curuserId, user) => {
         dispatch(unfollowUserThunk(curuserId, user))
         .then(() =>  dispatch(userProfileThunk(userId)))
-
-    }
+    };
 
     if(!curUser.id) return null;
 
