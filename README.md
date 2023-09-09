@@ -92,5 +92,47 @@ __Flickture__ is a dynamic single-page application inspired by Pinterest, where 
 </div>
 
 ---
+## Getting Started
+1. Clone this repository (only the main branch)
+- Use SSH key:
+```
+git clone git@github.com:sherry-debug715/Flickture.git
+```
+- Using web URL:
+```
+git clone https://github.com/sherry-debug715/Flickture.git
+```
+
+2. **Open the repo in VS Code** or other **code editors** of your preference.
+ 
+
+3. Create a .env file based on the example with proper settings for your development environment.
+
+4. Install dependencies:
+```
+pipenv install --dev -r dev-requirements.txt && pipenv install -r requirements.txt
+```
+5. Set up Database
+- Get into pipenv, migrate your database, seed your database, and run your flask app.
+```
+pipenv shell
+```
+```
+flask db upgrade
+```
+```
+flask seed all
+```
+```
+flask run
+```
+6. To run the React App, install the dependencies in the react-app folder and run the application.
+```
+npm install
+```
+```
+npm start
+```
+7. The application will start at http://localhost:3000/.
 
 ![explore_page_infinite_scroll_AdobeExpress](https://github.com/sherry-debug715/Flickture/assets/67481206/4fc24978-f95f-450b-98bb-b0a11970e0da)
