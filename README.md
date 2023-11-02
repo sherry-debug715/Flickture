@@ -136,3 +136,18 @@ npm start
 7. The application will start at http://localhost:3000/.
 
 ![explore_page_infinite_scroll_AdobeExpress](https://github.com/sherry-debug715/Flickture/assets/67481206/4fc24978-f95f-450b-98bb-b0a11970e0da)
+
+#### Login Modal
+
+<img 
+    src="https://cdn.discordapp.com/attachments/900530365754638400/1169719362517749800/image.png" 
+/>
+
+#### Sign up Modal 
+
+<img src="https://cdn.discordapp.com/attachments/900530365754638400/1169721332070625430/image.png"
+/>
+
+#### Home Page 
+![explore_page_infinite_scroll_AdobeExpress](file:///Users/sherryyu/Desktop/home%20page-1.gif)
+
