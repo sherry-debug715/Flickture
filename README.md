@@ -136,3 +136,4 @@ npm start
 7. The application will start at http://localhost:3000/.
 
 ![explore_page_infinite_scroll_AdobeExpress](https://github.com/sherry-debug715/Flickture/assets/67481206/4fc24978-f95f-450b-98bb-b0a11970e0da)
+![home page](https://github.com/sherry-debug715/Flickture/assets/67481206/0aaa70ff-5024-4b2c-8131-0ffbc0f1e1e7)
