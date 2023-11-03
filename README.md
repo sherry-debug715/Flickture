@@ -134,8 +134,9 @@ npm install
 npm start
 ```
 7. The application will start at http://localhost:3000/.
+![home page-2](https://github.com/sherry-debug715/Flickture/assets/67481206/1734c79c-ca14-4179-ad39-3ca8f3e8d57f)
 
-![explore_page_infinite_scroll_AdobeExpress](https://github.com/sherry-debug715/Flickture/assets/67481206/4fc24978-f95f-450b-98bb-b0a11970e0da)
+## Demo
 
 #### Login Modal
 
@@ -149,5 +150,17 @@ npm start
 />
 
 #### Home Page 
-![explore_page_infinite_scroll_AdobeExpress](file:///Users/sherryyu/Desktop/home%20page-1.gif)
+![home page-2](https://github.com/sherry-debug715/Flickture/assets/67481206/1734c79c-ca14-4179-ad39-3ca8f3e8d57f)
 
+Regardless of your authentication status, you can explore the entire collection of pin feeds via infinite scrolling.
+
+#### Pin Detail Page 
+
+Hovering over an image reveals the creator's name and the count of comments on the pin. Clicking on the pin opens a detailed view, presenting the creator’s profile, a description of the image, user-generated comments, and a selection of related images organized by category.
+
+#### Create Pin and Add to Board
+
+You can create new pins and adding them to your personalized boards, whether they are existing collections or new ones you create.
+
+
+#### Edit and Delete Pin
