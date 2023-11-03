@@ -134,5 +134,32 @@ npm install
 npm start
 ```
 7. The application will start at http://localhost:3000/.
+
+## Demo
+
+#### Login Modal
+
+<img 
+    src="https://cdn.discordapp.com/attachments/900530365754638400/1169719362517749800/image.png" 
+/>
+
+#### Sign up Modal 
+
+<img src="https://cdn.discordapp.com/attachments/900530365754638400/1169721332070625430/image.png"
+/>
+
+#### Home Page 
 ![home page-2](https://github.com/sherry-debug715/Flickture/assets/67481206/1734c79c-ca14-4179-ad39-3ca8f3e8d57f)
 
+Regardless of your authentication status, you can explore the entire collection of pin feeds via infinite scrolling.
+
+#### Pin Detail Page 
+
+Hovering over an image reveals the creator's name and the count of comments on the pin. Clicking on the pin opens a detailed view, presenting the creator’s profile, a description of the image, user-generated comments, and a selection of related images organized by category.
+
+#### Create Pin and Add to Board
+
+You can create new pins and adding them to your personalized boards, whether they are existing collections or new ones you create.
+
+
+#### Edit and Delete Pin
