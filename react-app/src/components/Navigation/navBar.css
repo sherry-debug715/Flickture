@@ -57,6 +57,7 @@
     align-items: flex-end;
     cursor: pointer;
     position: relative;
+    height: 100%;
 }
 
 .profile-drop-down-container {

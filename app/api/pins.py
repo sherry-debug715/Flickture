@@ -77,8 +77,8 @@ def get_all_pins():
         query = query.filter(
             or_(
                 Pin.title.like('%' + search_query + '%'),
-                Pin.description.like('%' + search_query + '%'),
-                Pin.categories.any(Category.name.like('%' + search_query + '%'))
+                # Pin.description.like('%' + search_query + '%'),
+                # Pin.categories.any(Category.name.like('%' + search_query + '%'))
             )
         )
 

@@ -158,7 +158,7 @@ Regardless of your authentication status, you can explore the entire collection 
 
 Hovering over an image reveals the creator's name and the count of comments on the pin. Clicking on the pin opens a detailed view, presenting the creator’s profile, a description of the image, user-generated comments, and a selection of related images organized by category.
 
-#### Create Pin and Add to Board
+#### Create pin, a new board then add the pin to board
 ![create pin and board](https://github.com/sherry-debug715/Flickture/assets/67481206/f417f3fc-87b1-436f-a788-96b43502a7d9)
 
 You can create new pins and adding them to your personalized boards, whether they are existing collections or new ones you create.
@@ -168,3 +168,29 @@ You can create new pins and adding them to your personalized boards, whether the
 ![edit and delete pin](https://github.com/sherry-debug715/Flickture/assets/67481206/e6b6d8b9-f273-47fa-bd37-c0d8c244f86d)
 
 The dynamic profile feature enables the modification or removal of any of your pins from various locations.
+
+#### Boards
+
+Save your pins to boards. Create fresh boards directly from your profile or while saving/creating a particular pin. Tailor your boards to your preferences by editing them anytime and easily shuffle pins between boards. Plus, you have the flexibility to delete any board that you no longer need.
+
+#### Follow
+
+
+Connect with others by following and gaining followers, see who you're following and who follows you. 
+
+#### Favorite 
+
+Like pins to save your favorites and categorize them on various boards.
+
+#### Comments
+
+Post your thoughts, feedback, or questions to engage with pins and foster a community-driven conversation around shared interests.
+
+#### Profile Manage
+
+
+
+
+
+
+

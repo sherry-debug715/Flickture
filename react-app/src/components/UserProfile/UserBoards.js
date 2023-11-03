@@ -8,10 +8,7 @@ export default function UserBoards({userId}) {
     const userBoards = useSelector(state => state.boards.allBoards);
     const sessionUser = useSelector(state => state.session.user);
     const [onHoverBoardId, setOnHoverBoardId] = useState(null);
-
-
     const boardsArr = Object.values(userBoards);
-
 
     useEffect(() => {
         if(sessionUser) {
@@ -20,7 +17,7 @@ export default function UserBoards({userId}) {
     }, [dispatch, userId]);
 
     const canBeViewed = (board) => {
-        if(board.private && board.name !== "All Pins") {
+        if (board.private) {
             if(sessionUser.id === board.user_id) {
                 return true;
             } else {
