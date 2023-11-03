@@ -35,7 +35,6 @@ def fetch_data_from_unsplash():
         each_user_info = organized_by_user.json()
         # each_user_info is an list of dictionary that has all the images that the user has posted
         each_user = each_user_info[0]
-            # print("this is user_list", user_list)
         user_info = each_user["user"]
         user_entry = {}
         pins = []
@@ -73,9 +72,9 @@ def remove_dup(check_list):
 
 
 def seed_users_pins_and_pinImages():
-
     original_user_pins_data = fetch_data_from_unsplash()
     user_pins_data = remove_dup(original_user_pins_data)
+    
     for each_user_pins in user_pins_data:
         user_info = each_user_pins["user_info"]
         new_user = User(

@@ -182,5 +182,15 @@ Connect with others by following and gaining followers, see who you're following
 
 Like pins to save your favorites and categorize them on various boards.
 
+#### Comments
+
+Post your thoughts, feedback, or questions to engage with pins and foster a community-driven conversation around shared interests.
+
+#### Profile Manage
+
+
+
+
+
 
 
