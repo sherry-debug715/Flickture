@@ -16,15 +16,15 @@ def seed():
     #     undo_users_pins_and_pinImages()
     #     undo_profiles()
     
-    # seed_users_pins_and_pinImages()
-    # seed_profiles()
+    seed_users_pins_and_pinImages()
+    seed_profiles()
     # Add other seed functions here
-    pass
+    # pass
 
 # Creates the `flask seed undo` command
 @seed_commands.command('undo')
 def undo():
-    # undo_profiles()
-    # undo_users_pins_and_pinImages()
+    undo_profiles()
+    undo_users_pins_and_pinImages()
     # Add other undo functions here
-    pass
+    # pass

@@ -166,3 +166,5 @@ You can create new pins and adding them to your personalized boards, whether the
 
 #### Edit and Delete Pin
 ![edit and delete pin](https://github.com/sherry-debug715/Flickture/assets/67481206/e6b6d8b9-f273-47fa-bd37-c0d8c244f86d)
+
+The dynamic profile feature enables the modification or removal of any of your pins from various locations.
