@@ -154,12 +154,15 @@ npm start
 Regardless of your authentication status, you can explore the entire collection of pin feeds via infinite scrolling.
 
 #### Pin Detail Page 
+![single pin page](https://github.com/sherry-debug715/Flickture/assets/67481206/a7931e30-6bb0-462f-848b-e82f37a6c5c1)
 
 Hovering over an image reveals the creator's name and the count of comments on the pin. Clicking on the pin opens a detailed view, presenting the creator’s profile, a description of the image, user-generated comments, and a selection of related images organized by category.
 
 #### Create Pin and Add to Board
+![create pin and board](https://github.com/sherry-debug715/Flickture/assets/67481206/f417f3fc-87b1-436f-a788-96b43502a7d9)
 
 You can create new pins and adding them to your personalized boards, whether they are existing collections or new ones you create.
 
 
 #### Edit and Delete Pin
+![edit and delete pin](https://github.com/sherry-debug715/Flickture/assets/67481206/e6b6d8b9-f273-47fa-bd37-c0d8c244f86d)
