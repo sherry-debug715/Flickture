@@ -134,7 +134,6 @@ npm install
 npm start
 ```
 7. The application will start at http://localhost:3000/.
-![home page-2](https://github.com/sherry-debug715/Flickture/assets/67481206/1734c79c-ca14-4179-ad39-3ca8f3e8d57f)
 
 ## Demo
 
