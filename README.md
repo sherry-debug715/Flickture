@@ -188,7 +188,6 @@ Like pins to save your favorites and categorize them on various boards.
 ![comments-1](https://github.com/sherry-debug715/Flickture/assets/67481206/366fbcf2-b80e-409d-ad04-1ee1e7a8423f)
 
 Post your thoughts, feedback, or questions to engage with pins and foster a community-driven conversation around shared interests.
-![boards](https://github.com/sherry-debug715/Flickture/assets/67481206/ffe974b4-1b67-4fd8-b3b6-464663e38442)
 
 #### Profile Manage
 ![profiles](https://github.com/sherry-debug715/Flickture/assets/67481206/8eea4cfb-b6ba-4476-8611-657240f31e75)
