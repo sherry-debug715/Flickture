@@ -170,23 +170,30 @@ You can create new pins and adding them to your personalized boards, whether the
 The dynamic profile feature enables the modification or removal of any of your pins from various locations.
 
 #### Boards
+![boards](https://github.com/sherry-debug715/Flickture/assets/67481206/dd658e2d-70ad-448d-af9f-180ff2ab20c3)
 
 Save your pins to boards. Create fresh boards directly from your profile or while saving/creating a particular pin. Tailor your boards to your preferences by editing them anytime and easily shuffle pins between boards. Plus, you have the flexibility to delete any board that you no longer need.
 
 #### Follow
-
+![follow](https://github.com/sherry-debug715/Flickture/assets/67481206/bd8020af-146e-45a3-b950-392a5c43d512)
 
 Connect with others by following and gaining followers, see who you're following and who follows you. 
 
 #### Favorite 
+![favorite](https://github.com/sherry-debug715/Flickture/assets/67481206/2c9b2472-7693-46b2-a03c-597887d77358)
 
 Like pins to save your favorites and categorize them on various boards.
 
 #### Comments
+![comments-1](https://github.com/sherry-debug715/Flickture/assets/67481206/366fbcf2-b80e-409d-ad04-1ee1e7a8423f)
 
 Post your thoughts, feedback, or questions to engage with pins and foster a community-driven conversation around shared interests.
+![boards](https://github.com/sherry-debug715/Flickture/assets/67481206/ffe974b4-1b67-4fd8-b3b6-464663e38442)
 
 #### Profile Manage
+![profiles](https://github.com/sherry-debug715/Flickture/assets/67481206/8eea4cfb-b6ba-4476-8611-657240f31e75)
+
+
 
 
 
