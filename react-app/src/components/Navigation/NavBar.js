@@ -22,17 +22,7 @@ const NavBar = ({setSearchContent, searchContent}) => {
       setShowMenu(true);
   };
 
-  useEffect(() => {
-    if (!showMenu) return;
-
-    const closeMenu = () => {
-      setShowMenu(false);
-    };
-
-    document.addEventListener('click', closeMenu);
-  
-    return () => document.removeEventListener("click", closeMenu);
-  }, [showMenu]);
+  const toggleMenu = () => setShowMenu(prev => !prev);
 
   const sessionUser = useSelector(state => state.session.user);
 
@@ -41,10 +31,15 @@ const NavBar = ({setSearchContent, searchContent}) => {
   const handleNavToHome = () => history.push("/explore");
 
   let sessionContent;
-  if(sessionUser) {
+  if (sessionUser) {
     sessionContent = (
-    <div className='profile-dropdown' onClick={openMenu}>
-      {sessionUser.profile_url ? <img src={sessionUser.profile_url} className='profile-image' alt="profile" /> : <div className='profile-image'>{sessionUser.first_name[0]}</div>}
+    <div className='profile-dropdown' onClick={toggleMenu}>
+      {
+        sessionUser.profile_url 
+        ? 
+        <img src={sessionUser.profile_url} className='profile-image' alt="profile" /> : 
+        <div className='profile-image'>{sessionUser.first_name[0]}</div>
+      }
       {showMenu && (
         <div className='profile-drop-down-container'>
           <div>

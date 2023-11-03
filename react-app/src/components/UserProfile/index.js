@@ -138,7 +138,8 @@ export default function UserProfile() {
                             Follow
                         </button>
                         }
-                    </div>}
+                    </div>
+                }
 
                 {showPage === "Saved" && <div className="userProfile-board-container">
                     <UserBoards userId={userId} />

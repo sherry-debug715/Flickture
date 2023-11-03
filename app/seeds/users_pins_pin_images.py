@@ -5,7 +5,9 @@ from sqlalchemy.sql import text
 
 access_key = os.environ.get("UNSPLASH_ACCESS_KEY")
 
-api_url = "https://api.unsplash.com/search/photos?query='puppy'&per_page=20"
+# api_url = "https://api.unsplash.com/search/photos?query='puppy'&per_page=20"
+# api_url = "https://api.unsplash.com/search/photos?query='cat'&per_page=20"
+api_url = "https://api.unsplash.com/search/photos?query='dogs'&per_page=20"
 
 def fetch_data_from_unsplash():
     url = api_url
@@ -120,12 +122,12 @@ def seed_users_pins_and_pinImages():
 
             new_pin_category3 = Category(
                 pin_id=new_pin.id,
-                name="dogs",
+                name="cats",
             )
 
             new_pin_category4 = Category(
                 pin_id=new_pin.id,
-                name="puppy",
+                name="kitten",
             )
 
             new_pin_category5 = Category(
