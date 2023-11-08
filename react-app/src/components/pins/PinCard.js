@@ -5,7 +5,7 @@ import { Link } from "react-router-dom";
 import "./pins.css";
 
 
-export default function PinCard({pin, pinSaved, onClick}) {
+export default function PinCard({pin, pinSaved, onClick, pinArr}) {
 
     const [onHoverPinId, setOnHoverPinId] = useState(null);
 
@@ -32,7 +32,7 @@ export default function PinCard({pin, pinSaved, onClick}) {
             const savedPin = await dispatch(savePinThunk(pinId));
             if(savedPin) setAddToFav(true);
         }
-    }
+    } 
 
     const handleHeartColorChange = () => {
         if(addToFav || pinSaved(pin.id)) return "all-pins-material-icons-favorite-added";
@@ -40,7 +40,7 @@ export default function PinCard({pin, pinSaved, onClick}) {
     };
 
     return (
-                <div className="each-pin-container"
+                <div className={pinArr && pinArr.length > 16 ? "each-pin-container" : "fewer-pins-each-pin-container"}
                     onMouseEnter={() => setOnHoverPinId(pin.id)}
                     onMouseLeave={() => setOnHoverPinId(null)}
                     onClick={onClick}
@@ -58,7 +58,7 @@ export default function PinCard({pin, pinSaved, onClick}) {
                         </div>
                         
                         <Link to={`/explore/${pin.id}`}  > 
-                            <img src={pin.pin_images} className="all-pins-image" alt={pin.title}   />                            
+                            <img src={pin.pin_images} className={pinArr && pinArr.length > 16 ? "all-pins-image" : "fewer-pins-image"} alt={pin.title}   />                            
                             {
                                 onHoverPinId === pin.id &&                             
                                 <div className="all-pins-hover-over-container-bottom">

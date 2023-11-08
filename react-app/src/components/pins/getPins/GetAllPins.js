@@ -8,7 +8,6 @@ import PinCard from "../PinCard";
 export default function GetAllPins({searchContent}) {
     const dispatch = useDispatch();
     const allPins = useSelector(state => state.pins.allPins);
-    console.log("allPins", allPins)
     const savedPinsState = useSelector(state => state.pins.savedPins);
     const sessionUser = useSelector(state => state.session.user);
     const pinArr = Object.values(allPins.pins);
@@ -39,8 +38,7 @@ export default function GetAllPins({searchContent}) {
         if (page === totalPage) {
             setHitBottom(true);
             return;
-        }   
-        else setPage(prev => prev + 1);
+        } else setPage(prev => prev + 1);
     }, [readyToFetch, page, totalPage]);
 
     useEffect(() => {
@@ -70,9 +68,9 @@ export default function GetAllPins({searchContent}) {
         pinArr.length > 0 ? (
             <>
                 <div className="all-pins-container" ref={scrollContainerRef}>
-                    <div className="all-pins-image-container">
+                    <div className={pinArr.length <= 16 ? "few-pins-all-pins-image-container" : "all-pins-image-container"}>
                         {pinArr.map(pin => (
-                            <PinCard pin={pin} key={pin.id} pinSaved={pinSaved} />
+                            <PinCard pin={pin} key={pin.id} pinSaved={pinSaved} pinArr={pinArr} />
                         ))}
                     </div>
                 </div>
