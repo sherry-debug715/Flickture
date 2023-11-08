@@ -32,17 +32,15 @@ def pins_of_same_category(id):
     if pin is None:
         return {"error": "Pin not found"}, 404
     
-
     pin_categories = [category.name for category in pin.categories]
-
     page = request.args.get('page', 1, type=int)
     per_page = request.args.get('size', 20, type=int)
 
-    pins = []
-
-    pins_with_same_categories = Pin.query.filter(
-    Pin.categories.any(Category.name.in_(pin_categories))
-    ).paginate(page=page, per_page=per_page)
+    pins_with_same_categories = Pin.query \
+    .join(Category, Pin.categories) \
+    .filter(Category.name.in_(pin_categories)) \
+    .distinct(Pin.id) \
+    .paginate(page=page, per_page=per_page)
 
     organizePin = [pin.get_all_pins() for pin in pins_with_same_categories.items]
 
@@ -77,8 +75,8 @@ def get_all_pins():
         query = query.filter(
             or_(
                 Pin.title.like('%' + search_query + '%'),
-                # Pin.description.like('%' + search_query + '%'),
-                # Pin.categories.any(Category.name.like('%' + search_query + '%'))
+                Pin.description.like('%' + search_query + '%'),
+                Pin.categories.any(Category.name.like('%' + search_query + '%'))
             )
         )
 
